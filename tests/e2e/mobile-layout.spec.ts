@@ -17,12 +17,12 @@ test("garde le plateau et la zone de préparation lisibles sur téléphone", asy
   const boardShell = page.locator(".board-shell");
   const preparationZone = page.locator(".preparation-zone");
   const scorePanel = page.getByLabel("Scores");
-  const recenterButton = page.getByRole("button", { name: "Recentrer le plateau" });
+  const recenterButton = page.locator(".mobile-recenter-board");
 
   await expect(boardShell).toBeVisible();
   await expect(preparationZone).toBeVisible();
   await expect(scorePanel).toBeVisible();
-  await expect(recenterButton).toBeVisible();
+  await expect(recenterButton).not.toBeVisible();
 
   const boardBox = await boardShell.boundingBox();
   const preparationBox = await preparationZone.boundingBox();
@@ -36,11 +36,13 @@ test("garde le plateau et la zone de préparation lisibles sur téléphone", asy
   expect(preparationBox?.y ?? safeViewport.height).toBeLessThan(safeViewport.height);
   expect(preparationBox?.y ?? 0).toBeGreaterThan((boardBox?.y ?? 0) + (boardBox?.height ?? 0) - 1);
 
-  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await expect(recenterButton).toBeVisible();
   await recenterButton.click();
   await expect
     .poll(async () => (await boardShell.boundingBox())?.y ?? safeViewport.height)
     .toBeLessThan(safeViewport.height * 0.35);
+  await expect(recenterButton).not.toBeVisible();
 
   await testInfo.attach("mobile-layout", {
     body: await page.screenshot({ fullPage: true }),

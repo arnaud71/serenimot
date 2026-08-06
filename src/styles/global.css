@@ -2522,6 +2522,19 @@ p {
     box-shadow: 0 0.22rem 0.8rem rgb(18 51 49 / 0.14);
     font-size: 0.76rem;
     backdrop-filter: blur(8px);
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 160ms ease,
+      transform 160ms ease,
+      visibility 160ms ease;
+  }
+
+  .mobile-recenter-board-hidden {
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(0.35rem);
+    visibility: hidden;
   }
 
   .history-actions {

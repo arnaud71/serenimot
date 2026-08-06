@@ -117,6 +117,7 @@ export function GameScreen({
   const [computerMoveCellKeys, setComputerMoveCellKeys] = useState<string[]>([]);
   const [bonusAnimationCells, setBonusAnimationCells] = useState<BoardBonusAnimationCell[]>([]);
   const [isHintSearching, setIsHintSearching] = useState(false);
+  const [isBoardRecenterVisible, setIsBoardRecenterVisible] = useState(false);
   const [searchDiagnostic, setSearchDiagnostic] = useState<SearchDiagnostic | null>(null);
   const hintSearchTimeoutRef = useRef<number | null>(null);
   const hintSearchRequestIdRef = useRef(0);
@@ -124,6 +125,7 @@ export function GameScreen({
   const computerSearchDurationsRef = useRef<number[]>([]);
   const gameIdRef = useRef(game.gameId);
   const boardSectionRef = useRef<HTMLElement | null>(null);
+  const boardRecenterFrameRef = useRef<number | null>(null);
   const isFinished = isGameFinished(game);
   const finalStatus = game.status?.state === "finished" ? game.status : null;
   const dictionaryWordCount = getDictionarySize().toLocaleString("fr-CH");
@@ -303,11 +305,52 @@ export function GameScreen({
       if (hintSearchTimeoutRef.current !== null) {
         window.clearTimeout(hintSearchTimeoutRef.current);
       }
+      if (boardRecenterFrameRef.current !== null) {
+        window.cancelAnimationFrame(boardRecenterFrameRef.current);
+      }
       hintSearchRequestIdRef.current += 1;
       computerSearchRequestIdRef.current += 1;
     },
     []
   );
+
+  useEffect(() => {
+    const updateBoardVisibility = () => {
+      boardRecenterFrameRef.current = null;
+      const boardSection = boardSectionRef.current;
+
+      if (!boardSection) {
+        return;
+      }
+
+      const rect = boardSection.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const shouldShow = rect.bottom < viewportHeight * 0.45 || rect.top > viewportHeight * 0.6;
+
+      setIsBoardRecenterVisible(shouldShow);
+    };
+
+    const scheduleBoardVisibilityUpdate = () => {
+      if (boardRecenterFrameRef.current !== null) {
+        return;
+      }
+
+      boardRecenterFrameRef.current = window.requestAnimationFrame(updateBoardVisibility);
+    };
+
+    updateBoardVisibility();
+    window.addEventListener("scroll", scheduleBoardVisibilityUpdate, { passive: true });
+    window.addEventListener("resize", scheduleBoardVisibilityUpdate);
+
+    return () => {
+      window.removeEventListener("scroll", scheduleBoardVisibilityUpdate);
+      window.removeEventListener("resize", scheduleBoardVisibilityUpdate);
+      if (boardRecenterFrameRef.current !== null) {
+        window.cancelAnimationFrame(boardRecenterFrameRef.current);
+        boardRecenterFrameRef.current = null;
+      }
+    };
+  }, []);
 
   useEffect(() => {
     void prewarmSearchWorker().then(() => {
@@ -1069,6 +1112,7 @@ export function GameScreen({
   function handleRecenterBoard() {
     const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
 
+    setIsBoardRecenterVisible(false);
     boardSectionRef.current?.scrollIntoView({
       behavior: prefersReducedMotion ? "auto" : "smooth",
       block: "start",
@@ -1414,9 +1458,10 @@ export function GameScreen({
         ) : null}
       </aside>
       <button
-        className="mobile-recenter-board secondary-button"
+        className={`mobile-recenter-board secondary-button${isBoardRecenterVisible ? "" : " mobile-recenter-board-hidden"}`}
         type="button"
         aria-label="Recentrer le plateau"
+        tabIndex={isBoardRecenterVisible ? 0 : -1}
         onClick={handleRecenterBoard}
         {...getButtonHintProps("Ramène rapidement l'affichage sur le plateau.")}
       >
