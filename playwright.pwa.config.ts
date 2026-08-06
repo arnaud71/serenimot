@@ -27,6 +27,10 @@ export default defineConfig({
     {
       name: "pwa-mobile-chrome",
       use: { ...devices["Pixel 7"] }
+    },
+    {
+      name: "pwa-mobile-safari",
+      use: { ...devices["iPhone 15"] }
     }
   ]
 });
