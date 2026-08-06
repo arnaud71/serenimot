@@ -10,10 +10,7 @@ const APP_SHELL = [
   "icons/icon-512.png",
   "static/dictionary/lexique4005.txt",
   "static/dictionary/releases/lexique4005.manifest.json",
-  "static/dictionary/lexique4005.explanations.manifest.json",
-  "static/dictionary/lexique4005.explanations-2.json",
-  "static/dictionary/lexique4005.explanations-3.json",
-  "static/dictionary/lexique4005.explanations-4.json"
+  "static/dictionary/lexique4005.explanations.manifest.json"
 ].map((path) => new URL(path, APP_BASE).toString());
 const INDEX_URL = new URL("index.html", APP_BASE).toString();
 const CURRENT_DICTIONARY_FILES = new Set(

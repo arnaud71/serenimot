@@ -26,7 +26,8 @@ export async function installSeededRandom(page: Page, seed: number) {
 export function collectBrowserErrors(page: Page) {
   const errors: string[] = [];
   const isDevServerWebSocketNoise = (text: string) =>
-    text.includes("WebSocket connection to 'ws://127.0.0.1:4173") && text.includes("Socket is not connected");
+    text.includes("ws://127.0.0.1:4173") &&
+    (text.includes("Socket is not connected") || text.includes("can’t establish a connection"));
 
   page.on("pageerror", (error) => errors.push(error.message));
   page.on("console", (message) => {
