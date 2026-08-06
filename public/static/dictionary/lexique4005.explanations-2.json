@@ -1,0 +1,1021 @@
+{
+  "version": "4.00.5",
+  "license": {
+    "name": "Creative Commons Attribution-ShareAlike 4.0 International",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+  },
+  "entries": [
+    {
+      "word": "AA",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Lave basaltique à surface rugueuse.",
+      "usage": "Mot court lexicalisé, utile dans les croisements.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "AH",
+      "partOfSpeech": "interjection",
+      "shortDefinition": "Exprime une émotion, une surprise ou une réaction.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "AI",
+      "partOfSpeech": "verbe",
+      "shortDefinition": "Posséder ; servir aussi d'auxiliaire dans les temps composés.",
+      "baseWord": "AVOIR",
+      "formNote": "Forme du verbe avoir.",
+      "lemma": "avoir",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "AN",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Durée d'une année.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "AS",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Carte marquée d'un seul symbole ; personne très habile.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "AU",
+      "partOfSpeech": "article contracté",
+      "shortDefinition": "Contraction de à le.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "AY",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Interjection ou cri court lexicalisé selon les usages relevés.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "BA",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Dans l'Égypte ancienne, élément spirituel d'une personne.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "BE",
+      "partOfSpeech": "nom masculin ou interjection",
+      "shortDefinition": "Cri ou son bref lexicalisé.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "BI",
+      "partOfSpeech": "adjectif ou nom",
+      "shortDefinition": "Désigne ce qui est double ou lié à deux éléments.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "BU",
+      "partOfSpeech": "participe passé",
+      "shortDefinition": "Forme du verbe boire.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "CA",
+      "partOfSpeech": "pronom démonstratif",
+      "shortDefinition": "Forme familière ou courante de cela.",
+      "lemma": "ça",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "CE",
+      "partOfSpeech": "déterminant ou pronom démonstratif",
+      "shortDefinition": "Désigne une personne, une chose ou une idée proche dans le discours.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "CI",
+      "partOfSpeech": "adverbe",
+      "shortDefinition": "Sert à désigner ce qui est proche, souvent dans ici, celui-ci ou celle-ci.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "DA",
+      "partOfSpeech": "interjection",
+      "shortDefinition": "Mot familier ou emprunté pouvant marquer l'affirmation.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "DE",
+      "partOfSpeech": "préposition",
+      "shortDefinition": "Introduit notamment l'origine, l'appartenance ou le complément.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "DO",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Note de musique.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "DU",
+      "partOfSpeech": "article contracté",
+      "shortDefinition": "Contraction de de le ; peut aussi marquer une quantité partitive.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "EH",
+      "partOfSpeech": "interjection",
+      "shortDefinition": "Sert à interpeller, attirer l'attention ou marquer une réaction.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "EN",
+      "partOfSpeech": "préposition ou pronom",
+      "shortDefinition": "Indique notamment le lieu, le temps, la matière ou reprend un complément.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "ES",
+      "partOfSpeech": "verbe",
+      "shortDefinition": "Exister ; se trouver dans un état ou une situation.",
+      "baseWord": "ETRE",
+      "formNote": "Forme du verbe être.",
+      "lemma": "être",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "ET",
+      "partOfSpeech": "conjonction",
+      "shortDefinition": "Sert à relier deux éléments.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "EU",
+      "partOfSpeech": "participe passé",
+      "shortDefinition": "Posséder ; servir aussi d'auxiliaire dans les temps composés.",
+      "baseWord": "AVOIR",
+      "formNote": "Forme du verbe avoir.",
+      "lemma": "avoir",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "EX",
+      "partOfSpeech": "nom ou adjectif",
+      "shortDefinition": "Ancien conjoint, ancienne conjointe ou personne ayant occupé une fonction.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "FA",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Note de musique.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "FI",
+      "partOfSpeech": "interjection",
+      "shortDefinition": "Exprime le dégoût, le rejet ou le mépris.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "GO",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Jeu de stratégie d'origine asiatique.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "HA",
+      "partOfSpeech": "interjection ou nom masculin",
+      "shortDefinition": "Exprime notamment la surprise ou le rire.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "HE",
+      "partOfSpeech": "interjection",
+      "shortDefinition": "Sert à interpeller ou attirer l'attention.",
+      "lemma": "hé",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "HI",
+      "partOfSpeech": "interjection",
+      "shortDefinition": "Évoque un rire bref ou un son aigu.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "HO",
+      "partOfSpeech": "interjection",
+      "shortDefinition": "Sert à appeler, arrêter ou marquer une réaction.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "IF",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Arbre résineux aux aiguilles persistantes.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "IL",
+      "partOfSpeech": "pronom personnel",
+      "shortDefinition": "Désigne une personne ou une chose au masculin singulier.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "IN",
+      "partOfSpeech": "adjectif ou nom",
+      "shortDefinition": "À la mode ou dans le coup, par opposition à out.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "JE",
+      "partOfSpeech": "pronom personnel",
+      "shortDefinition": "Désigne la personne qui parle.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "KA",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Dans l'Égypte ancienne, principe vital d'une personne.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "KO",
+      "partOfSpeech": "nom masculin ou adjectif",
+      "shortDefinition": "Mise hors de combat ; très fatigué ou vaincu.",
+      "lemma": "K.-O.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "LA",
+      "partOfSpeech": "article ou pronom",
+      "shortDefinition": "Désigne un nom féminin singulier ou remplace un complément féminin.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "LE",
+      "partOfSpeech": "article ou pronom",
+      "shortDefinition": "Désigne un nom masculin singulier ou remplace un complément masculin.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "LI",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Ancienne unité de distance chinoise.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "LU",
+      "partOfSpeech": "participe passé",
+      "shortDefinition": "Forme du verbe lire.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "MA",
+      "partOfSpeech": "déterminant possessif",
+      "shortDefinition": "Indique qu'un nom féminin singulier appartient à la personne qui parle.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "ME",
+      "partOfSpeech": "pronom personnel",
+      "shortDefinition": "Représente la personne qui parle comme complément.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "MI",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Note de musique.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "MU",
+      "partOfSpeech": "participe passé ou nom masculin",
+      "shortDefinition": "Forme du verbe mouvoir ; lettre grecque.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "NA",
+      "partOfSpeech": "interjection ou nom féminin",
+      "shortDefinition": "Son bref ou mot lexicalisé dans la source.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "NE",
+      "partOfSpeech": "adverbe de négation",
+      "shortDefinition": "Marque la négation, souvent avec pas, plus ou jamais.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "NI",
+      "partOfSpeech": "conjonction",
+      "shortDefinition": "Sert à coordonner deux éléments dans une négation.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "NO",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Théâtre traditionnel japonais, aussi écrit nô.",
+      "lemma": "nô",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "NU",
+      "partOfSpeech": "adjectif ou nom",
+      "shortDefinition": "Sans vêtement ou sans couverture.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "OC",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Langue d'oc ou ensemble linguistique occitan.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "OH",
+      "partOfSpeech": "interjection",
+      "shortDefinition": "Exprime notamment la surprise, l'appel ou l'émotion.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "OK",
+      "partOfSpeech": "adjectif ou adverbe",
+      "shortDefinition": "Indique l'accord ou que tout va bien.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "ON",
+      "partOfSpeech": "pronom personnel",
+      "shortDefinition": "Désigne une personne indéterminée ou un groupe incluant parfois le locuteur.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "OR",
+      "partOfSpeech": "nom masculin ou conjonction",
+      "shortDefinition": "Métal précieux jaune ; sert aussi à introduire une opposition ou une transition.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "OS",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Pièce dure du squelette.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "OU",
+      "partOfSpeech": "conjonction ou pronom",
+      "shortDefinition": "Marque une alternative ou introduit une question de lieu.",
+      "lemma": "où",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "PI",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Lettre grecque et constante mathématique.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "PU",
+      "partOfSpeech": "participe passé",
+      "shortDefinition": "Être capable de faire quelque chose ; autorité ou capacité d'action.",
+      "baseWord": "POUVOIR",
+      "formNote": "Forme du verbe pouvoir.",
+      "lemma": "pouvoir",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "QI",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Quotient intellectuel.",
+      "usage": "Sigle lexicalisé et accepté comme mot court.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "RA",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Note de musique dans certains systèmes ou nom divin égyptien selon les usages.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "RE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Note de musique.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "RI",
+      "partOfSpeech": "participe passé",
+      "shortDefinition": "Forme du verbe rire.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "RU",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Petit ruisseau.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "SA",
+      "partOfSpeech": "déterminant possessif",
+      "shortDefinition": "Indique qu'un nom féminin singulier appartient à une personne ou une chose déjà évoquée.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "SE",
+      "partOfSpeech": "pronom personnel",
+      "shortDefinition": "Marque une action réfléchie ou réciproque.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "SI",
+      "partOfSpeech": "conjonction, adverbe ou nom masculin",
+      "shortDefinition": "Introduit une condition ; sert aussi à renforcer ou à répondre affirmativement.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "SU",
+      "partOfSpeech": "participe passé",
+      "shortDefinition": "Connaître quelque chose ; ensemble de connaissances.",
+      "baseWord": "SAVOIR",
+      "formNote": "Forme du verbe savoir.",
+      "lemma": "savoir",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "TA",
+      "partOfSpeech": "déterminant possessif",
+      "shortDefinition": "Indique qu'un nom féminin singulier appartient à la personne à qui l'on parle.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "TE",
+      "partOfSpeech": "pronom personnel",
+      "shortDefinition": "Représente la personne à qui l'on parle comme complément.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "TO",
+      "partOfSpeech": "nom masculin ou pronom",
+      "shortDefinition": "Petit mot lexicalisé, attesté comme entrée courte dans la source.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "TU",
+      "partOfSpeech": "pronom personnel",
+      "shortDefinition": "Désigne la personne à qui l'on parle.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "UD",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Instrument de musique à cordes, aussi appelé oud.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "UN",
+      "partOfSpeech": "article, adjectif numéral ou pronom",
+      "shortDefinition": "Désigne une unité ou un élément indéfini.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "US",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Habitudes, coutumes ou usages établis.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "UT",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Ancien nom de la note do.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "VA",
+      "partOfSpeech": "verbe",
+      "shortDefinition": "Se déplacer ; convenir ou fonctionner correctement.",
+      "baseWord": "ALLER",
+      "formNote": "Forme du verbe aller.",
+      "lemma": "aller",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "VE",
+      "partOfSpeech": "interjection",
+      "shortDefinition": "Son bref lexicalisé dans la source.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "VS",
+      "partOfSpeech": "préposition ou nom",
+      "shortDefinition": "Forme abrégée de versus, marquant l'opposition.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "VU",
+      "partOfSpeech": "participe passé",
+      "shortDefinition": "Percevoir par les yeux ; constater ou comprendre.",
+      "baseWord": "VOIR",
+      "formNote": "Forme du verbe voir.",
+      "lemma": "voir",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "WU",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Groupe de parlers chinois.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "XI",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Lettre de l'alphabet grec.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    }
+  ]
+}

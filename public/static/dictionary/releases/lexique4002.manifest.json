@@ -1,0 +1,67 @@
+{
+  "version": "4.00.2",
+  "label": "Lexique Sérénimot 4.00.2",
+  "status": "superseded-release",
+  "activeInApplication": false,
+  "license": {
+    "name": "Creative Commons Attribution-ShareAlike 4.0 International",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+  },
+  "sources": [
+    {
+      "name": "Lexique",
+      "version": "4.00",
+      "url": "https://www.lexique.org/"
+    },
+    {
+      "name": "Lexique Sérénimot",
+      "version": "3.83.1",
+      "role": "base conservée pour éviter les régressions avant revue"
+    },
+    {
+      "name": "Morphalou",
+      "version": "3.1",
+      "role": "croisement local et analyse des formes"
+    },
+    {
+      "name": "Lefff",
+      "version": "3.4",
+      "role": "croisement local et analyse des formes"
+    },
+    {
+      "name": "ODS",
+      "version": "8",
+      "role": "comparaison locale uniquement, non redistribuée, non intégrée"
+    }
+  ],
+  "integrity": {
+    "wordsSha256": "eae1ec09d39ca9033fd5de6361087592cd30f72279b92dae8c94e8934990b576",
+    "wordsCount": 369324
+  },
+  "counts": {
+    "words": 369324,
+    "previousActiveWords": 368956,
+    "go5GeneratedForms": 368,
+    "go5GeneratedFormsWithMetadata": 368,
+    "go5AutoAccepted": 292,
+    "go5AcceptedWithNote": 76,
+    "go5ReviewBeforeActivation": 0,
+    "go5BlockedBeforeActivation": 0,
+    "shortWordExclusionsApplied": 127,
+    "commonWithOds8Local": 350462,
+    "lexiconOnlyAgainstOds8Local": 18862,
+    "ods8OnlyAgainstLexiconLocal": 60968,
+    "acceptedByOds8LocalRatio": 0.9489,
+    "ods8CoveredByLexiconLocalRatio": 0.8518,
+    "remainingShortWordsOutsideOds8Local": 213
+  },
+  "shortWordPolicy": {
+    "document": "lexicon/SHORT_WORD_POLICY.md",
+    "structuredPolicy": "lexicon/short-word-policy.json"
+  },
+  "notes": [
+    "Version remplacée par 4.00.3.",
+    "ODS 8 est utilisé uniquement comme comparaison locale et n'est pas redistribué dans ce lexique.",
+    "Cette version ajoute 368 formes régulières de verbes en -ER générées depuis des lemmes verbaux déjà acceptés."
+  ]
+}

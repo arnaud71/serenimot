@@ -1,0 +1,58 @@
+{
+  "version": "0.1.0",
+  "scope": "lexique400-candidate-short-words",
+  "wordLength": {
+    "min": 2,
+    "max": 4
+  },
+  "defaultPolicy": "manual-review",
+  "decisions": {
+    "exclude-short-sigle-or-abbreviation": {
+      "action": "exclude",
+      "description": "Sigle, abreviation, categorie non lexicale, unite ou mot sans voyelle probable."
+    },
+    "keep-existing-cross-sourced": {
+      "action": "keep",
+      "description": "Mot deja present dans Serenimot et confirme par Morphalou ou Lefff."
+    },
+    "review-keep-cross-source": {
+      "action": "keep-with-review",
+      "description": "Mot absent d'ODS 8 mais present dans Morphalou et Lefff avec frequence non nulle."
+    },
+    "review-rare-cross-source": {
+      "action": "manual-review",
+      "description": "Mot present dans Morphalou et Lefff mais tres rare."
+    },
+    "review-keep-common-morphalou": {
+      "action": "keep-with-review",
+      "description": "Mot present dans Morphalou avec frequence confortable, mais sans Lefff ni ODS 8."
+    },
+    "review-rare-morphalou": {
+      "action": "manual-review",
+      "description": "Mot present dans Morphalou seulement, souvent rare."
+    },
+    "review-rare-inflected-form": {
+      "action": "manual-review",
+      "description": "Forme verbale courte rare a traiter par les regles de conjugaison."
+    },
+    "review-expressive-word": {
+      "action": "manual-review",
+      "description": "Interjection ou onomatopee potentielle."
+    },
+    "review-foreign-or-borrowed": {
+      "action": "manual-review",
+      "description": "Emprunt, mot anglais ou terme international probable."
+    }
+  },
+  "excludeSignals": [
+    "sans-voyelle-suspect-sigle",
+    "categorie-numerale-ou-unite",
+    "categorie-non-lexicale",
+    "tres-faible-frequence-absent-lefff"
+  ],
+  "reviewOutputs": {
+    "suggestedExclusions": "lexicon/generated/lexique400-short-word-suggested-exclusions.txt",
+    "remainingReview": "lexicon/generated/lexique400-remaining-short-words-review.tsv",
+    "remainingReport": "lexicon/generated/lexique400-remaining-short-words-review-report.json"
+  }
+}

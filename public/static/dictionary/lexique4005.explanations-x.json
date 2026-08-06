@@ -1,0 +1,1053 @@
+{
+  "version": "4.00.5",
+  "license": {
+    "name": "Creative Commons Attribution-ShareAlike 4.0 International",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+  },
+  "entries": [
+    {
+      "word": "XANTHANE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(biochimie) Additif alimentaire (code E415) servant d’épaississant fabriqué en cultures par des bactéries du genre...",
+      "lemma": "xanthane",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XANTHIE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(papillons) Papillon de nuit de couleur jaune de la famille des Noctuidés.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XANTHIES",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "(papillons) Papillon de nuit de couleur jaune de la famille des Noctuidés.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "XANTHIE",
+      "formNote": "Pluriel de XANTHIE.",
+      "lemma": "xanthie"
+    },
+    {
+      "word": "XANTHINE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(chimie) Composé hétérocyclique intermédiaire dans le métabolisme des purines.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XANTHINES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XANTHIQUE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Jaune.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XANTHIUM",
+      "partOfSpeech": "nom",
+      "shortDefinition": "(plantes) Genre de plantes de la famille des Astéracées.",
+      "lemma": "xanthium",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XANTHOME",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(tumeurs) Tumeur bénigne cutanée plane ou nodulaire, externe ou sous-cutanée, de couleur jaune.",
+      "lemma": "xanthome",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XANTHOMES",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(tumeurs) Tumeur bénigne cutanée plane ou nodulaire, externe ou sous-cutanée, de couleur jaune.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "XANTHOME",
+      "formNote": "Pluriel de XANTHOME.",
+      "lemma": "xanthome"
+    },
+    {
+      "word": "XENARTHRE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mammifère membre du super-ordre de Xenarthra, présent de nos jours uniquement en Amérique.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XENELASIE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(Antiquité) Chez les Anciens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XENISME",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(linguistique) Mot emprunté occasionnellement à une langue étrangère.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XENISMES",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "(linguistique) Mot emprunté occasionnellement à une langue étrangère.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "XENISME",
+      "formNote": "Pluriel de XENISME.",
+      "lemma": "xenisme"
+    },
+    {
+      "word": "XENOLITE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XENOLITES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XENOLITHE",
+      "partOfSpeech": "nom",
+      "shortDefinition": "(géologie) Inclusion ou enclave étrangère dans une roche magmatique.",
+      "lemma": "xenolithe",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XENON",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(éléments) (indénombrable) Élément chimique de numéro atomique 54 et de symbole Xe qui fait partie des gaz nobles.",
+      "lemma": "xenon",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XENONS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(éléments) (indénombrable) Élément chimique de numéro atomique 54 et de symbole Xe qui fait partie des gaz nobles.",
+      "lemma": "xenon",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "XENON",
+      "formNote": "Pluriel de XENON."
+    },
+    {
+      "word": "XENOPE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Genre de grenouille.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XENOPES",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "Genre de grenouille.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "XENOPE",
+      "formNote": "Pluriel de XENOPE.",
+      "lemma": "xenope"
+    },
+    {
+      "word": "XENOPHILE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Qui a de la sympathie envers les étrangers, les modes étrangères.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XENOPHOBE",
+      "partOfSpeech": "adjectif ou nom",
+      "shortDefinition": "Qui rejette ou qui déteste les étrangers ou ce qui provient de l’étranger.",
+      "lemma": "xenophobe",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XERES",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Vin blanc muté, sec ou doux, spécialité de Jerez de la Frontera en Andalousie.",
+      "lemma": "xeres",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XERIQUE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(écologie) Qualifie un milieu aride de façon permanente.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XEROCOPIE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Photocopie.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XEROPHILE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Qui vit dans des milieux très pauvres en eau.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XEROPHYTE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(botanique) Plante adaptée aux milieux secs tel que les Cactaceae, les Agavaceae ou les Euphorbiaceae.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XERUS",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Petit rongeur que l'on trouve en Afrique et en Asie.",
+      "lemma": "xerus",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XHOSA",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Personne d’extraction xhosa, parlant le xhosa.",
+      "lemma": "xhosa",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XHOSAS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Personne d’extraction xhosa, parlant le xhosa.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "XHOSA",
+      "formNote": "Pluriel de XHOSA.",
+      "lemma": "xhosa"
+    },
+    {
+      "word": "XI",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Lettre de l'alphabet grec.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "XIANG",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Langue sino-tibétaine chinoise parlée principalement dans les provinces du Hunan et du Sichuan.",
+      "lemma": "xiang",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XIANGS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XIEME",
+      "partOfSpeech": "adjectif",
+      "shortDefinition": "Sérié, mais de position indéterminé.",
+      "lemma": "xieme",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XIMENIA",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XIMENIAS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XIMENIE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(botanique) Genre d’arbres de la famille des Olacacées.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XIMENIES",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "(botanique) Genre d’arbres de la famille des Olacacées.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "XIMENIE",
+      "formNote": "Pluriel de XIMENIE.",
+      "lemma": "ximenie"
+    },
+    {
+      "word": "XIPHIAS",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(poissons) Espadon.",
+      "lemma": "xiphias",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XIPHIDION",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Nom lexicalisé.",
+      "lemma": "xiphidion",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XIPHO",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Poisson d’eau douce tropical.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XIPHOIDE",
+      "partOfSpeech": "adjectif",
+      "shortDefinition": "En forme de glaive, d'épée.",
+      "lemma": "xiphoide",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XIPHOIDES",
+      "partOfSpeech": "adjectif pluriel",
+      "shortDefinition": "En forme de glaive, d'épée.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "XIPHOIDE",
+      "formNote": "Pluriel de XIPHOIDE.",
+      "lemma": "xiphoide"
+    },
+    {
+      "word": "XIPHOS",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Poisson d’eau douce tropical.",
+      "lemma": "xipho",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "XIPHO",
+      "formNote": "Forme de XIPHO."
+    },
+    {
+      "word": "XOANON",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Effigie de bois ou de pierre, représentée les bras collés le long du corps pris dans une gaine.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XOANONS",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "Effigie de bois ou de pierre, représentée les bras collés le long du corps pris dans une gaine.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "XOANON",
+      "formNote": "Pluriel de XOANON.",
+      "lemma": "xoanon"
+    },
+    {
+      "word": "XYLEME",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(histologie végétale) Tissu conducteur des plantes vasculaires, formé d’éléments de vaisseaux, de trachéides.",
+      "lemma": "xyleme",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XYLEMES",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(histologie végétale) Tissu conducteur des plantes vasculaires, formé d’éléments de vaisseaux, de trachéides.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "XYLEME",
+      "formNote": "Pluriel de XYLEME.",
+      "lemma": "xyleme"
+    },
+    {
+      "word": "XYLENE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(chimie) Isomère du diméthylbenzène, dérivé du benzène, liquide incolore, d’odeur agréable et très inflammable.",
+      "lemma": "xylene",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XYLENES",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(chimie) Isomère du diméthylbenzène, dérivé du benzène, liquide incolore, d’odeur agréable et très inflammable.",
+      "lemma": "xylene",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "XYLENE",
+      "formNote": "Pluriel de XYLENE."
+    },
+    {
+      "word": "XYLIDINE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(chimie) Chacun des six isomères de xylène amine.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XYLIDINES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XYLITOL",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(chimie) Polyol extrait de l’écorce de bouleau, pouvant être utilisé comme substitut du sucre classique (saccharose).",
+      "lemma": "xylitol",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XYLOCOPE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(zoologie) Qui coupe le bois.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XYLOCOPES",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "(zoologie) Qui coupe le bois.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "XYLOCOPE",
+      "formNote": "Pluriel de XYLOCOPE.",
+      "lemma": "xylocope"
+    },
+    {
+      "word": "XYLOL",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Mélange de xylènes.",
+      "lemma": "xylol",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XYLOLS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XYLOPHAGE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Lignivore, qui se nourrit de bois.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XYLOPHENE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Produit dont on imprègne le bois pour le protéger des insectes et le conserver.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XYLOPHONE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(percussions) Instrument de musique à percussion composé de lamelles de bois de tailles et d’épaisseurs variables.",
+      "lemma": "xylophone",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XYLOSE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(biochimie) Sucre de la famille des pentoses, de formule chimique, présent dans tous les vins.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XYLOSES",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(biochimie) Sucre de la famille des pentoses, de formule chimique, présent dans tous les vins.",
+      "lemma": "xylose",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "XYLOSE",
+      "formNote": "Pluriel de XYLOSE."
+    },
+    {
+      "word": "XYSTE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(Antiquité) Piste couverte d'un gymnase ; gymnase.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "XYSTES",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "(Antiquité) Piste couverte d'un gymnase ; gymnase.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "XYSTE",
+      "formNote": "Pluriel de XYSTE.",
+      "lemma": "xyste"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "generatedAt": "2026-08-06T09:07:30.656Z",
+  "mode": "word-explanation-priority",
+  "note": "File de priorite pour les prochaines fiches explicatives. Elle ne modifie pas le lexique jouable.",
+  "inputs": {
+    "words": "public/static/dictionary/lexique4005.txt",
+    "metadata": "lexicon/generated/lexique400-preview-metadata.json",
+    "explanations": "lexicon/releases/4.00.5/serenimot-lexicon-4.00.5.explanations.json"
+  },
+  "outputs": {
+    "report": "lexicon/reviews/word-explanations-priority-report.json",
+    "review": "lexicon/reviews/word-explanations-priority.tsv"
+  },
+  "rules": {
+    "maxWordLength": 8,
+    "maxReviewRows": 500,
+    "excludesAlreadyExplainedWords": true,
+    "excludesWordsWithUnavailableTiles": true,
+    "priorityFactors": [
+      "mots tres courts",
+      "frequence Lexique",
+      "valeur des lettres",
+      "lettres rares",
+      "mots appuyes par metadonnees ouvertes",
+      "pluriels et formes utiles en croisement"
+    ]
+  },
+  "counts": {
+    "activeWords": 369531,
+    "explainedWords": 170129,
+    "eligibleWordsWithoutExplanation": 0,
+    "exportedRows": 0
+  },
+  "byPriorityBand": {},
+  "byLength": {},
+  "topWords": []
+}

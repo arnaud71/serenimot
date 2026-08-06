@@ -1,0 +1,190 @@
+{
+  "version": "4.00.5",
+  "generatedAt": "2026-08-06T09:13:23.696Z",
+  "license": {
+    "name": "Creative Commons Attribution-ShareAlike 4.0 International",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+  },
+  "totalEntries": 170129,
+  "files": {
+    "full": null,
+    "byLength": [
+      {
+        "length": 2,
+        "path": "lexique4005.explanations-2.json",
+        "entries": 82,
+        "bytes": 24086
+      },
+      {
+        "length": 3,
+        "path": "lexique4005.explanations-3.json",
+        "entries": 640,
+        "bytes": 252015
+      },
+      {
+        "length": 4,
+        "path": "lexique4005.explanations-4.json",
+        "entries": 2606,
+        "bytes": 1088373
+      }
+    ],
+    "byInitial": [
+      {
+        "initial": "a",
+        "path": "lexique4005.explanations-a.json",
+        "entries": 13055,
+        "bytes": 5828450
+      },
+      {
+        "initial": "b",
+        "path": "lexique4005.explanations-b.json",
+        "entries": 10754,
+        "bytes": 4742509
+      },
+      {
+        "initial": "c",
+        "path": "lexique4005.explanations-c.json",
+        "entries": 17319,
+        "bytes": 7714870
+      },
+      {
+        "initial": "d",
+        "path": "lexique4005.explanations-d.json",
+        "entries": 13414,
+        "bytes": 6056466
+      },
+      {
+        "initial": "e",
+        "path": "lexique4005.explanations-e.json",
+        "entries": 14828,
+        "bytes": 6723573
+      },
+      {
+        "initial": "f",
+        "path": "lexique4005.explanations-f.json",
+        "entries": 7587,
+        "bytes": 3377167
+      },
+      {
+        "initial": "g",
+        "path": "lexique4005.explanations-g.json",
+        "entries": 6811,
+        "bytes": 3031438
+      },
+      {
+        "initial": "h",
+        "path": "lexique4005.explanations-h.json",
+        "entries": 3363,
+        "bytes": 1488760
+      },
+      {
+        "initial": "i",
+        "path": "lexique4005.explanations-i.json",
+        "entries": 4010,
+        "bytes": 1810773
+      },
+      {
+        "initial": "j",
+        "path": "lexique4005.explanations-j.json",
+        "entries": 2017,
+        "bytes": 885932
+      },
+      {
+        "initial": "k",
+        "path": "lexique4005.explanations-k.json",
+        "entries": 774,
+        "bytes": 330960
+      },
+      {
+        "initial": "l",
+        "path": "lexique4005.explanations-l.json",
+        "entries": 5409,
+        "bytes": 2409051
+      },
+      {
+        "initial": "m",
+        "path": "lexique4005.explanations-m.json",
+        "entries": 9019,
+        "bytes": 4010322
+      },
+      {
+        "initial": "n",
+        "path": "lexique4005.explanations-n.json",
+        "entries": 2850,
+        "bytes": 1260301
+      },
+      {
+        "initial": "o",
+        "path": "lexique4005.explanations-o.json",
+        "entries": 3425,
+        "bytes": 1513751
+      },
+      {
+        "initial": "p",
+        "path": "lexique4005.explanations-p.json",
+        "entries": 13360,
+        "bytes": 5961193
+      },
+      {
+        "initial": "q",
+        "path": "lexique4005.explanations-q.json",
+        "entries": 524,
+        "bytes": 228789
+      },
+      {
+        "initial": "r",
+        "path": "lexique4005.explanations-r.json",
+        "entries": 15461,
+        "bytes": 6873369
+      },
+      {
+        "initial": "s",
+        "path": "lexique4005.explanations-s.json",
+        "entries": 11107,
+        "bytes": 4936480
+      },
+      {
+        "initial": "t",
+        "path": "lexique4005.explanations-t.json",
+        "entries": 8556,
+        "bytes": 3801413
+      },
+      {
+        "initial": "u",
+        "path": "lexique4005.explanations-u.json",
+        "entries": 785,
+        "bytes": 336358
+      },
+      {
+        "initial": "v",
+        "path": "lexique4005.explanations-v.json",
+        "entries": 4345,
+        "bytes": 1922807
+      },
+      {
+        "initial": "w",
+        "path": "lexique4005.explanations-w.json",
+        "entries": 238,
+        "bytes": 99372
+      },
+      {
+        "initial": "x",
+        "path": "lexique4005.explanations-x.json",
+        "entries": 64,
+        "bytes": 26015
+      },
+      {
+        "initial": "y",
+        "path": "lexique4005.explanations-y.json",
+        "entries": 232,
+        "bytes": 99009
+      },
+      {
+        "initial": "z",
+        "path": "lexique4005.explanations-z.json",
+        "entries": 822,
+        "bytes": 360451
+      }
+    ]
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "version": "4.00.3",
+  "label": "Lexique Sérénimot 4.00.3",
+  "status": "superseded-release",
+  "activeInApplication": false,
+  "license": {
+    "name": "Creative Commons Attribution-ShareAlike 4.0 International",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+  },
+  "sources": [
+    {
+      "name": "Lexique",
+      "version": "4.00",
+      "url": "https://www.lexique.org/"
+    },
+    {
+      "name": "Lexique Sérénimot",
+      "version": "3.83.1",
+      "role": "base conservée pour éviter les régressions avant revue"
+    },
+    {
+      "name": "Morphalou",
+      "version": "3.1",
+      "role": "croisement local et analyse des formes"
+    },
+    {
+      "name": "Lefff",
+      "version": "3.4",
+      "role": "croisement local et analyse des formes"
+    },
+    {
+      "name": "ODS",
+      "version": "8",
+      "role": "comparaison locale uniquement, non redistribuée, non intégrée"
+    }
+  ],
+  "integrity": {
+    "wordsSha256": "6c9b4eb869e5253803eddaed7f0c669508094060c9cbe26920047493c44c71e6",
+    "wordsCount": 369537
+  },
+  "counts": {
+    "words": 369537,
+    "previousActiveWords": 369324,
+    "go5GeneratedForms": 368,
+    "go5GeneratedFormsWithMetadata": 368,
+    "go6GeneratedForms": 214,
+    "go6ReadyForms": 213,
+    "go6GeneratedFormsWithMetadata": 213,
+    "go6ReviewBeforeActivation": 1,
+    "go6AppliedForms": 213,
+    "shortWordExclusionsApplied": 127,
+    "commonWithOds8Local": 350675,
+    "lexiconOnlyAgainstOds8Local": 18862,
+    "ods8OnlyAgainstLexiconLocal": 60755,
+    "acceptedByOds8LocalRatio": 0.949,
+    "ods8CoveredByLexiconLocalRatio": 0.8523,
+    "remainingShortWordsOutsideOds8Local": 213,
+    "activeWordsWithMetadata": 369537,
+    "activeWordsWithoutMetadata": 0
+  },
+  "shortWordPolicy": {
+    "document": "lexicon/SHORT_WORD_POLICY.md",
+    "structuredPolicy": "lexicon/short-word-policy.json"
+  },
+  "notes": [
+    "Ancienne version active, remplacée par 4.00.4.",
+    "ODS 8 est utilisé uniquement comme comparaison locale et n'est pas redistribué dans ce lexique.",
+    "Cette version ajoute 213 formes GO6 prêtes à activation. TIPA reste en revue des petits mots.",
+    "Version remplacée par 4.00.4."
+  ]
+}

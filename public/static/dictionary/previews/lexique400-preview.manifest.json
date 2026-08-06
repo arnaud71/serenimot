@@ -1,0 +1,60 @@
+{
+  "version": "4.00.1-preview",
+  "label": "Lexique Sérénimot 4.00.1-preview",
+  "status": "superseded-preview",
+  "activeInApplication": false,
+  "license": {
+    "name": "Creative Commons Attribution-ShareAlike 4.0 International",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+  },
+  "sources": [
+    {
+      "name": "Lexique",
+      "version": "4.00",
+      "url": "https://www.lexique.org/"
+    },
+    {
+      "name": "Lexique Sérénimot",
+      "version": "3.83.1",
+      "role": "base courante conservée pour éviter les régressions avant revue"
+    },
+    {
+      "name": "Morphalou",
+      "version": "3.1",
+      "role": "croisement local et analyse des formes"
+    },
+    {
+      "name": "Lefff",
+      "version": "3.4",
+      "role": "croisement local et analyse des formes"
+    },
+    {
+      "name": "ODS",
+      "version": "8",
+      "role": "comparaison locale uniquement, non redistribuée, non intégrée"
+    }
+  ],
+  "integrity": {
+    "wordsSha256": "06a67197d285f6bbf73fe730f062648d356fd93d6b56fff83b8b0ab38d968c72",
+    "wordsCount": 368956
+  },
+  "counts": {
+    "words": 368956,
+    "shortWordExclusionsApplied": 127,
+    "commonWithOds8Local": 350094,
+    "previewOnlyAgainstOds8Local": 18862,
+    "ods8OnlyAgainstPreviewLocal": 61336,
+    "acceptedByOds8LocalRatio": 0.9489,
+    "ods8CoveredByPreviewLocalRatio": 0.8509,
+    "remainingShortWordsOutsideOds8Local": 213
+  },
+  "shortWordPolicy": {
+    "document": "lexicon/SHORT_WORD_POLICY.md",
+    "structuredPolicy": "lexicon/short-word-policy.json"
+  },
+  "notes": [
+    "Version remplacée par 4.00.2.",
+    "ODS 8 est utilisé uniquement comme comparaison locale et n'est pas redistribué dans cette preview.",
+    "Le candidat conserve des mots du lexique courant pour éviter les pertes avant revue humaine."
+  ]
+}

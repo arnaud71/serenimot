@@ -1,0 +1,4032 @@
+{
+  "version": "4.00.5",
+  "license": {
+    "name": "Creative Commons Attribution-ShareAlike 4.0 International",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+  },
+  "entries": [
+    {
+      "word": "WAD",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(industrie minière) Oxyde de manganèse généralement sous forme terreuse mais parfois sous forme...",
+      "lemma": "wad",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "extraction locale"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WADERS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Pantalon étanche permettant au pêcheur d'entrer dans l’eau jusqu’à la poitrine.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WADING",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Forme de pêche où l’on reste debout dans une rivière les jambes submergées.",
+      "lemma": "wading",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WADINGS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WADS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(industrie minière) Oxyde de manganèse généralement sous forme terreuse mais parfois sous forme...",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WAD",
+      "formNote": "Pluriel de WAD.",
+      "lemma": "wad"
+    },
+    {
+      "word": "WAFER",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(anglicisme) (électronique) Disque très fin (tranche) de matériau semi-conducteur (silicium par exemple).",
+      "lemma": "wafer",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAFERS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(anglicisme) (électronique) Disque très fin (tranche) de matériau semi-conducteur (silicium par exemple).",
+      "lemma": "wafers",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WAFER",
+      "formNote": "Pluriel de WAFER."
+    },
+    {
+      "word": "WAGAGE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Limon utilisé comme engrais.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAGAGES",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "Limon utilisé comme engrais.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WAGAGE",
+      "formNote": "Pluriel de WAGAGE.",
+      "lemma": "wagage"
+    },
+    {
+      "word": "WAGNERIEN",
+      "partOfSpeech": "adjectif ou nom masculin",
+      "shortDefinition": "Membre de la milice russe « Wagner ».",
+      "lemma": "wagnerien",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAGON",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(chemin de fer) Véhicule sur rails employé par les chemins de fer pour transporter des marchandises ou des voyageurs.",
+      "lemma": "wagon",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAGONNAGE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Montage et entretien des wagons.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAGONNEE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Contenu d’un wagon.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAGONNEES",
+      "partOfSpeech": "nom féminin pluriel",
+      "shortDefinition": "Contenu d’un wagon.",
+      "lemma": "wagonnee",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WAGONNEE",
+      "formNote": "Pluriel de WAGONNEE."
+    },
+    {
+      "word": "WAGONNET",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Petit wagon fait pour être traîné ou poussé, destiné à transporter des matériaux divers.",
+      "lemma": "wagonnet",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAGONNETS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Petit wagon fait pour être traîné ou poussé, destiné à transporter des matériaux divers.",
+      "lemma": "wagonnet",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WAGONNET",
+      "formNote": "Pluriel de WAGONNET."
+    },
+    {
+      "word": "WAGONNIER",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Cheminot manœuvrant des wagons.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAGONS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(chemin de fer) Véhicule sur rails employé par les chemins de fer pour transporter des marchandises ou des voyageurs.",
+      "lemma": "wagon",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WAGON",
+      "formNote": "Pluriel de WAGON."
+    },
+    {
+      "word": "WAHABITES",
+      "partOfSpeech": "nom pluriel",
+      "shortDefinition": "Pluriel de wahabite.",
+      "lemma": "wahabites",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAHHABITE",
+      "partOfSpeech": "adjectif ou nom",
+      "shortDefinition": "(sunnisme) Qui appartient, qui est propre au wahhabisme.",
+      "lemma": "wahhabite",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAKA",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Genre de poésie japonaise.",
+      "lemma": "waka",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAKEBOARD",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(anglicisme) (sports de glisse) Sport de glisse sur l’eau, sur une courte planche de surf.",
+      "lemma": "wakeboard",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAKIZASHI",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Sabre japonais de petite taille (entre 30 et 60 cm).",
+      "lemma": "wakizashi",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WALI",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Gouverneur arabe de l’Espagne arabo-andalouse.",
+      "lemma": "wali",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WALIS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Gouverneur arabe de l’Espagne arabo-andalouse.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WALI",
+      "formNote": "Pluriel de WALI.",
+      "lemma": "wali"
+    },
+    {
+      "word": "WALK",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Nom lexicalisé.",
+      "lemma": "walk",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WALKIE",
+      "partOfSpeech": "nom",
+      "shortDefinition": "(télécommunications) Appareil de communication portable bidirectionnel.",
+      "lemma": "walkie",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WALKIES",
+      "partOfSpeech": "nom pluriel",
+      "shortDefinition": "(télécommunications) Appareil de communication portable bidirectionnel.",
+      "lemma": "walkies",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WALKIE",
+      "formNote": "Pluriel de WALKIE."
+    },
+    {
+      "word": "WALKMAN",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(musique) Appareil de musique de petite taille diffusant dans un casque externe.",
+      "lemma": "walkman",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WALKMANS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Nom lexicalisé.",
+      "lemma": "walkman",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WALK",
+      "formNote": "Pluriel de WALK."
+    },
+    {
+      "word": "WALKS",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Nom lexicalisé.",
+      "lemma": "walks",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WALKYRIE",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "Variante orthographique de walkyrie.",
+      "lemma": "walkyrie",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WALKYRIES",
+      "partOfSpeech": "nom féminin pluriel",
+      "shortDefinition": "Variante orthographique de walkyrie.",
+      "lemma": "walkyrie",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WALKYRIE",
+      "formNote": "Pluriel de WALKYRIE."
+    },
+    {
+      "word": "WALLA",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Troisième personne du singulier du passé simple de waller.",
+      "lemma": "walla",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WALLABIES",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(marsupiaux) (anglicisme) Kangourou de petite taille.",
+      "lemma": "wallaby",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WALLABY",
+      "formNote": "Pluriel de WALLABY."
+    },
+    {
+      "word": "WALLABY",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(marsupiaux) (anglicisme) Kangourou de petite taille.",
+      "lemma": "wallaby",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WALLABYS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(marsupiaux) (anglicisme) Kangourou de petite taille.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WALLABY",
+      "formNote": "Pluriel de WALLABY.",
+      "lemma": "wallaby"
+    },
+    {
+      "word": "WALLACE",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "Et synonyme de fontaine Wallace.",
+      "lemma": "wallace",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WALLACES",
+      "partOfSpeech": "nom féminin pluriel",
+      "shortDefinition": "Et synonyme de fontaine Wallace.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WALLACE",
+      "formNote": "Pluriel de WALLACE.",
+      "lemma": "wallace"
+    },
+    {
+      "word": "WALLON",
+      "partOfSpeech": "adjectif ou nom masculin",
+      "shortDefinition": "Habitant de la Wallonie ou personne qui en est originaire.",
+      "lemma": "wallon",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WALLONNE",
+      "partOfSpeech": "adjectif",
+      "shortDefinition": "Habitant de la Wallonie ou personne qui en est originaire.",
+      "lemma": "wallon",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WALLON",
+      "formNote": "Forme de WALLON."
+    },
+    {
+      "word": "WALLONNES",
+      "partOfSpeech": "adjectif ou nom féminin pluriel",
+      "shortDefinition": "Habitante de la Wallonie ou personne qui en est originaire.",
+      "lemma": "wallon",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WALLONNE",
+      "formNote": "Pluriel de WALLONNE."
+    },
+    {
+      "word": "WALLONS",
+      "partOfSpeech": "adjectif ou nom masculin pluriel",
+      "shortDefinition": "Habitant de la Wallonie ou personne qui en est originaire.",
+      "lemma": "wallon",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WALLON",
+      "formNote": "Pluriel de WALLON."
+    },
+    {
+      "word": "WALLS",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Nom lexicalisé.",
+      "lemma": "walls",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAMPANOAG",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Relatif aux Wampanoags.",
+      "lemma": "wampanoag",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAMPUM",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Perle de coquillage utilisée par les Amérindiens du Nord-Est américain.",
+      "lemma": "wampum",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAMPUMS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Perle de coquillage utilisée par les Amérindiens du Nord-Est américain.",
+      "lemma": "wampums",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WAMPUM",
+      "formNote": "Pluriel de WAMPUM."
+    },
+    {
+      "word": "WAOUH",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Interjection qui exprime l’étonnement, l’admiration.",
+      "lemma": "waouh",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAPITI",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Grand cerf du Canada et de Sibérie, de nom scientifique Cervus canadensis.",
+      "lemma": "wapiti",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAPITIS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Grand cerf du Canada et de Sibérie, de nom scientifique Cervus canadensis.",
+      "lemma": "wapiti",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WAPITI",
+      "formNote": "Pluriel de WAPITI."
+    },
+    {
+      "word": "WARES",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Langue papoue parlée en Indonésie.",
+      "lemma": "wares",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WARFARINE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(chimie) Substance chimique, de formule brute, servant d'anticoagulant et de raticide.",
+      "lemma": "warfarine",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WARGAME",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(jeux) Simulation d’opérations militaires à des fins de formation ou de préparation de manœuvres.",
+      "lemma": "wargame",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WARGAMES",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(jeux) Simulation d’opérations militaires à des fins de formation ou de préparation de manœuvres.",
+      "lemma": "wargame",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WARGAME",
+      "formNote": "Pluriel de WARGAME."
+    },
+    {
+      "word": "WARNING",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(automobile) Feux de détresse.",
+      "lemma": "warning",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WARNINGS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(automobile) Feux de détresse.",
+      "lemma": "warning",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WARNING",
+      "formNote": "Pluriel de WARNING."
+    },
+    {
+      "word": "WARRANT",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(commerce) Récépissé délivré aux commerçants, lorsqu’ils déposent des marchandises dans un entrepôt.",
+      "lemma": "warrant",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WARRANTA",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du singulier du passé simple du verbe warranter. WARRANTER : (commerce) Munir d’un warrant.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WARRANTAI",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du singulier du passé simple du verbe warranter. WARRANTER : (commerce) Munir d’un warrant.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WARRANTAS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du singulier du passé simple du verbe warranter. WARRANTER : (commerce) Munir d’un warrant.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WARRANTAT",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du singulier de l’imparfait du subjonctif du verbe warranter. WARRANTER : (commerce) Munir d’un warrant.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WARRANTE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du singulier de l’indicatif présent du verbe warranter. WARRANTER : (commerce) Munir d’un warrant.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WARRANTEE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Participe passé féminin singulier du verbe warranter. WARRANTER : (commerce) Munir d’un warrant.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WARRANTER",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(commerce) Munir d’un warrant.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WARRANTES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du singulier de l’indicatif présent du verbe warranter. WARRANTER : (commerce) Munir d’un warrant.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WARRANTEZ",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du pluriel de l’indicatif présent du verbe warranter. WARRANTER : (commerce) Munir d’un warrant.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WARRANTS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(commerce) Récépissé délivré aux commerçants, lorsqu’ils déposent des marchandises dans un entrepôt.",
+      "lemma": "warrant",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WARRANT",
+      "formNote": "Pluriel de WARRANT."
+    },
+    {
+      "word": "WARRIOR",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(familier) (anglicisme) Soldat d’élite, guerrier ou guerrière.",
+      "lemma": "warrior",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WARRIORS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Nom lexicalisé.",
+      "lemma": "warriors",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WASABI",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(plantes) Plante, (), de la famille des Brassicacées, originaire du Japon.",
+      "lemma": "wasabi",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WASABIS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(plantes) Plante, (), de la famille des Brassicacées, originaire du Japon.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WASABI",
+      "formNote": "Pluriel de WASABI.",
+      "lemma": "wasabi"
+    },
+    {
+      "word": "WASHI",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Papier fabriqué artisanalement au Japon depuis 1 300 ans.",
+      "lemma": "washi",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WASP",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Blanc d’origine anglaise protestante émigré aux États-Unis ou au Canada.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WASSINGUE",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "Participe passé masculin singulier de wassinguer.",
+      "lemma": "wassingue",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WASTE",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "Terrain nu et sans culture.",
+      "lemma": "waste",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATCHA",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Troisième personne du singulier du passé simple du verbe watcher. WATCHER : (Canada) (populaire) (anglicisme) Regarder, surveiller, espionner.",
+      "lemma": "watcha",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATCHE",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Première personne du singulier de l’indicatif présent du verbe watcher. WATCHER : (Canada) (populaire) (anglicisme) Regarder, surveiller, espionner.",
+      "lemma": "watche",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATCHER",
+      "partOfSpeech": "nom",
+      "shortDefinition": "(Canada) (populaire) (anglicisme) Regarder, surveiller, espionner.",
+      "lemma": "watcher",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATCHES",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Participe passé masculin pluriel du verbe watcher. WATCHER : (Canada) (populaire) (anglicisme) Regarder, surveiller, espionner.",
+      "lemma": "watches",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATER",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(anglicisme) (salles) Les toilettes.",
+      "lemma": "water",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATERBUCK",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Synonyme de cobe commun ou cobe à croissant.",
+      "lemma": "waterbuck",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATERGANG",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Dans les Flandres, canal de drainage.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATERMAN",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Tunnelier propre à creuser la terre sous l'eau.",
+      "lemma": "waterman",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATERPOLO",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": ".",
+      "lemma": "waterpolo",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATERS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(anglicisme) (salles) Les toilettes.",
+      "lemma": "water",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WATER",
+      "formNote": "Pluriel de WATER."
+    },
+    {
+      "word": "WATERZOOI",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(préparations) Ragoût de viande blanche ou de poisson aux légumes baignant dans un bouillon à la crème.",
+      "lemma": "waterzooi",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATT",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(unités) (physique) Unité de mesure de puissance du Système international.",
+      "lemma": "watt",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATTE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(physique) (rare) Qualifie un courant alternatif dont l'intensité et la tension sont en phase.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATTEE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Féminin singulier de watté.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATTEES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Féminin pluriel de watté.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATTES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Masculin pluriel de watté.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATTHEURE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(physique) Unité correspondant à l’énergie consommée par un appareil d’une puissance d’un watt fonctionnant pendant une...",
+      "lemma": "wattheure",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATTMAN",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(désuet) Employé chargé de l’alimentation électrique d’un tramway, sans nécessairement en être le conducteur.",
+      "lemma": "wattman",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATTMANS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(désuet) Employé chargé de l’alimentation électrique d’un tramway, sans nécessairement en être le conducteur.",
+      "lemma": "wattman",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WATTMAN",
+      "formNote": "Pluriel de WATTMAN."
+    },
+    {
+      "word": "WATTMEN",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(désuet) Employé chargé de l’alimentation électrique d’un tramway, sans nécessairement en être le conducteur.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WATTMAN",
+      "formNote": "Pluriel de WATTMAN.",
+      "lemma": "wattman"
+    },
+    {
+      "word": "WATTMETRE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(électricité) Instrument de mesure spécialisé dans la mesure des puissances électriques.",
+      "lemma": "wattmetre",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WATTS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(unités) (physique) Unité de mesure de puissance du Système international.",
+      "lemma": "watt",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WATT",
+      "formNote": "Pluriel de WATT."
+    },
+    {
+      "word": "WATUSI",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Race de bovin domestique d'Afrique de l’Est.",
+      "lemma": "watusi",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAWAS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Pluriel de wawa.",
+      "lemma": "wawas",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WAX",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(Afrique) Tissu en vogue en Afrique, dont les motifs sont réalisés avec des cires hydrophobes.",
+      "lemma": "wax",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "extraction locale"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEB",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(Internet) Web sémantique.",
+      "lemma": "web",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "extraction locale"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEBCAM",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "(Internet) Caméra numérique qui permet de communiquer avec l’image et parfois le son par les protocoles du Web.",
+      "lemma": "webcam",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEBCAMERA",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "Synonyme de webcam.",
+      "lemma": "webcamera",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEBCAMS",
+      "partOfSpeech": "nom féminin pluriel",
+      "shortDefinition": "(Internet) Caméra numérique qui permet de communiquer avec l’image et parfois le son par les protocoles du Web.",
+      "lemma": "webcam",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WEBCAM",
+      "formNote": "Pluriel de WEBCAM."
+    },
+    {
+      "word": "WEBDESIGN",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Variantes orthographiques de web design.",
+      "lemma": "webdesign",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEBER",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Unité de mesure du flux magnétique du Système international, dont le symbole est Wb.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEBERS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Unité de mesure du flux magnétique du Système international, dont le symbole est Wb.",
+      "lemma": "weber",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WEBER",
+      "formNote": "Pluriel de WEBER."
+    },
+    {
+      "word": "WEBISODE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(Internet) Épisode, généralement court, d’une série qui est diffusé uniquement sur Internet.",
+      "lemma": "webisode",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEBISODES",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Nom lexicalisé.",
+      "lemma": "webisodes",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEBLOG",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEBLOGS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEBMAIL",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(Internet) Courriel Web ou messagerie Web, interface Web rendant possible l’émission.",
+      "lemma": "webmail",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEBMASTER",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(Internet) Créatrice, créateur ou responsable de site web.",
+      "lemma": "webmaster",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEBMESTRE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(Internet) Créateur ou responsable de site web.",
+      "lemma": "webmestre",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEBRADIO",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(Internet) Station de radio diffusée sur Internet.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEBRADIOS",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "(Internet) Station de radio diffusée sur Internet.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WEBRADIO",
+      "formNote": "Pluriel de WEBRADIO.",
+      "lemma": "webradio"
+    },
+    {
+      "word": "WEBS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(Internet) Web sémantique.",
+      "lemma": "web",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WEB",
+      "formNote": "Pluriel de WEB."
+    },
+    {
+      "word": "WEBSERIE",
+      "partOfSpeech": "nom",
+      "shortDefinition": "(Internet) Série publiée sur le Web.",
+      "lemma": "webserie",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEBSERIES",
+      "partOfSpeech": "nom pluriel",
+      "shortDefinition": "(Internet) Série publiée sur le Web.",
+      "lemma": "webseries",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WEBSERIE",
+      "formNote": "Pluriel de WEBSERIE."
+    },
+    {
+      "word": "WEBTELE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(néologisme) (anglicisme) Chaîne de télévision diffusée exclusivement sur le web.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEBTELES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Pluriel de webtélé. WEBTELE : (néologisme) (anglicisme) Chaîne de télévision diffusée exclusivement sur le web.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEBZINE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(Internet) Magazine publié uniquement sur le Web.",
+      "lemma": "webzine",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEBZINES",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(Internet) Magazine publié uniquement sur le Web.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WEBZINE",
+      "formNote": "Pluriel de WEBZINE.",
+      "lemma": "webzine"
+    },
+    {
+      "word": "WEEDS",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Nom lexicalisé.",
+      "lemma": "weeds",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEEKEND",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": ".",
+      "lemma": "weekend",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEEKENDS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": ".",
+      "lemma": "weekend",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WEEKEND",
+      "formNote": "Pluriel de WEEKEND."
+    },
+    {
+      "word": "WEHNELT",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(électronique) Grille de commande d'un tube cathodique, qui permet de faire varier l'intensité du faisceau d’électrons.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WEHNELTS",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "(électronique) Grille de commande d'un tube cathodique, qui permet de faire varier l'intensité du faisceau d’électrons.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WEHNELT",
+      "formNote": "Pluriel de WEHNELT.",
+      "lemma": "wehnelt"
+    },
+    {
+      "word": "WEIRD",
+      "partOfSpeech": "nom",
+      "shortDefinition": "(Québec) (familier) Bizarre, étrange.",
+      "lemma": "weird",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WELCHE",
+      "partOfSpeech": "adjectif",
+      "shortDefinition": "Qui a rapport aux personnes parlant un dialecte roman dans une région limitrophe germanophone.",
+      "lemma": "welche",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WELCHES",
+      "partOfSpeech": "adjectif pluriel",
+      "shortDefinition": "Qui a rapport aux personnes parlant un dialecte roman dans une région limitrophe germanophone.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WELCHE",
+      "formNote": "Pluriel de WELCHE.",
+      "lemma": "welche"
+    },
+    {
+      "word": "WELSH",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(préparations) Plat gallois à base de cheddar fondu, de pain et de bière.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WELSHS",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "(préparations) Plat gallois à base de cheddar fondu, de pain et de bière.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WELSH",
+      "formNote": "Pluriel de WELSH.",
+      "lemma": "welsh"
+    },
+    {
+      "word": "WELTER",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(boxe) (anglicisme) Catégorie de poids en boxe.",
+      "lemma": "welter",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WELTERS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(boxe) (anglicisme) Catégorie de poids en boxe.",
+      "lemma": "welter",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WELTER",
+      "formNote": "Pluriel de WELTER."
+    },
+    {
+      "word": "WERGELD",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(droit) Compensation pécuniaire en usage chez les Francs.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WERGELDS",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "(droit) Compensation pécuniaire en usage chez les Francs.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WERGELD",
+      "formNote": "Pluriel de WERGELD.",
+      "lemma": "wergeld"
+    },
+    {
+      "word": "WESTERN",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(cinéma) Genre cinématographique dont l’action se situe en Amérique du Nord lors de la conquête de l’Ouest.",
+      "lemma": "western",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WESTERNS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(cinéma) Genre cinématographique dont l’action se situe en Amérique du Nord lors de la conquête de l’Ouest.",
+      "lemma": "western",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WESTERN",
+      "formNote": "Pluriel de WESTERN."
+    },
+    {
+      "word": "WHARF",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(marine) Quai ; appontement.",
+      "lemma": "wharf",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WHARFS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(marine) Quai ; appontement.",
+      "lemma": "wharf",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WHARF",
+      "formNote": "Pluriel de WHARF."
+    },
+    {
+      "word": "WHEELING",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(cyclisme) Action de rouler sur la roue arrière.",
+      "lemma": "wheeling",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WHEELINGS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(cyclisme) Action de rouler sur la roue arrière.",
+      "lemma": "wheelings",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WHEELING",
+      "formNote": "Pluriel de WHEELING."
+    },
+    {
+      "word": "WHIG",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(politique) (vieilli) Nom donné aux membres du parti libéral en Angleterre du au siècle.",
+      "lemma": "whig",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WHIGS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(politique) (vieilli) Nom donné aux membres du parti libéral en Angleterre du au siècle.",
+      "lemma": "whig",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WHIG",
+      "formNote": "Pluriel de WHIG."
+    },
+    {
+      "word": "WHIPCORD",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(textile) Tissu de laine ou de coton, dont la trame est très serrée, et qui a un effet de côtes en diagonale.",
+      "lemma": "whipcord",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WHIPCORDS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(textile) Tissu de laine ou de coton, dont la trame est très serrée, et qui a un effet de côtes en diagonale.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WHIPCORD",
+      "formNote": "Pluriel de WHIPCORD.",
+      "lemma": "whipcord"
+    },
+    {
+      "word": "WHIPPET",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Variante de lévrier whippet (race de chien).",
+      "lemma": "whippet",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WHIPPETS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Variante de lévrier whippet (race de chien).",
+      "lemma": "whippet",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WHIPPET",
+      "formNote": "Pluriel de WHIPPET."
+    },
+    {
+      "word": "WHISKEY",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Whisky produit dans un pays où le mot est écrit ainsi (Irlande, États-Unis en particulier).",
+      "lemma": "whiskey",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WHISKEYS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Whisky produit dans un pays où le mot est écrit ainsi (Irlande, États-Unis en particulier).",
+      "lemma": "whiskey",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WHISKEY",
+      "formNote": "Pluriel de WHISKEY."
+    },
+    {
+      "word": "WHISKIES",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Eau-de-vie d’orge malté.",
+      "lemma": "whisky",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WHISKY",
+      "formNote": "Pluriel de WHISKY."
+    },
+    {
+      "word": "WHISKY",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Eau-de-vie d’orge malté.",
+      "lemma": "whisky",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WHISKYS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Eau-de-vie d’orge malté.",
+      "lemma": "whisky",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WHISKY",
+      "formNote": "Pluriel de WHISKY."
+    },
+    {
+      "word": "WHIST",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Jeu de cartes à levées qui se joue à quatre.",
+      "lemma": "whist",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WHISTS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Jeu de cartes à levées qui se joue à quatre.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WHIST",
+      "formNote": "Pluriel de WHIST.",
+      "lemma": "whist"
+    },
+    {
+      "word": "WHITELIST",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "Liste ne présentant aucun risque de malveillance.",
+      "lemma": "whitelist",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WICCA",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "(religions) Religion néo-païenne lunaire, attentive à l’écologie de la planète.",
+      "lemma": "wicca",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WICCAN",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Pratiquant de la wicca.",
+      "lemma": "wiccan",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WICCANE",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Nom lexicalisé.",
+      "lemma": "wiccane",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WICCANES",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Nom lexicalisé.",
+      "lemma": "wiccanes",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WICCANS",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Nom lexicalisé.",
+      "lemma": "wiccans",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WICCAS",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Nom lexicalisé.",
+      "lemma": "wiccas",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WICKET",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Nom lexicalisé.",
+      "lemma": "wicket",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WIDGET",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Élément de base d’une interface graphique comme un bouton par exemple.",
+      "lemma": "widget",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WIDGETS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Élément de base d’une interface graphique comme un bouton par exemple.",
+      "lemma": "widgets",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WIDGET",
+      "formNote": "Pluriel de WIDGET."
+    },
+    {
+      "word": "WIFI",
+      "partOfSpeech": "nom",
+      "shortDefinition": ".",
+      "lemma": "wifi",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WIFIS",
+      "partOfSpeech": "nom pluriel",
+      "shortDefinition": ".",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WIFI",
+      "formNote": "Pluriel de WIFI.",
+      "lemma": "wifi"
+    },
+    {
+      "word": "WIGWAM",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(architecture) Type d’habitation traditionnelle construite par les Amérindiens semi-nomades d’Amérique du Nord.",
+      "lemma": "wigwam",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WIGWAMS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(architecture) Type d’habitation traditionnelle construite par les Amérindiens semi-nomades d’Amérique du Nord.",
+      "lemma": "wigwam",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WIGWAM",
+      "formNote": "Pluriel de WIGWAM."
+    },
+    {
+      "word": "WIKI",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(wikis) Site web dynamique dont les pages peuvent être modifiées par tout visiteur.",
+      "lemma": "wiki",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WIKIS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(wikis) Site web dynamique dont les pages peuvent être modifiées par tout visiteur.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WIKI",
+      "formNote": "Pluriel de WIKI.",
+      "lemma": "wiki"
+    },
+    {
+      "word": "WILAYA",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(géographie) Division administrative qui existe dans plusieurs pays africains et asiatiques.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WILAYAS",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "(géographie) Division administrative qui existe dans plusieurs pays africains et asiatiques.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WILAYA",
+      "formNote": "Pluriel de WILAYA.",
+      "lemma": "wilaya"
+    },
+    {
+      "word": "WILDCAT",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Nom lexicalisé.",
+      "lemma": "wildcat",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WILLAYA",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "Autre orthographe de wilaya.",
+      "lemma": "willaya",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WILLAYAS",
+      "partOfSpeech": "nom féminin pluriel",
+      "shortDefinition": "Autre orthographe de wilaya.",
+      "lemma": "willaya",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WILLAYA",
+      "formNote": "Pluriel de WILLAYA."
+    },
+    {
+      "word": "WILLIAMS",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "Variété de poire.",
+      "lemma": "williams",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WINCH",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(navigation) Équipement fixe placé sur le pont d’un voilier.",
+      "lemma": "winch",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WINCHES",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(navigation) Équipement fixe placé sur le pont d’un voilier.",
+      "lemma": "winch",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WINCH",
+      "formNote": "Pluriel de WINCH."
+    },
+    {
+      "word": "WINCHEUR",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(marine) Matelot préposé à la manœuvre d’un ou plusieurs winch(s).",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WINCHEURS",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "(marine) Matelot préposé à la manœuvre d’un ou plusieurs winch(s).",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WINCHEUR",
+      "formNote": "Pluriel de WINCHEUR.",
+      "lemma": "wincheur"
+    },
+    {
+      "word": "WINCHEUSE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WINCHS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(navigation) Équipement fixe placé sur le pont d’un voilier.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WINCH",
+      "formNote": "Pluriel de WINCH.",
+      "lemma": "winch"
+    },
+    {
+      "word": "WINDOW",
+      "partOfSpeech": "nom",
+      "shortDefinition": "(anglicisme) (architecture) Type de fenêtre tirant sur la véranda.",
+      "lemma": "window",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WINDOWS",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Nom lexicalisé.",
+      "lemma": "windows",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WINDSURF",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Nom lexicalisé.",
+      "lemma": "windsurf",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WINDSURFS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WINGSUIT",
+      "partOfSpeech": "nom",
+      "shortDefinition": "(sports aériens) Combinaison de saut particulière augmentant la surface de portance et.",
+      "lemma": "wingsuit",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WINGSUITS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(sports aériens) Combinaison de saut particulière augmentant la surface de portance et.",
+      "lemma": "wingsuits",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WINGSUIT",
+      "formNote": "Pluriel de WINGSUIT."
+    },
+    {
+      "word": "WINNEBAGO",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(histoire) Membre du peuple des Winnebagos.",
+      "lemma": "winnebago",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WIPER",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(CA) (anglicisme) Essuie-glace.",
+      "lemma": "wiper",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WIPERS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(CA) (anglicisme) Essuie-glace.",
+      "lemma": "wipers",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WIPER",
+      "formNote": "Pluriel de WIPER."
+    },
+    {
+      "word": "WISHBONE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(marine) Espar particulier qui permet de tendre une voile à la manière d'une bôme.",
+      "lemma": "wishbone",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WISHBONES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WISIGOTH",
+      "partOfSpeech": "adjectif",
+      "shortDefinition": "Membre du peuple des Wisigoths.",
+      "lemma": "wisigoth",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WISIGOTHE",
+      "partOfSpeech": "adjectif ou nom féminin",
+      "shortDefinition": "Membre du peuple des Wisigoths.",
+      "lemma": "wisigoth",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WISIGOTH",
+      "formNote": "Féminin de WISIGOTH."
+    },
+    {
+      "word": "WISIGOTHS",
+      "partOfSpeech": "adjectif ou nom masculin pluriel",
+      "shortDefinition": "Membre du peuple des Wisigoths.",
+      "lemma": "wisigoth",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WISIGOTH",
+      "formNote": "Pluriel de WISIGOTH."
+    },
+    {
+      "word": "WISKEY",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": ".",
+      "lemma": "wiskey",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WISKI",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Cabriolet hippomobile, élevé et léger.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WISKIS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WITLOOF",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(Belgique) Légume de couleur blanche obtenu d’une variété de chicorée.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WITLOOFS",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "(Belgique) Légume de couleur blanche obtenu d’une variété de chicorée.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WITLOOF",
+      "formNote": "Pluriel de WITLOOF.",
+      "lemma": "witloof"
+    },
+    {
+      "word": "WITZ",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(Suisse) Blague, plaisanterie, bon mot.",
+      "lemma": "witz",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WOK",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Poêle profonde d'origine asiatique.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "WOKS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Poêle profonde d'origine asiatique.",
+      "lemma": "wok",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true,
+      "baseWord": "WOK",
+      "formNote": "Pluriel de WOK."
+    },
+    {
+      "word": "WOLFRAM",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(éléments) (métaux) (désuet) (indénombrable) Tungstène.",
+      "lemma": "wolfram",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WOLFRAMS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(éléments) (métaux) (désuet) (indénombrable) Tungstène.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WOLFRAM",
+      "formNote": "Pluriel de WOLFRAM.",
+      "lemma": "wolfram"
+    },
+    {
+      "word": "WOLOF",
+      "partOfSpeech": "adjectif ou nom masculin",
+      "shortDefinition": "Membre d’un peuple africain installé en Sénégambie et en Mauritanie.",
+      "lemma": "wolof",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WOLOFS",
+      "partOfSpeech": "adjectif ou nom masculin pluriel",
+      "shortDefinition": "Membre d’un peuple africain installé en Sénégambie et en Mauritanie.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WOLOF",
+      "formNote": "Pluriel de WOLOF.",
+      "lemma": "wolof"
+    },
+    {
+      "word": "WOMBAT",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Marsupial d’Australie, herbivore, ressemblant à un ourson et appartenant à la famille des wombatidés.",
+      "lemma": "wombat",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WOMBATIDE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Famille des marsupiaux de type wombat.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WOMBATS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Marsupial d’Australie, herbivore, ressemblant à un ourson et appartenant à la famille des wombatidés.",
+      "lemma": "wombat",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WOMBAT",
+      "formNote": "Pluriel de WOMBAT."
+    },
+    {
+      "word": "WON",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Monnaie de la Corée du Sud et de la Corée du Nord.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "WONS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Monnaie de la Corée du Sud et de la Corée du Nord.",
+      "lemma": "won",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true,
+      "baseWord": "WON",
+      "formNote": "Pluriel de WON."
+    },
+    {
+      "word": "WOOFER",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(anglicisme) (électrotechnique) Haut-parleur de graves, haut-parleur produisant des sons de basses fréquences.",
+      "lemma": "woofer",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WOOFERS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(anglicisme) (électrotechnique) Haut-parleur de graves, haut-parleur produisant des sons de basses fréquences.",
+      "lemma": "woofer",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WOOFER",
+      "formNote": "Pluriel de WOOFER."
+    },
+    {
+      "word": "WOOFEUR",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Pratiquant du woofing.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WOOFEURS",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "Pratiquant du woofing.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WOOFEUR",
+      "formNote": "Pluriel de WOOFEUR.",
+      "lemma": "woofeur"
+    },
+    {
+      "word": "WOOGIE",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Nom lexicalisé.",
+      "lemma": "woogie",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WOOKIE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Grands êtres humanoïdes très poilus.",
+      "lemma": "wookie",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WORKSHOP",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(anglicisme) (travail) Atelier collaboratif.",
+      "lemma": "workshop",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WORKSHOPS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(anglicisme) (travail) Atelier collaboratif.",
+      "lemma": "workshop",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WORKSHOP",
+      "formNote": "Pluriel de WORKSHOP."
+    },
+    {
+      "word": "WORMIEN",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(squelette) Sutural, qualifie des os du crâne, variables en taille et en nombre selon les individus.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WORMIENS",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "(squelette) Sutural, qualifie des os du crâne, variables en taille et en nombre selon les individus.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WORMIEN",
+      "formNote": "Pluriel de WORMIEN.",
+      "lemma": "wormien"
+    },
+    {
+      "word": "WOUAH",
+      "partOfSpeech": "interjection",
+      "shortDefinition": "Interjection qui exprime l’étonnement, l’admiration.",
+      "lemma": "wouah",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WRAP",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(anglicisme) Sandwich constitué d’une galette fine enroulée autour d’une garniture.",
+      "lemma": "wrap",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WRAPS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(anglicisme) Sandwich constitué d’une galette fine enroulée autour d’une garniture.",
+      "lemma": "wraps",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "WRAP",
+      "formNote": "Pluriel de WRAP."
+    },
+    {
+      "word": "WRENCH",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(Canada) (anglicisme) (outils) Clé à molette.",
+      "lemma": "wrench",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WU",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Groupe de parlers chinois.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "WURM",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(glaciologie) Glaciation de Würm, nommé aussi simplement würm (sans majuscule).",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WURMIEN",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(glaciologie) Relatif au würm, quatrième des grandes glaciations de l’ére quaternaire.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WURMIENNE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Féminin singulier de würmien.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WURMIENS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Masculin pluriel de würmien.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WURMS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WUS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Groupe de parlers chinois.",
+      "lemma": "wu",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true,
+      "baseWord": "WU",
+      "formNote": "Pluriel de WU."
+    },
+    {
+      "word": "WUSHU",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Art martial chinois.",
+      "lemma": "wushu",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "WYANDOTTE",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "Race de poules, originaires d’Amérique (États-Unis), de taille moyenne ou naine, à crête frisée.",
+      "lemma": "wyandotte",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    }
+  ]
+}

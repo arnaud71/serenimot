@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Sérénimot">
+  <rect width="512" height="512" rx="96" fill="#0f5f5c"/>
+  <rect x="86" y="94" width="340" height="324" rx="42" fill="#f7f4ec"/>
+  <path d="M154 180h204v42H154zm0 78h156v42H154zm0 78h204v42H154z" fill="#123331"/>
+  <circle cx="365" cy="279" r="38" fill="#d9913d"/>
+</svg>

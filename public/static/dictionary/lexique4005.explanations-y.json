@@ -1,0 +1,3937 @@
+{
+  "version": "4.00.5",
+  "license": {
+    "name": "Creative Commons Attribution-ShareAlike 4.0 International",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+  },
+  "entries": [
+    {
+      "word": "YACARE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Un des noms usuels de Caiman yacare, espèce de caïman originaire du Pantanal.",
+      "lemma": "yacare",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YACHT",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Bâtiment de plaisance, à voiles ou à moteur.",
+      "lemma": "yacht",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YACHTING",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Pratique de la navigation de plaisance.",
+      "lemma": "yachting",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YACHTINGS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YACHTMAN",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Pilote d’un yacht.",
+      "lemma": "yachtman",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YACHTMANS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Pilote d’un yacht.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YACHTMAN",
+      "formNote": "Pluriel de YACHTMAN.",
+      "lemma": "yachtman"
+    },
+    {
+      "word": "YACHTMEN",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Pilote d’un yacht.",
+      "lemma": "yachtman",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YACHTMAN",
+      "formNote": "Pluriel de YACHTMAN."
+    },
+    {
+      "word": "YACHTS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Bâtiment de plaisance, à voiles ou à moteur.",
+      "lemma": "yacht",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YACHT",
+      "formNote": "Pluriel de YACHT."
+    },
+    {
+      "word": "YACHTSMAN",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Pilote d’un yacht.",
+      "lemma": "yachtsman",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YACHTSMEN",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Pilote d’un yacht.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YACHTSMAN",
+      "formNote": "Pluriel de YACHTSMAN.",
+      "lemma": "yachtsman"
+    },
+    {
+      "word": "YACK",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(bovins) Ruminant à cornes et à longs poils.",
+      "lemma": "yack",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YACKS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(bovins) Ruminant à cornes et à longs poils.",
+      "lemma": "yack",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YACK",
+      "formNote": "Pluriel de YACK."
+    },
+    {
+      "word": "YAHOURT",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": ".",
+      "lemma": "yahourt",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YAK",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Lettre additionnelle de l’alphabet tifinagh, ⴿ.",
+      "lemma": "yak",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "extraction locale"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YAKA",
+      "partOfSpeech": "verbe",
+      "shortDefinition": "Membre d’un peuple bantou d’Afrique centrale établi au sud-est de la République démocratique du...",
+      "lemma": "yaka",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YAKAS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Membre d’un peuple bantou d’Afrique centrale établi au sud-est de la République démocratique du...",
+      "lemma": "yakas",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YAKA",
+      "formNote": "Pluriel de YAKA."
+    },
+    {
+      "word": "YAKITORI",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(préparations) Brochette de volaille grillée.",
+      "lemma": "yakitori",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YAKITORIS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(préparations) Brochette de volaille grillée.",
+      "lemma": "yakitori",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YAKITORI",
+      "formNote": "Pluriel de YAKITORI."
+    },
+    {
+      "word": "YAKOUTE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Peuple turc de Sibérie.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YAKOUTES",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "Peuple turc de Sibérie.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YAKOUTE",
+      "formNote": "Pluriel de YAKOUTE.",
+      "lemma": "yakoute"
+    },
+    {
+      "word": "YAKS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Lettre additionnelle de l’alphabet tifinagh, ⴿ.",
+      "lemma": "yak",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YAK",
+      "formNote": "Pluriel de YAK."
+    },
+    {
+      "word": "YAKUSA",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Variante orthographique de yakuza.",
+      "lemma": "yakusa",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YAKUSAS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Variante orthographique de yakuza.",
+      "lemma": "yakusas",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YAKUSA",
+      "formNote": "Pluriel de YAKUSA."
+    },
+    {
+      "word": "YAKUZA",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(illégalité) Membre de la mafia japonaise.",
+      "lemma": "yakuza",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YAKUZAS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(illégalité) Membre de la mafia japonaise.",
+      "lemma": "yakuza",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YAKUZA",
+      "formNote": "Pluriel de YAKUZA."
+    },
+    {
+      "word": "YALIS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Pluriel de yali.",
+      "lemma": "yali",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YAM",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Nom donné, en Nouvelle-Guinée, à une racine analogue à la pomme de terre, igname.",
+      "lemma": "yam",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "extraction locale"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YAMS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(jeux).",
+      "lemma": "yams",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YANG",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Principe actif et lumineux de la pensée chinoise traditionnelle.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "YANGS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Principe actif et lumineux de la pensée chinoise traditionnelle.",
+      "lemma": "yang",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YANG",
+      "formNote": "Pluriel de YANG."
+    },
+    {
+      "word": "YANKEE",
+      "partOfSpeech": "nom",
+      "shortDefinition": "(RDCongo) Voyoute congolaise.",
+      "lemma": "yankee",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YANKEES",
+      "partOfSpeech": "nom pluriel",
+      "shortDefinition": "(RDCongo) Voyoute congolaise.",
+      "lemma": "yankee",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YANKEE",
+      "formNote": "Pluriel de YANKEE."
+    },
+    {
+      "word": "YANQUIS",
+      "partOfSpeech": "adjectif",
+      "shortDefinition": "Adjectif lexicalisé.",
+      "lemma": "yanqui",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YAOURT",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(cuisine) (FR) Lait caillé préparé à partir de ferments lactiques.",
+      "lemma": "yaourt",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YAOURTS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(cuisine) (FR) Lait caillé préparé à partir de ferments lactiques.",
+      "lemma": "yaourt",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YAOURT",
+      "formNote": "Pluriel de YAOURT."
+    },
+    {
+      "word": "YAPOCK",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(marsupiaux) Espèce d’opossum d’Amérique caractérisée par ses mœurs aquatiques et la coloration noire et blanche de son...",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YAPOCKS",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "(marsupiaux) Espèce d’opossum d’Amérique caractérisée par ses mœurs aquatiques et la coloration noire et blanche de son...",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YAPOCK",
+      "formNote": "Pluriel de YAPOCK.",
+      "lemma": "yapock"
+    },
+    {
+      "word": "YAPOK",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Variante de yapock.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YAPOKS",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "Variante de yapock.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YAPOK",
+      "formNote": "Pluriel de YAPOK.",
+      "lemma": "yapok"
+    },
+    {
+      "word": "YARD",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(anglicisme) Unité de mesure de la longueur (système impérial britannique).",
+      "lemma": "yard",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YARDS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(anglicisme) Unité de mesure de la longueur (système impérial britannique).",
+      "lemma": "yard",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YARD",
+      "formNote": "Pluriel de YARD."
+    },
+    {
+      "word": "YASS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": ".",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YASSA",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(préparations) Ragoût de poisson, de poulet ou de mouton dont la sauce est aromatisée au citron.",
+      "lemma": "yassa",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YATAGAN",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Sabre turc, à lame recourbée et dont le tranchant forme, vers la pointe, une courbe rentrante.",
+      "lemma": "yatagan",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YATAGANS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Sabre turc, à lame recourbée et dont le tranchant forme, vers la pointe, une courbe rentrante.",
+      "lemma": "yatagan",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YATAGAN",
+      "formNote": "Pluriel de YATAGAN."
+    },
+    {
+      "word": "YAVAPAI",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Langue parlée en Amérique du Nord, appartenant au groupe linguistique yuman.",
+      "lemma": "yavapai",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YAWL",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Voilier à deux mâts dont l’artimon (mât arrière) est positionné en arrière de la mèche de...",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YAWLS",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "Voilier à deux mâts dont l’artimon (mât arrière) est positionné en arrière de la mèche de...",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YAWL",
+      "formNote": "Pluriel de YAWL.",
+      "lemma": "yawl"
+    },
+    {
+      "word": "YEAH",
+      "partOfSpeech": "interjection",
+      "shortDefinition": "(familier) Ouais.",
+      "lemma": "yeah",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YEARLING",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(chevaux) Cheval pur-sang âgé entre un et deux ans.",
+      "lemma": "yearling",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YEARLINGS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(chevaux) Cheval pur-sang âgé entre un et deux ans.",
+      "lemma": "yearling",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YEARLING",
+      "formNote": "Pluriel de YEARLING."
+    },
+    {
+      "word": "YEBLE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": ", synonyme de sureau hièble.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YEBLES",
+      "partOfSpeech": "nom féminin pluriel",
+      "shortDefinition": ", synonyme de sureau hièble.",
+      "lemma": "yeble",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YEBLE",
+      "formNote": "Pluriel de YEBLE."
+    },
+    {
+      "word": "YEMENITE",
+      "partOfSpeech": "adjectif ou nom",
+      "shortDefinition": "Habitant du Yémen.",
+      "lemma": "yemenite",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YEMENITES",
+      "partOfSpeech": "adjectif ou nom masculin pluriel",
+      "shortDefinition": "Habitant du Yémen.",
+      "lemma": "yemenite",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YEMENITE",
+      "formNote": "Pluriel de YEMENITE."
+    },
+    {
+      "word": "YEN",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Monnaie du Japon.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "YENS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Monnaie du Japon.",
+      "lemma": "yen",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true,
+      "baseWord": "YEN",
+      "formNote": "Pluriel de YEN."
+    },
+    {
+      "word": "YEOMAN",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(histoire) Paysan propriétaire de la terre qu’il cultive dans l’Angleterre médiévale.",
+      "lemma": "yeoman",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YEOMANRY",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "Ensemble des yeomen.",
+      "lemma": "yeomanry",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YEOMANRYS",
+      "partOfSpeech": "nom féminin pluriel",
+      "shortDefinition": "Ensemble des yeomen.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YEOMANRY",
+      "formNote": "Pluriel de YEOMANRY.",
+      "lemma": "yeomanry"
+    },
+    {
+      "word": "YEOMANS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(histoire) Paysan propriétaire de la terre qu’il cultive dans l’Angleterre médiévale.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YEOMAN",
+      "formNote": "Pluriel de YEOMAN.",
+      "lemma": "yeoman"
+    },
+    {
+      "word": "YEOMEN",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(histoire) Paysan propriétaire de la terre qu’il cultive dans l’Angleterre médiévale.",
+      "lemma": "yeoman",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YEOMAN",
+      "formNote": "Pluriel de YEOMAN."
+    },
+    {
+      "word": "YERSINIA",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "Bactérie, du genre Yersinia, responsable de plusieurs maladies chez les animaux et les hommes, en particulier.",
+      "lemma": "yersinia",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YERSINIAS",
+      "partOfSpeech": "nom féminin pluriel",
+      "shortDefinition": "Bactérie, du genre Yersinia, responsable de plusieurs maladies chez les animaux et les hommes, en particulier.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YERSINIA",
+      "formNote": "Pluriel de YERSINIA.",
+      "lemma": "yersinia"
+    },
+    {
+      "word": "YESHIVA",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "(judaïsme) Chez les juifs.",
+      "lemma": "yeshiva",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YESHIVAS",
+      "partOfSpeech": "nom féminin pluriel",
+      "shortDefinition": "(judaïsme) Chez les juifs.",
+      "lemma": "yeshiva",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YESHIVA",
+      "formNote": "Pluriel de YESHIVA."
+    },
+    {
+      "word": "YETI",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Animal mythologique censé vivre dans les montagnes du Tibet.",
+      "lemma": "yeti",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YETIS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Animal mythologique censé vivre dans les montagnes du Tibet.",
+      "lemma": "yeti",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YETI",
+      "formNote": "Pluriel de YETI."
+    },
+    {
+      "word": "YEULE",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "(Canada) (vulgaire) (populaire) Bouche, visage.",
+      "lemma": "yeule",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YEUSE",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "(arbres) Synonyme de chêne vert (Quercus ilex).",
+      "lemma": "yeuse",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YEUSES",
+      "partOfSpeech": "nom féminin pluriel",
+      "shortDefinition": "(arbres) Synonyme de chêne vert (Quercus ilex).",
+      "lemma": "yeuse",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YEUSE",
+      "formNote": "Pluriel de YEUSE."
+    },
+    {
+      "word": "YEUX",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Désigne une personne ou une chose au masculin singulier.",
+      "lemma": "oeil",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "IL",
+      "formNote": "Pluriel de IL."
+    },
+    {
+      "word": "YEYE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Variante de yéyé.",
+      "lemma": "yeye",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YEYES",
+      "partOfSpeech": "nom pluriel",
+      "shortDefinition": "Variante de yéyé.",
+      "lemma": "yeye",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YEYE",
+      "formNote": "Pluriel de YEYE."
+    },
+    {
+      "word": "YIDDISH",
+      "partOfSpeech": "adjectif ou nom masculin",
+      "shortDefinition": "(langues) Groupe de langues germaniques proche de l’allemand, avec un apport de vocabulaire hébreu et slave.",
+      "lemma": "yiddish",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YIDDISHS",
+      "partOfSpeech": "adjectif ou nom masculin pluriel",
+      "shortDefinition": "(langues) Groupe de langues germaniques proche de l’allemand, avec un apport de vocabulaire hébreu et slave.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YIDDISH",
+      "formNote": "Pluriel de YIDDISH.",
+      "lemma": "yiddish"
+    },
+    {
+      "word": "YIN",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Principe passif et sombre de la pensée chinoise traditionnelle.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "word": "YINS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Principe passif et sombre de la pensée chinoise traditionnelle.",
+      "lemma": "yin",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": true,
+      "baseWord": "YIN",
+      "formNote": "Pluriel de YIN."
+    },
+    {
+      "word": "YLANG",
+      "partOfSpeech": "nom",
+      "shortDefinition": "(arbres) Arbre tropical que l'on exploite pour ses fleurs parfumées.",
+      "lemma": "ylang",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOD",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Autre orthographe de youd (י), dixième lettre des alphabets hébreu et phénicien.",
+      "lemma": "yod",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "extraction locale"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLA",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du singulier du passé simple du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLAI",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du singulier du passé simple du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLAIENT",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du pluriel de l’indicatif imparfait du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLAIS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du singulier de l’indicatif imparfait du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLAIT",
+      "partOfSpeech": "verbe",
+      "shortDefinition": "Chanter en vocalises comme les Tyroliens.",
+      "lemma": "yodler",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YODLER",
+      "formNote": "Forme du verbe yodler."
+    },
+    {
+      "word": "YODLAMES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du pluriel du passé simple du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLANT",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Participe présent du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLAS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du singulier du passé simple du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLASSE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du singulier de l’imparfait du subjonctif du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLASSES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du singulier de l’imparfait du subjonctif du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLAT",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du singulier de l’imparfait du subjonctif du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLATES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du pluriel du passé simple du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLE",
+      "partOfSpeech": "verbe",
+      "shortDefinition": "Chanter en vocalises comme les Tyroliens.",
+      "lemma": "yodler",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YODLER",
+      "formNote": "Forme du verbe yodler."
+    },
+    {
+      "word": "YODLEE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLEES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLENT",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du pluriel de l’indicatif présent du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLER",
+      "partOfSpeech": "verbe",
+      "shortDefinition": "Chanter en vocalises comme les Tyroliens.",
+      "lemma": "yodler",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLERA",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du singulier du futur du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLERAI",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du singulier du futur du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLERAIS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du singulier du conditionnel présent du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLERAIT",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du singulier du conditionnel présent du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLERAS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du singulier du futur du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLERENT",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du pluriel du passé simple du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLEREZ",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du pluriel du futur du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLERIEZ",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du pluriel du conditionnel présent du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLERONS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du pluriel du futur du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLERONT",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du pluriel du futur du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLERS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du singulier de l’indicatif présent du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLEZ",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du pluriel de l’indicatif présent du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLIEZ",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du pluriel de l’indicatif imparfait du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLIONS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du pluriel de l’indicatif imparfait du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODLONS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du pluriel de l’indicatif présent du verbe yodler. YODLER : Chanter en vocalises comme les Tyroliens.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YODS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Autre orthographe de youd (י), dixième lettre des alphabets hébreu et phénicien.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YOD",
+      "formNote": "Pluriel de YOD.",
+      "lemma": "yod"
+    },
+    {
+      "word": "YOGA",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(hindouisme) Discipline visant, par la méditation.",
+      "lemma": "yoga",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOGAS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(hindouisme) Discipline visant, par la méditation.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YOGA",
+      "formNote": "Pluriel de YOGA.",
+      "lemma": "yoga"
+    },
+    {
+      "word": "YOGHOURT",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": ".",
+      "lemma": "yoghourt",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOGHOURTS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": ".",
+      "lemma": "yoghourt",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YOGHOURT",
+      "formNote": "Pluriel de YOGHOURT."
+    },
+    {
+      "word": "YOGI",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(hindouisme) Sage et ascète hindouiste qui a atteint un haut niveau spirituel.",
+      "lemma": "yogi",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOGIQUE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Relatif au yoga.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOGIQUES",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "Relatif au yoga.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YOGIQUE",
+      "formNote": "Pluriel de YOGIQUE.",
+      "lemma": "yogique"
+    },
+    {
+      "word": "YOGIS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(hindouisme) Sage et ascète hindouiste qui a atteint un haut niveau spirituel.",
+      "lemma": "yogi",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YOGI",
+      "formNote": "Pluriel de YOGI."
+    },
+    {
+      "word": "YOGISTE",
+      "partOfSpeech": "nom",
+      "shortDefinition": ".",
+      "lemma": "yogiste",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOGOURT",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(aliments) (Canada) (Suisse) (Belgique).",
+      "lemma": "yogourt",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOGOURTS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(aliments) (Canada) (Suisse) (Belgique).",
+      "lemma": "yogourt",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YOGOURT",
+      "formNote": "Pluriel de YOGOURT."
+    },
+    {
+      "word": "YOGUI",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(vieilli) Variante orthographique de yogi.",
+      "lemma": "yogui",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOHIMBE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(arbres) Arbre du genre Pausinystalia originaire des forêts d’Afrique occidentale possédant une écorce de laquelle on...",
+      "lemma": "yohimbe",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOHIMBEHE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Arbre du genre Pausinystalia originaire des forêts d’Afrique occidentale possédant une écorce de laquelle on extrait...",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOHIMBINE",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "(alcaloïdes)(pharmacie) Principal alcaloïde de l’écorce de l’arbre ouest-africain Pausinystalia johimbe.",
+      "lemma": "yohimbine",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOLE",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "Participe passé masculin singulier du verbe yoler.",
+      "lemma": "yole",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOLES",
+      "partOfSpeech": "nom féminin pluriel",
+      "shortDefinition": "Participe passé masculin singulier du verbe yoler.",
+      "lemma": "yole",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YOLE",
+      "formNote": "Pluriel de YOLE."
+    },
+    {
+      "word": "YORK",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(chiens) (familier) Synonyme de terrier du Yorkshire.",
+      "lemma": "york",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YORKAIS",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Relatif à York, ville britannique d’Angleterre.",
+      "lemma": "yorkais",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YORKAISE",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Féminin singulier de yorkais.",
+      "lemma": "yorkaise",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YORKAISES",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Féminin pluriel de yorkais.",
+      "lemma": "yorkaises",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YORKSHIRE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Synonyme de terrier du Yorkshire (race de chien).",
+      "lemma": "yorkshire",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOROUBA",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Membre d’un peuple humain vivant en Afrique de l’Ouest, particulièrement au Yorubaland au Nigéria.",
+      "lemma": "yorouba",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YORUBA",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Membre d’un peuple humain vivant en Afrique de l’Ouest, particulièrement au Yorubaland au Nigéria.",
+      "lemma": "yoruba",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YORUBAS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Membre d’un peuple humain vivant en Afrique de l’Ouest, particulièrement au Yorubaland au Nigéria.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YORUBA",
+      "formNote": "Pluriel de YORUBA.",
+      "lemma": "yoruba"
+    },
+    {
+      "word": "YOTTABYTE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Multiple de l'unité de base des systèmes informatiques qui vaut 10 bytes.",
+      "lemma": "yottabyte",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOUDS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Pluriel de youd.",
+      "lemma": "youds",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOUP",
+      "partOfSpeech": "interjection",
+      "shortDefinition": "(vulgaire) (injurieux) Juif ; personne de confession israélite.",
+      "lemma": "youp",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOUPALA",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(puériculture) Trotteur pour bébé.",
+      "lemma": "youpala",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOUPALAS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(puériculture) Trotteur pour bébé.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YOUPALA",
+      "formNote": "Pluriel de YOUPALA.",
+      "lemma": "youpala"
+    },
+    {
+      "word": "YOUPI",
+      "partOfSpeech": "interjection",
+      "shortDefinition": "Cri de joie exubérant qui exprime le triomphe, toute la satisfaction de la réussite.",
+      "lemma": "youpi",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOUPIE",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Variante orthographique de youpi.",
+      "lemma": "youpie",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOUPIN",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(vulgaire) (injurieux) Juif.",
+      "lemma": "youpin",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOUPINE",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "(vulgaire) (injurieux) Juif.",
+      "lemma": "youpin",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YOUPIN",
+      "formNote": "Féminin de YOUPIN."
+    },
+    {
+      "word": "YOUPINES",
+      "partOfSpeech": "nom féminin pluriel",
+      "shortDefinition": "(vulgaire) (injurieux) Juive ; femme de confession ou de culture israélite.",
+      "lemma": "youpin",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YOUPINE",
+      "formNote": "Pluriel de YOUPINE."
+    },
+    {
+      "word": "YOUPINS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(vulgaire) (injurieux) Juif.",
+      "lemma": "youpin",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YOUPIN",
+      "formNote": "Pluriel de YOUPIN."
+    },
+    {
+      "word": "YOURTE",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "(architecture) Tente en peau ou en feutre des nomades mongols et turcs qui vivent en Asie centrale.",
+      "lemma": "yourte",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOURTES",
+      "partOfSpeech": "nom féminin pluriel",
+      "shortDefinition": "(architecture) Tente en peau ou en feutre des nomades mongols et turcs qui vivent en Asie centrale.",
+      "lemma": "yourte",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YOURTE",
+      "formNote": "Pluriel de YOURTE."
+    },
+    {
+      "word": "YOUTRE",
+      "partOfSpeech": "nom",
+      "shortDefinition": "(péjoratif) (injurieux) Juif.",
+      "lemma": "youtre",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOUTRES",
+      "partOfSpeech": "nom pluriel",
+      "shortDefinition": "(péjoratif) (injurieux) Juif.",
+      "lemma": "youtre",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YOUTRE",
+      "formNote": "Pluriel de YOUTRE."
+    },
+    {
+      "word": "YOUTUBEUR",
+      "partOfSpeech": "nom",
+      "shortDefinition": "(Internet) Variante orthographique de youtubeur.",
+      "lemma": "youtubeur",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOUYOU",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Petit canot court et large utilisé pour la navette entre les bateaux au mouillage et les quais.",
+      "lemma": "youyou",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOUYOUS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Petit canot court et large utilisé pour la navette entre les bateaux au mouillage et les quais.",
+      "lemma": "youyou",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YOUYOU",
+      "formNote": "Pluriel de YOUYOU."
+    },
+    {
+      "word": "YOUYOUTA",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du singulier du passé simple du verbe youyouter. YOUYOUTER : Pousser des cris de joie, des youyous.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOUYOUTAI",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du singulier du passé simple du verbe youyouter. YOUYOUTER : Pousser des cris de joie, des youyous.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOUYOUTAS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du singulier du passé simple du verbe youyouter. YOUYOUTER : Pousser des cris de joie, des youyous.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOUYOUTAT",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du singulier de l’imparfait du subjonctif du verbe youyouter. YOUYOUTER : Pousser des cris de joie, des youyous.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOUYOUTE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du singulier de l’indicatif présent du verbe youyouter. YOUYOUTER : Pousser des cris de joie, des youyous.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOUYOUTER",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Pousser des cris de joie, des youyous.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOUYOUTES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du singulier de l’indicatif présent du verbe youyouter. YOUYOUTER : Pousser des cris de joie, des youyous.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOUYOUTEZ",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du pluriel de l’indicatif présent du verbe youyouter. YOUYOUTER : Pousser des cris de joie, des youyous.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYO",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Variante, dans l'orthographe traditionnelle, de yoyo.",
+      "lemma": "yoyo",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Variante, dans l'orthographe traditionnelle, de yoyo.",
+      "lemma": "yoyo",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YOYO",
+      "formNote": "Pluriel de YOYO."
+    },
+    {
+      "word": "YOYOTA",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du singulier du passé simple du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTAI",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du singulier du passé simple du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTAIS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du singulier de l’indicatif imparfait du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTAIT",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du singulier de l’indicatif imparfait du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTAMES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du pluriel du passé simple du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTANT",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Participe présent du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTAS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du singulier du passé simple du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTASSE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du singulier de l’imparfait du subjonctif du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTAT",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du singulier de l’imparfait du subjonctif du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTATES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du pluriel du passé simple du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTE",
+      "partOfSpeech": "verbe",
+      "shortDefinition": "Faire du yo-yo, varier sans arrêt.",
+      "lemma": "yoyoter",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YOYOTER",
+      "formNote": "Forme du verbe yoyoter."
+    },
+    {
+      "word": "YOYOTENT",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du pluriel de l’indicatif présent du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTER",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTERA",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du singulier du futur du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTERAI",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du singulier du futur du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTERAS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du singulier du futur du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTEREZ",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du pluriel du futur du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTES",
+      "partOfSpeech": "verbe",
+      "shortDefinition": "Faire du yo-yo, varier sans arrêt.",
+      "lemma": "yoyoter",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YOYOTER",
+      "formNote": "Forme du verbe yoyoter."
+    },
+    {
+      "word": "YOYOTEZ",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du pluriel de l’indicatif présent du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTIEZ",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du pluriel de l’indicatif imparfait du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTIONS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du pluriel de l’indicatif imparfait du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTONS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du pluriel de l’indicatif présent du verbe yo-yoter. YOYOTER : Faire du yo-yo, varier sans arrêt.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTTA",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du singulier du passé simple du verbe yoyotter. YOYOTTER : Avoir perdu la raison, être fou, délirer.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTTAI",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du singulier du passé simple du verbe yoyotter. YOYOTTER : Avoir perdu la raison, être fou, délirer.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTTAIS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du singulier de l’indicatif imparfait du verbe yoyotter. YOYOTTER : Avoir perdu la raison, être fou, délirer.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTTAIT",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du singulier de l’indicatif imparfait du verbe yoyotter. YOYOTTER : Avoir perdu la raison, être fou, délirer.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTTANT",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Participe présent du verbe yoyotter. YOYOTTER : Avoir perdu la raison, être fou, délirer.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTTAS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du singulier du passé simple du verbe yoyotter. YOYOTTER : Avoir perdu la raison, être fou, délirer.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTTAT",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du singulier de l’imparfait du subjonctif du verbe yoyotter. YOYOTTER : Avoir perdu la raison, être fou, délirer.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTTE",
+      "partOfSpeech": "nom",
+      "shortDefinition": "Première personne du singulier de l’indicatif présent du verbe yoyotter. YOYOTTER : Avoir perdu la raison, être fou, délirer.",
+      "lemma": "yoyotte",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTTENT",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du pluriel de l’indicatif présent du verbe yoyotter. YOYOTTER : Avoir perdu la raison, être fou, délirer.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTTER",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Avoir perdu la raison, être fou, délirer.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTTERA",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Troisième personne du singulier du futur du verbe yoyotter. YOYOTTER : Avoir perdu la raison, être fou, délirer.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTTES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du singulier de l’indicatif présent du verbe yoyotter. YOYOTTER : Avoir perdu la raison, être fou, délirer.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTTEZ",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du pluriel de l’indicatif présent du verbe yoyotter. YOYOTTER : Avoir perdu la raison, être fou, délirer.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTTIEZ",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Deuxième personne du pluriel de l’indicatif imparfait du verbe yoyotter. YOYOTTER : Avoir perdu la raison, être fou, délirer.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YOYOTTONS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Première personne du pluriel de l’indicatif présent du verbe yoyotter. YOYOTTER : Avoir perdu la raison, être fou, délirer.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YPERITE",
+      "partOfSpeech": "nom féminin",
+      "shortDefinition": "Participe passé masculin singulier de ypériter.",
+      "lemma": "yperite",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YPERITEE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Participe passé féminin singulier de ypériter.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YPERITEES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Participe passé féminin pluriel de ypériter.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YPERITES",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Participe passé masculin pluriel de ypériter.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YPREAU",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": ".",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YPREAUX",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": ".",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YPREAU",
+      "formNote": "Pluriel de YPREAU.",
+      "lemma": "ypreau"
+    },
+    {
+      "word": "YSOPET",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Autre orthographe de isopet.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YSOPETS",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "Autre orthographe de isopet.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YSOPET",
+      "formNote": "Pluriel de YSOPET.",
+      "lemma": "ysopet"
+    },
+    {
+      "word": "YTTERBINE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(chimie) Oxyde d’ytterbium ().",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YTTERBIUM",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(éléments) (indénombrable) Élément chimique de numéro atomique 70 et de symbole Yb.",
+      "lemma": "ytterbium",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YTTRIA",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Oxyde d’yttrium (Y<sub>2</sub>O<sub>3</sub>).",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YTTRIAS",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "Oxyde d’yttrium (Y<sub>2</sub>O<sub>3</sub>).",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YTTRIA",
+      "formNote": "Pluriel de YTTRIA.",
+      "lemma": "yttria"
+    },
+    {
+      "word": "YTTRIFERE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Qui contient de l’yttrium.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YTTRIQUE",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "(chimie) Se dit de l’oxyde d’yttrium et des sels produits par cet oxyde.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YTTRIQUES",
+      "partOfSpeech": "mot lexicalisé pluriel",
+      "shortDefinition": "(chimie) Se dit de l’oxyde d’yttrium et des sels produits par cet oxyde.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YTTRIQUE",
+      "formNote": "Pluriel de YTTRIQUE.",
+      "lemma": "yttrique"
+    },
+    {
+      "word": "YTTRIUM",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(éléments) (métaux) (indénombrable) Élément chimique de numéro atomique 39 et de symbole Y.",
+      "lemma": "yttrium",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YTTRIUMS",
+      "partOfSpeech": "mot lexicalisé",
+      "shortDefinition": "Mot lexicalisé dans le lexique actif.",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YUAN",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Instance, pouvoir politique de la République de Chine à Taïwan.",
+      "lemma": "yuan",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YUANS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "Instance, pouvoir politique de la République de Chine à Taïwan.",
+      "lemma": "yuan",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YUAN",
+      "formNote": "Pluriel de YUAN."
+    },
+    {
+      "word": "YUCATEQUE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Habitant du Yucatan.",
+      "lemma": "yucateque",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YUCCA",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(plantes) Nom usuel donné à de nombreuses plantes du genre Yucca de la famille des Asparagaceae (Asparagacées).",
+      "lemma": "yucca",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YUCCAS",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(plantes) Nom usuel donné à de nombreuses plantes du genre Yucca de la famille des Asparagaceae (Asparagacées).",
+      "lemma": "yucca",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YUCCA",
+      "formNote": "Pluriel de YUCCA."
+    },
+    {
+      "word": "YUE",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Cantonais.",
+      "lemma": "yue",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "extraction locale"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YUKATA",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(vêtements) Léger kimono d’été.",
+      "lemma": "yukata",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YUKO",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "(judo) Plus petit avantage lors d’une compétition (5 points).",
+      "lemma": "yuko",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YUPPIE",
+      "partOfSpeech": "nom",
+      "shortDefinition": "(USA) Jeune cadre dynamique.",
+      "lemma": "yuppie",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "word": "YUPPIES",
+      "partOfSpeech": "nom masculin pluriel",
+      "shortDefinition": "(USA) Jeune cadre dynamique.",
+      "lemma": "yuppie",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false,
+      "baseWord": "YUPPIE",
+      "formNote": "Pluriel de YUPPIE."
+    },
+    {
+      "word": "YUZU",
+      "partOfSpeech": "nom masculin",
+      "shortDefinition": "Agrume originaire de l’est de l’Asie (Citrus junos), hybride de mandarine sauvage (C.",
+      "lemma": "yuzu",
+      "sources": [
+        {
+          "name": "Lexique",
+          "version": "4.00"
+        },
+        {
+          "name": "Wiktionnaire",
+          "version": "dump local"
+        }
+      ],
+      "reviewed": false
+    }
+  ]
+}

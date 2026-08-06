@@ -1,0 +1,110 @@
+{
+  "version": "4.00.5",
+  "label": "Lexique Sérénimot 4.00.5",
+  "status": "active-release",
+  "activeInApplication": true,
+  "license": {
+    "name": "Creative Commons Attribution-ShareAlike 4.0 International",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+  },
+  "sources": [
+    {
+      "name": "Lexique",
+      "version": "4.00",
+      "url": "https://www.lexique.org/"
+    },
+    {
+      "name": "Lexique Sérénimot",
+      "version": "3.83.1",
+      "role": "base conservée pour éviter les régressions avant revue"
+    },
+    {
+      "name": "Morphalou",
+      "version": "3.1",
+      "role": "croisement local et analyse des formes"
+    },
+    {
+      "name": "Lefff",
+      "version": "3.4",
+      "role": "croisement local et analyse des formes"
+    },
+    {
+      "name": "ODS",
+      "version": "8",
+      "role": "comparaison locale uniquement, non redistribuée, non intégrée"
+    }
+  ],
+  "integrity": {
+    "wordsSha256": "229e732b5ea7ca8a075c88f1b15059d0039f38feb3e58ba5ee61f8d69826297b",
+    "wordsCount": 369531
+  },
+  "files": {
+    "words": "static/dictionary/lexique4005.txt",
+    "manifest": "static/dictionary/releases/lexique4005.manifest.json",
+    "explanationsManifest": "static/dictionary/lexique4005.explanations.manifest.json",
+    "explanationsByLength": {
+      "2": "static/dictionary/lexique4005.explanations-2.json",
+      "3": "static/dictionary/lexique4005.explanations-3.json",
+      "4": "static/dictionary/lexique4005.explanations-4.json"
+    }
+  },
+  "counts": {
+    "words": 369531,
+    "previousActiveWords": 369538,
+    "go5GeneratedForms": 368,
+    "go5GeneratedFormsWithMetadata": 368,
+    "go6GeneratedForms": 214,
+    "go6ReadyForms": 213,
+    "go6GeneratedFormsWithMetadata": 214,
+    "go6ReviewBeforeActivation": 1,
+    "go6AppliedForms": 214,
+    "activeShortWordsReviewed": 214,
+    "activeShortWordsAccepted": 0,
+    "activeShortWordsHeld": 186,
+    "activeShortWordsRejected": 35,
+    "shortWordExclusionsApplied": 134,
+    "commonWithOds8Local": 350677,
+    "lexiconOnlyAgainstOds8Local": 18854,
+    "ods8OnlyAgainstLexiconLocal": 60753,
+    "acceptedByOds8LocalRatio": 0.949,
+    "ods8CoveredByLexiconLocalRatio": 0.8523,
+    "remainingShortWordsOutsideOds8Local": 178,
+    "activeWordsWithMetadata": 369531,
+    "activeWordsWithoutMetadata": 0,
+    "manualReviewedAdditions": 1,
+    "diamManualReviewAccepted": 1,
+    "reviewedWordExplanations": 397,
+    "generatedThreeLetterWordExplanations": 535,
+    "generatedThreeLetterWiktionaryDefinitions": 516,
+    "generatedThreeLetterLexiqueFallbackDefinitions": 19,
+    "generatedFourLetterWordExplanations": 2486,
+    "generatedFourLetterWiktionaryDefinitions": 2401,
+    "generatedFourLetterLexiqueFallbackDefinitions": 85,
+    "generatedFiveLetterWordExplanations": 8362,
+    "generatedFiveLetterWiktionaryDefinitions": 8111,
+    "generatedFiveLetterLexiqueFallbackDefinitions": 251,
+    "generatedSixLetterWordExplanations": 18304,
+    "generatedSixLetterWiktionaryDefinitions": 17891,
+    "generatedSixLetterLexiqueFallbackDefinitions": 413,
+    "wordExplanations": 170129
+  },
+  "shortWordPolicy": {
+    "document": "lexicon/SHORT_WORD_POLICY.md",
+    "structuredPolicy": "lexicon/short-word-policy.json"
+  },
+  "notes": [
+    "Version active dans l’application.",
+    "ODS 8 est utilisé uniquement comme comparaison locale et n’est pas redistribué dans ce lexique.",
+    "Cette version ajoute DIAM après revue manuelle GO B, avec cohérence singulier/pluriel DIAM/DIAMS.",
+    "Les explications pré-calculées couvrent maintenant 170 129 fiches exportées pour les mots courts, rares ou fréquents.",
+    "397 fiches sont revues manuellement ; 535 fiches de mots de 3 lettres sont générées et marquées reviewed=false.",
+    "516 fiches de 3 lettres générées sont préremplies depuis Wiktionnaire ; 19 gardent une explication générique issue des métadonnées Lexique.",
+    "Les pluriels et formes liées réutilisent la définition de leur lemme quand celui-ci existe, sans dupliquer la définition.",
+    "2 486 fiches de 4 lettres sont générées ; 2 401 sont préremplies depuis le dump Wiktionnaire local et 85 gardent un fallback Lexique.",
+    "8 362 fiches de 5 lettres sont générées ; 8 111 sont préremplies depuis le dump Wiktionnaire local et 251 gardent un fallback Lexique.",
+    "18 304 fiches de 6 lettres sont générées ; 17 891 sont préremplies depuis le dump Wiktionnaire local et 413 gardent un fallback Lexique.",
+    "AM a été retiré de la version active : entrée courte ambiguë, absente de la référence ODS 8 locale et associée à une page Wiktionnaire de type SMS (a2m1).",
+    "AC, GA, GI, ID, JA, PA et YA ont été retirés de la version active : mots de 2 lettres hors ODS 8 local et Lefff, avec signaux lexicaux jugés trop ambigus pour le jeu.",
+    "JA reste noté en surveillance : il pourra être réévalué si une source ouverte fiable justifie sa réintégration."
+  ]
+}
