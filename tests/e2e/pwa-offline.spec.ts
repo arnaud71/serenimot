@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
 import {
   addWordFromRack,
   findBestWordForRack,
@@ -8,11 +8,7 @@ import {
 } from "./game-test-utils";
 import { installSeededRandom, startNewGame, waitForAppReady } from "./helpers";
 
-test("charge l'application installable et joue un coup", async ({ browserName, context, page }) => {
-  await installSeededRandom(page, 41);
-  await page.goto("/");
-  await waitForAppReady(page);
-
+const installAndControlServiceWorker = async (page: Page) => {
   const manifestHref = await page.locator("link[rel='manifest']").getAttribute("href");
   expect(manifestHref).toBe("/manifest.webmanifest");
   await expect(page.locator("link[rel='apple-touch-icon']")).toHaveAttribute("href", "/icons/apple-touch-icon.png");
@@ -53,16 +49,26 @@ test("charge l'application installable et joue un coup", async ({ browserName, c
     timeout: 15_000
   });
   await waitForAppReady(page);
+};
 
+test("charge l'application installable", async ({ page }) => {
+  await installSeededRandom(page, 41);
+  await page.goto("/");
+  await waitForAppReady(page);
+  await installAndControlServiceWorker(page);
+  await startNewGame(page);
+  await expect(page.getByRole("heading", { name: "Zone de préparation" })).toBeVisible();
+});
+
+test("joue un coup hors ligne", async ({ browserName, context, page }) => {
   if (browserName === "webkit") {
-    test.info().annotations.push({
-      type: "limitation",
-      description: "Playwright WebKit échoue au rechargement offline avec une erreur interne."
-    });
-    await startNewGame(page);
-    await expect(page.getByRole("heading", { name: "Zone de préparation" })).toBeVisible();
-    return;
+    test.skip(true, "Playwright WebKit échoue au rechargement offline avec une erreur interne.");
   }
+
+  await installSeededRandom(page, 41);
+  await page.goto("/");
+  await waitForAppReady(page);
+  await installAndControlServiceWorker(page);
 
   try {
     await context.setOffline(true);
