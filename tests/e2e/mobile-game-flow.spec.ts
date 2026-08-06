@@ -23,15 +23,36 @@ test("joue un premier tour complet sur téléphone", async ({ page }, testInfo) 
   const word = findBestWordForRack(rackLetters);
   expect(word, `Aucun mot testable avec le chevalet ${rackLetters.join("")}`).not.toBeNull();
 
-  await addWordFromRack(page, word ?? "");
+  const selectedWord = word ?? "";
+  await addWordFromRack(page, selectedWord);
   await expect(page.getByLabel("Chevalet vide")).not.toBeVisible();
+  await expect(page.getByLabel(`Chevalet ${selectedWord}`)).toBeVisible();
 
-  await placeFirstWordAtCenter(page, word ?? "");
+  await page.getByRole("button", { name: /^Retirer la lettre/u }).last().click();
+  await expect(page.getByLabel(`Chevalet ${selectedWord.slice(0, -1)}`)).toBeVisible();
+  await page
+    .getByRole("button", { name: new RegExp(`Ajouter la lettre ${selectedWord.at(-1) ?? ""}, valeur`, "u") })
+    .first()
+    .click();
+  await expect(page.getByLabel(`Chevalet ${selectedWord}`)).toBeVisible();
+
+  await placeFirstWordAtCenter(page, selectedWord);
+  await expect(page.getByRole("button", { name: "Valider" })).toBeEnabled();
+
+  const boardSize = await page.getByRole("grid").evaluate((grid) => Number(grid.getAttribute("aria-rowcount")));
+  const center = Math.floor(boardSize / 2);
+  const pivotIndex = Math.floor(selectedWord.length / 2);
+  await page
+    .getByRole("gridcell", {
+      name: new RegExp(`Ligne ${center + 1}, colonne ${center + 1}, lettre ${selectedWord[pivotIndex]}`, "u")
+    })
+    .click();
+
   await expect(page.getByRole("button", { name: "Valider" })).toBeEnabled();
   await page.getByRole("button", { name: "Valider" }).click();
 
   await expect(getHumanScore(page)).not.toHaveText("0");
-  await expect.poll(() => getOccupiedCellCount(page)).toBeGreaterThanOrEqual((word ?? "").length);
+  await expect.poll(() => getOccupiedCellCount(page)).toBeGreaterThanOrEqual(selectedWord.length);
   await expect(page.getByText("L'ordinateur réfléchit")).toBeVisible({ timeout: 10_000 });
   await expect(page.getByText(/L'ordinateur (pose|passe)/)).toBeVisible({ timeout: 20_000 });
   await expect(page.getByText("À vous de jouer.")).toBeVisible({ timeout: 20_000 });
