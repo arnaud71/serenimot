@@ -2158,6 +2158,10 @@ p {
   margin-bottom: 0.5rem;
 }
 
+.mobile-action-bar {
+  display: none;
+}
+
 .history-actions {
   display: flex;
   gap: 0.28rem;
@@ -2394,7 +2398,7 @@ p {
 
   .game-layout {
     gap: 0.42rem;
-    padding: 0.34rem;
+    padding: 0.34rem 0.34rem calc(4.65rem + env(safe-area-inset-bottom));
   }
 
   .game-topbar {
@@ -2461,14 +2465,41 @@ p {
   }
 
   .builder-actions {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.26rem;
+  }
+
+  .preparation-zone .builder-actions button:nth-child(-n + 3) {
+    display: none;
   }
 
   .builder-actions button {
     min-height: 42px;
     padding: 0.36rem 0.28rem;
     font-size: 0.8rem;
+  }
+
+  .mobile-action-bar {
+    position: fixed;
+    right: 0.34rem;
+    bottom: max(0.34rem, env(safe-area-inset-bottom));
+    left: 0.34rem;
+    z-index: 45;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.32rem;
+    padding: 0.34rem;
+    background: rgb(255 250 241 / 0.96);
+    border: 1px solid rgb(18 51 49 / 0.16);
+    border-radius: 8px;
+    box-shadow: 0 -0.28rem 1rem rgb(18 51 49 / 0.16);
+    backdrop-filter: blur(8px);
+  }
+
+  .mobile-action-bar button {
+    min-height: 46px;
+    padding: 0.42rem 0.28rem;
+    font-size: 0.82rem;
   }
 
   .history-actions {
