@@ -2425,7 +2425,7 @@ p {
   }
 
   .topbar-links button {
-    min-height: 34px;
+    min-height: 38px;
     padding-inline: 0.2rem;
     font-size: 0.64rem;
   }
@@ -2460,11 +2460,11 @@ p {
 
   .topbar-scale-control strong {
     min-width: 0;
-    min-height: 34px;
+    min-height: 38px;
   }
 
   .topbar-scale-control button {
-    min-height: 34px;
+    min-height: 38px;
   }
 
   .board-shell {
@@ -2473,10 +2473,27 @@ p {
 
   .preparation-zone {
     --preparation-gap: 0.22rem;
-    --preparation-tile-size: min(2.5rem, calc((100% - (8 * var(--preparation-gap))) / 9));
+    --preparation-tile-size: min(2.28rem, calc((100% - (8 * var(--preparation-gap))) / 9));
     max-height: min(42svh, 18rem);
-    padding: 0.52rem;
+    padding: 0.42rem 0.48rem;
     border-radius: 6px;
+  }
+
+  .preparation-zone .panel-heading {
+    margin-bottom: 0.32rem;
+  }
+
+  .preparation-zone .panel-heading h2 {
+    font-size: 0.94rem;
+  }
+
+  .preparation-subsection {
+    gap: 0.16rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .preparation-subsection h3 {
+    font-size: 0.82rem;
   }
 
   .builder-actions {
@@ -2488,6 +2505,10 @@ p {
     display: none;
   }
 
+  .preparation-zone .builder-actions button:disabled {
+    display: none;
+  }
+
   .builder-actions button {
     min-height: 42px;
     padding: 0.36rem 0.28rem;
@@ -2495,15 +2516,11 @@ p {
   }
 
   .mobile-action-bar {
-    position: fixed;
-    right: 0.34rem;
-    bottom: max(0.34rem, env(safe-area-inset-bottom));
-    left: 0.34rem;
-    z-index: 45;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.32rem;
-    padding: 0.34rem;
+    gap: 0.28rem;
+    margin: 0.28rem 0 0.38rem;
+    padding: 0.24rem;
     background: rgb(255 250 241 / 0.96);
     border: 1px solid rgb(18 51 49 / 0.16);
     border-radius: 8px;
@@ -2512,7 +2529,7 @@ p {
   }
 
   .mobile-action-bar button {
-    min-height: 46px;
+    min-height: 44px;
     padding: 0.42rem 0.28rem;
     font-size: 0.82rem;
   }
@@ -2564,8 +2581,8 @@ p {
   }
 
   .prepared-word {
-    min-height: 2.5rem;
-    padding: 0.28rem;
+    min-height: 2.28rem;
+    padding: 0.24rem;
   }
 
   .prepared-word-slots {

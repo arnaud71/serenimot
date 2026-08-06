@@ -1314,6 +1314,35 @@ export function GameScreen({
               onRemoveTile={handleRemovePreparedTile}
             />
           </div>
+          <div className="mobile-action-bar" aria-label="Actions rapides">
+            <button
+              type="button"
+              onClick={handleValidate}
+              disabled={isFinished || game.turn.player !== "human" || !canValidate}
+              {...getButtonHintProps("Valide le coup posé sur le plateau.")}
+            >
+              Valider
+            </button>
+            <button
+              className={`secondary-button${hint ? " active-action" : ""}${isHintSearching ? " hint-searching-button" : ""}`}
+              type="button"
+              aria-pressed={Boolean(hint)}
+              onClick={handleHint}
+              disabled={isHintDisabled}
+              {...getButtonHintProps(getHintButtonDescription(hintMode, isHintSearching, hint, hintLevel))}
+            >
+              {hintButtonContent}
+            </button>
+            <button
+              className="secondary-button"
+              type="button"
+              onClick={handlePass}
+              disabled={isFinished || game.turn.player !== "human"}
+              {...getButtonHintProps("Passe votre tour et laisse l'ordinateur jouer.")}
+            >
+              Passer
+            </button>
+          </div>
           <div className="builder-actions">
             <button
               type="button"
@@ -1467,35 +1496,6 @@ export function GameScreen({
       >
         Plateau
       </button>
-      <div className="mobile-action-bar" aria-label="Actions rapides">
-        <button
-          type="button"
-          onClick={handleValidate}
-          disabled={isFinished || game.turn.player !== "human" || !canValidate}
-          {...getButtonHintProps("Valide le coup posé sur le plateau.")}
-        >
-          Valider
-        </button>
-        <button
-          className={`secondary-button${hint ? " active-action" : ""}${isHintSearching ? " hint-searching-button" : ""}`}
-          type="button"
-          aria-pressed={Boolean(hint)}
-          onClick={handleHint}
-          disabled={isHintDisabled}
-          {...getButtonHintProps(getHintButtonDescription(hintMode, isHintSearching, hint, hintLevel))}
-        >
-          {hintButtonContent}
-        </button>
-        <button
-          className="secondary-button"
-          type="button"
-          onClick={handlePass}
-          disabled={isFinished || game.turn.player !== "human"}
-          {...getButtonHintProps("Passe votre tour et laisse l'ordinateur jouer.")}
-        >
-          Passer
-        </button>
-      </div>
       {finalStatus ? (
         <GameOverDialog status={finalStatus} onNewGameRequest={onNewGameRequest} />
       ) : null}
