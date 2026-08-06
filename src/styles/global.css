@@ -2257,11 +2257,15 @@ p {
 @media (max-width: 880px) {
   .game-layout {
     grid-template-columns: 1fr;
+    gap: 0.55rem;
+    min-height: 100svh;
   }
 
   .game-topbar {
     align-items: stretch;
     grid-template-columns: 1fr;
+    gap: 0.45rem;
+    padding: 0.42rem;
   }
 
   .topbar-links,
@@ -2269,13 +2273,85 @@ p {
     justify-content: center;
   }
 
+  .topbar-links {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .topbar-links button,
+  .topbar-scale-control button {
+    min-height: 38px;
+    padding-inline: 0.44rem;
+    font-size: 0.78rem;
+  }
+
   .topbar-score-panel {
     width: min(100%, 24rem);
     margin: 0 auto;
   }
 
+  .topbar-scale-control {
+    display: grid;
+    grid-template-columns: auto 2.45rem minmax(5.5rem, 8rem) 2.45rem;
+    justify-content: center;
+  }
+
+  .game-main {
+    min-height: 0;
+  }
+
+  .board-shell {
+    padding: 0.28rem;
+  }
+
   .game-side {
+    display: grid;
     grid-template-columns: 1fr;
+    gap: 0.55rem;
+  }
+
+  .preparation-zone {
+    position: sticky;
+    bottom: 0.35rem;
+    z-index: 20;
+    max-height: min(46svh, 22rem);
+    overflow: auto;
+    border-color: rgb(18 51 49 / 0.22);
+    box-shadow: 0 -0.35rem 1.4rem rgb(18 51 49 / 0.12);
+  }
+
+  .preparation-zone .panel-heading {
+    gap: 0.42rem;
+  }
+
+  .preparation-zone .panel-heading h2 {
+    font-size: 1rem;
+  }
+
+  .preparation-subsection {
+    gap: 0.28rem;
+    margin-bottom: 0.42rem;
+  }
+
+  .rack {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 0.1rem;
+  }
+
+  .prepared-word {
+    margin-bottom: 0.45rem;
+  }
+
+  .builder-actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .message,
+  .help-panel,
+  .developer-diagnostic {
+    padding: 0.5rem 0.58rem;
   }
 
   .rules-heading,
@@ -2313,19 +2389,116 @@ p {
 
 @media (max-width: 520px) {
   :root {
-    --cell: min(calc(6.6vw * var(--cell-scale)), calc(2rem * var(--cell-scale)));
+    --cell: min(calc(7.15vw * var(--cell-scale)), calc(2.08rem * var(--cell-scale)));
   }
 
   .game-layout {
-    padding: 0.5rem;
+    gap: 0.42rem;
+    padding: 0.34rem;
+  }
+
+  .game-topbar {
+    border-radius: 6px;
+  }
+
+  .topbar-links {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .topbar-links button {
+    min-height: 34px;
+    padding-inline: 0.2rem;
+    font-size: 0.64rem;
+  }
+
+  .topbar-score-panel {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    min-width: 0;
+    width: 100%;
+  }
+
+  .topbar-score-panel div {
+    padding: 0.24rem 0.32rem;
+  }
+
+  .topbar-score-panel span {
+    font-size: 0.58rem;
+  }
+
+  .topbar-score-panel strong {
+    font-size: 0.88rem;
+  }
+
+  .topbar-scale-control {
+    grid-template-columns: auto 2.25rem minmax(4.7rem, 1fr) 2.25rem;
+    width: 100%;
+  }
+
+  .topbar-scale-control span,
+  .topbar-scale-control strong {
+    font-size: 0.72rem;
+  }
+
+  .topbar-scale-control strong {
+    min-width: 0;
+    min-height: 34px;
+  }
+
+  .topbar-scale-control button {
+    min-height: 34px;
+  }
+
+  .board-shell {
+    max-height: 58svh;
+  }
+
+  .preparation-zone {
+    --preparation-gap: 0.22rem;
+    --preparation-tile-size: min(2.5rem, calc((100% - (8 * var(--preparation-gap))) / 9));
+    max-height: min(42svh, 18rem);
+    padding: 0.52rem;
+    border-radius: 6px;
   }
 
   .builder-actions {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.26rem;
   }
 
-  .rack {
-    grid-template-columns: repeat(4, minmax(2.7rem, 1fr));
+  .builder-actions button {
+    min-height: 42px;
+    padding: 0.36rem 0.28rem;
+    font-size: 0.8rem;
+  }
+
+  .history-actions {
+    gap: 0.2rem;
+  }
+
+  .icon-action-button {
+    width: 2.05rem;
+    min-width: 2.05rem;
+    min-height: 2.05rem;
+  }
+
+  .rack,
+  .prepared-word {
+    gap: var(--preparation-gap);
+  }
+
+  .prepared-word {
+    min-height: 2.5rem;
+    padding: 0.28rem;
+  }
+
+  .prepared-word-slots {
+    gap: 0.18rem;
+  }
+
+  .preparation-zone > p {
+    margin-top: 0.35rem;
+    font-size: 0.84rem;
+    line-height: 1.25;
   }
 
   .rules-layout {
