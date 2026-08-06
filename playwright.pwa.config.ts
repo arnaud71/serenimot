@@ -23,6 +23,10 @@ export default defineConfig({
     {
       name: "pwa-chromium",
       use: { ...devices["Desktop Chrome"] }
+    },
+    {
+      name: "pwa-mobile-chrome",
+      use: { ...devices["Pixel 7"] }
     }
   ]
 });
