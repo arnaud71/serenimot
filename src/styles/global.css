@@ -2262,6 +2262,17 @@ p {
   font-weight: 800;
 }
 
+@media (min-width: 881px) and (max-height: 720px) {
+  :root {
+    --cell: min(calc(6.35vh * var(--cell-scale)), calc(2.55rem * var(--cell-scale)));
+  }
+
+  .game-layout {
+    gap: 0.6rem;
+    padding: 0.55rem;
+  }
+}
+
 @media (max-width: 880px) {
   .game-layout {
     grid-template-columns: 1fr;
