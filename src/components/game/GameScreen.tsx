@@ -123,6 +123,7 @@ export function GameScreen({
   const computerSearchRequestIdRef = useRef(0);
   const computerSearchDurationsRef = useRef<number[]>([]);
   const gameIdRef = useRef(game.gameId);
+  const boardSectionRef = useRef<HTMLElement | null>(null);
   const isFinished = isGameFinished(game);
   const finalStatus = game.status?.state === "finished" ? game.status : null;
   const dictionaryWordCount = getDictionarySize().toLocaleString("fr-CH");
@@ -1065,6 +1066,16 @@ export function GameScreen({
     setFloatingScorePreview(null);
   }
 
+  function handleRecenterBoard() {
+    const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+
+    boardSectionRef.current?.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      block: "start",
+      inline: "nearest"
+    });
+  }
+
   function cancelHintSearch() {
     hintSearchRequestIdRef.current += 1;
 
@@ -1173,7 +1184,7 @@ export function GameScreen({
         </div>
       </header>
 
-      <section className="game-main" aria-label="Partie en cours">
+      <section ref={boardSectionRef} className="game-main" aria-label="Partie en cours">
         <BoardView
           board={game.board}
           selectedTileId={selectedTileId ?? (preparedTileIds.length > 0 ? "prepared-word" : null)}
@@ -1402,6 +1413,15 @@ export function GameScreen({
           </section>
         ) : null}
       </aside>
+      <button
+        className="mobile-recenter-board secondary-button"
+        type="button"
+        aria-label="Recentrer le plateau"
+        onClick={handleRecenterBoard}
+        {...getButtonHintProps("Ramène rapidement l'affichage sur le plateau.")}
+      >
+        Plateau
+      </button>
       <div className="mobile-action-bar" aria-label="Actions rapides">
         <button
           type="button"

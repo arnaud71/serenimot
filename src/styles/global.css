@@ -2162,6 +2162,10 @@ p {
   display: none;
 }
 
+.mobile-recenter-board {
+  display: none;
+}
+
 .history-actions {
   display: flex;
   gap: 0.28rem;
@@ -2500,6 +2504,24 @@ p {
     min-height: 46px;
     padding: 0.42rem 0.28rem;
     font-size: 0.82rem;
+  }
+
+  .mobile-recenter-board {
+    position: fixed;
+    right: 0.48rem;
+    bottom: calc(4.1rem + env(safe-area-inset-bottom));
+    z-index: 44;
+    display: inline-grid;
+    min-height: 38px;
+    padding: 0.28rem 0.58rem;
+    place-items: center;
+    color: var(--primary-dark);
+    background: rgb(255 250 241 / 0.94);
+    border: 1px solid rgb(18 51 49 / 0.16);
+    border-radius: 999px;
+    box-shadow: 0 0.22rem 0.8rem rgb(18 51 49 / 0.14);
+    font-size: 0.76rem;
+    backdrop-filter: blur(8px);
   }
 
   .history-actions {
