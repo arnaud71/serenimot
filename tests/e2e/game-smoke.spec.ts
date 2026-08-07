@@ -113,6 +113,57 @@ test("glisse des lettres dans le chevalet sur écran tactile", async ({ page, br
   await expect(page.locator(".prepared-word-tile[data-slot-index='1'] span")).toHaveText(firstBefore ?? "");
 });
 
+test("glisse une lettre déjà posée sur le plateau", async ({ page, browserName }) => {
+  test.skip(browserName !== "chromium", "La simulation tactile fine utilise le protocole DevTools Chromium.");
+
+  await installSeededRandom(page, 14);
+  await page.goto("/");
+  await startNewGame(page);
+
+  const sourceCell = page.locator(".board-cell[data-row='6'][data-col='6']");
+  const targetCell = page.locator(".board-cell[data-row='6'][data-col='7']");
+  const firstRackLetter = await page.locator(".rack-tile").first().locator("span").textContent();
+
+  await sourceCell.click();
+  await page.locator(".rack-tile").first().click();
+  await expect(sourceCell.locator(".board-tile-letter")).toHaveText(firstRackLetter ?? "");
+
+  const client = await page.context().newCDPSession(page);
+  const sourceBox = await sourceCell.boundingBox();
+  const targetBox = await targetCell.boundingBox();
+
+  expect(sourceBox).not.toBeNull();
+  expect(targetBox).not.toBeNull();
+
+  const startX = sourceBox!.x + sourceBox!.width / 2;
+  const startY = sourceBox!.y + sourceBox!.height / 2;
+  const endX = targetBox!.x + targetBox!.width / 2;
+  const endY = targetBox!.y + targetBox!.height / 2;
+
+  await client.send("Input.dispatchTouchEvent", {
+    type: "touchStart",
+    touchPoints: [{ x: startX, y: startY, id: 1 }]
+  });
+
+  for (let step = 1; step <= 8; step += 1) {
+    await client.send("Input.dispatchTouchEvent", {
+      type: "touchMove",
+      touchPoints: [
+        {
+          x: startX + ((endX - startX) * step) / 8,
+          y: startY + ((endY - startY) * step) / 8,
+          id: 1
+        }
+      ]
+    });
+  }
+
+  await client.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+
+  await expect(sourceCell.locator(".board-tile-letter")).toHaveCount(0);
+  await expect(targetCell.locator(".board-tile-letter")).toHaveText(firstRackLetter ?? "");
+});
+
 test("place une lettre dans un emplacement choisi du chevalet", async ({ page }) => {
   await installSeededRandom(page, 10);
   await page.goto("/");

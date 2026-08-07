@@ -88,6 +88,19 @@ const BONUS_HINTS: Record<BonusKind, string> = {
 
 const TILE_DRAG_MIME = "text/serenimot-tile-id";
 const PENDING_WORD_DRAG_MIME = "text/serenimot-pending-word";
+const TOUCH_DRAG_THRESHOLD_PX = 8;
+
+type BoardTouchDragState = {
+  tileId: string;
+  letter: string;
+  value: number;
+  pointerId: number;
+  startX: number;
+  startY: number;
+  x: number;
+  y: number;
+  active: boolean;
+};
 
 export function BoardView({
   board,
@@ -122,7 +135,10 @@ export function BoardView({
   const floatingWordRef = useRef<HTMLDivElement | null>(null);
   const [dragPosition, setDragPosition] = useState<{ x: number; y: number } | null>(null);
   const [isDraggingFloatingWord, setIsDraggingFloatingWord] = useState(false);
+  const [touchDrag, setTouchDrag] = useState<BoardTouchDragState | null>(null);
   const [expandedBonusKey, setExpandedBonusKey] = useState<string | null>(null);
+  const touchDragRef = useRef<BoardTouchDragState | null>(null);
+  const ignoreNextClickRef = useRef(false);
   const center = getBoardCenter(board);
 
   useEffect(() => {
@@ -203,6 +219,86 @@ export function BoardView({
     }
   }
 
+  function handleTilePointerDown(
+    event: PointerEvent<HTMLButtonElement>,
+    tileId: string,
+    letter: string,
+    value: number
+  ) {
+    if (event.pointerType === "mouse") {
+      return;
+    }
+
+    event.currentTarget.setPointerCapture(event.pointerId);
+    const nextDrag = {
+      tileId,
+      letter,
+      value,
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      x: event.clientX,
+      y: event.clientY,
+      active: false
+    };
+    touchDragRef.current = nextDrag;
+    setTouchDrag(nextDrag);
+  }
+
+  function handleTilePointerMove(event: PointerEvent<HTMLButtonElement>) {
+    const currentDrag = touchDragRef.current;
+
+    if (!currentDrag || currentDrag.pointerId !== event.pointerId) {
+      return;
+    }
+
+    const distance = Math.hypot(event.clientX - currentDrag.startX, event.clientY - currentDrag.startY);
+    const active = currentDrag.active || distance >= TOUCH_DRAG_THRESHOLD_PX;
+
+    if (active) {
+      event.preventDefault();
+      ignoreNextClickRef.current = true;
+    }
+
+    const nextDrag = {
+      ...currentDrag,
+      x: event.clientX,
+      y: event.clientY,
+      active
+    };
+    touchDragRef.current = nextDrag;
+    setTouchDrag(nextDrag);
+  }
+
+  function handleTilePointerUp(event: PointerEvent<HTMLButtonElement>) {
+    const currentDrag = touchDragRef.current;
+
+    if (!currentDrag || currentDrag.pointerId !== event.pointerId) {
+      return;
+    }
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+
+    touchDragRef.current = null;
+    setTouchDrag(null);
+
+    if (!currentDrag.active) {
+      return;
+    }
+
+    event.preventDefault();
+    ignoreNextClickRef.current = true;
+    const boardCell = document.elementFromPoint(event.clientX, event.clientY)?.closest(".board-cell");
+    const row = Number((boardCell as HTMLElement | null)?.dataset.row);
+    const col = Number((boardCell as HTMLElement | null)?.dataset.col);
+
+    if (Number.isInteger(row) && Number.isInteger(col)) {
+      onTileDrop(currentDrag.tileId, row, col);
+    }
+  }
+
   return (
     <div className="board-shell" aria-label="Plateau de jeu">
       <div className="board-stage">
@@ -268,18 +364,35 @@ export function BoardView({
                   aria-pressed={isPreparedBoardTile || isSelectedBoardCell}
                   draggable={Boolean(tile && !tile.committed)}
                   onClick={() => {
+                    if (ignoreNextClickRef.current) {
+                      ignoreNextClickRef.current = false;
+                      return;
+                    }
+
                     setExpandedBonusKey(cell.bonus === "plain" || expandedBonusKey === cellKey ? null : cellKey);
                     onCellClick(cell.row, cell.col);
                   }}
                   onDoubleClick={() => onCellDoubleClick(cell.row, cell.col)}
                   onDragStart={(event) => {
                     if (tile && !tile.committed) {
-                      event.dataTransfer.setData(PENDING_WORD_DRAG_MIME, `${cell.row}:${cell.col}`);
+                      event.dataTransfer.setData(TILE_DRAG_MIME, tile.id);
+                      event.dataTransfer.setData("text/plain", tile.id);
                       event.dataTransfer.effectAllowed = "move";
                     }
                   }}
                   onDragOver={(event) => event.preventDefault()}
                   onDrop={(event) => handleBoardDrop(event, cell.row, cell.col, onTileDrop, onPendingWordDrop)}
+                  onPointerDown={(event) => {
+                    if (tile && !tile.committed && tile.owner === "human") {
+                      handleTilePointerDown(event, tile.id, tile.letter, tile.value);
+                    }
+                  }}
+                  onPointerMove={handleTilePointerMove}
+                  onPointerCancel={() => {
+                    touchDragRef.current = null;
+                    setTouchDrag(null);
+                  }}
+                  onPointerUp={handleTilePointerUp}
                 >
                   {tile ? (
                     <span className={`board-tile ${tile.committed ? "committed" : "pending"} ${isPendingWordSelected && !tile.committed && tile.owner === "human" ? "selected-pending-word-tile" : ""} ${isPreparedBoardTile ? "selected-board-tile" : ""} ${isAnimatedCell ? "computer-move-tile" : ""} ${isInvalidCell ? "invalid-board-tile" : ""}`}>
@@ -311,6 +424,16 @@ export function BoardView({
           )}
         </div>
         {boardScorePreview ? <BoardScoreBadge preview={boardScorePreview} /> : null}
+        {touchDrag?.active ? (
+          <span
+            className="touch-drag-tile"
+            style={{ left: `${touchDrag.x}px`, top: `${touchDrag.y}px` }}
+            aria-hidden="true"
+          >
+            <span>{touchDrag.letter}</span>
+            <small>{touchDrag.value}</small>
+          </span>
+        ) : null}
         {floatingPreparedWord ? (
           <FloatingPreparedWord
             dragPosition={dragPosition}
