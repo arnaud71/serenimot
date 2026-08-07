@@ -166,6 +166,30 @@ test("priorise la case du plateau choisie sur le chevalet", async ({ page }) => 
   await expect(page.locator(".prepared-word-tile")).toHaveCount(1);
 });
 
+test("retire seulement la lettre du plateau cliquée", async ({ page }) => {
+  await installSeededRandom(page, 13);
+  await page.goto("/");
+  await startNewGame(page);
+
+  const firstCell = page.locator(".board-cell[data-row='6'][data-col='6']");
+  const secondCell = page.locator(".board-cell[data-row='6'][data-col='7']");
+  const firstLetter = await page.locator(".rack-tile").first().locator("span").textContent();
+  const secondLetter = await page.locator(".rack-tile").nth(1).locator("span").textContent();
+
+  await firstCell.click();
+  await page.locator(".rack-tile").first().click();
+  await secondCell.click();
+  await page.locator(".rack-tile").first().click();
+
+  await expect(firstCell.locator(".board-tile-letter")).toHaveText(firstLetter ?? "");
+  await expect(secondCell.locator(".board-tile-letter")).toHaveText(secondLetter ?? "");
+
+  await firstCell.click();
+
+  await expect(firstCell.locator(".board-tile-letter")).toHaveCount(0);
+  await expect(secondCell.locator(".board-tile-letter")).toHaveText(secondLetter ?? "");
+});
+
 test("cherche un indice sans bloquer l'interface", async ({ page }) => {
   const browserErrors = collectBrowserErrors(page);
 

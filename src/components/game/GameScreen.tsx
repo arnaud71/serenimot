@@ -497,33 +497,18 @@ export function GameScreen({
     const cellTile = game.board[row][col].tile;
     const hasPendingTiles = getPlacedTiles(game.board).length > 0;
     if (cellTile && !cellTile.committed && cellTile.owner === "human" && pendingTurnWord) {
-      const rotated = rotatePendingTurnWordAroundTile(game, cellTile, pendingTurnWord);
       clearHint();
+      const removedTile = removeHumanTurnTile(game, cellTile.id);
 
-      if (!rotated.ok) {
+      if (removedTile.ok) {
         pushUndoPoint();
-        setInvalidCellKeys([`${row}:${col}`]);
-      }
-
-      if (rotated.ok) {
-        pushUndoPoint();
-      }
-
-      onGameChange(
-        rotated.ok
-          ? rotated.state
-          : {
-              ...rotated.state,
-              message: {
-                tone: "notice",
-                text: rotated.reason
-              }
-            }
-      );
-      if (rotated.ok) {
-        setPreparedTileIds(getPendingTurnTileIds(rotated.state));
+        setPreparedTileIds(getPendingTurnTileIds(removedTile.state));
         setIsPendingWordSelected(false);
+        setSelectedBoardCell(null);
+        setSelectedPreparedSlotIndex(null);
+        onGameChange(removedTile.state);
       }
+
       setSelectedTileId(null);
       return;
     }
@@ -2016,40 +2001,6 @@ function getAnchoredPendingWordDropCell(
   return pendingTurnWord.direction === "row"
     ? { row: targetRow, col: targetCol - offset }
     : { row: targetRow - offset, col: targetCol };
-}
-
-function rotatePendingTurnWordAroundTile(
-  game: GameState,
-  pivotTile: PlacedTile,
-  pendingTurnWord: BoardFloatingWord
-): ReturnType<typeof moveHumanTurnWord> {
-  const orderedTileIds = getPendingTurnTileIds(game);
-  const pivotIndex = orderedTileIds.indexOf(pivotTile.id);
-
-  if (pivotIndex < 0) {
-    return { ok: false, reason: "Cette lettre ne fait pas partie du mot en cours.", state: game };
-  }
-
-  const nextDirection: PlacementDirection = pendingTurnWord.direction === "row" ? "col" : "row";
-  const hasCommittedTiles = hasCommittedTileOnBoard(game);
-  const center = getBoardCenter(game.board);
-  const centerIndex = Math.floor(pendingTurnWord.word.length / 2);
-  const row = hasCommittedTiles
-    ? nextDirection === "col"
-      ? pivotTile.row - pivotIndex
-      : pivotTile.row
-    : nextDirection === "col"
-      ? center - centerIndex
-      : center;
-  const col = hasCommittedTiles
-    ? nextDirection === "row"
-      ? pivotTile.col - pivotIndex
-      : pivotTile.col
-    : nextDirection === "row"
-      ? center - centerIndex
-      : center;
-
-  return moveHumanTurnWord(game, row, col, nextDirection);
 }
 
 function getFloatingPlacementScore(
