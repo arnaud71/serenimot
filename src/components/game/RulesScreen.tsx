@@ -6,6 +6,7 @@ import { BonusKind, RACK_SIZE } from "../../domain/tiles/types";
 type RulesScreenProps = {
   hasGame: boolean;
   onBack: () => void;
+  onLexiconRequest: () => void;
 };
 
 const BONUS_RULES: Array<{
@@ -21,7 +22,66 @@ const BONUS_RULES: Array<{
   { kind: "word3", label: "Mx3", name: "Mot triplé", description: "triple le score du mot formé" }
 ];
 
-export function RulesScreen({ hasGame, onBack }: RulesScreenProps) {
+const INTERACTION_GUIDES = [
+  {
+    title: "Vue générale sur ordinateur",
+    image: "/static/docs/interactions/01-desktop-game-overview.png",
+    alt: "Vue générale de la partie sur ordinateur avec le plateau et la zone de préparation.",
+    description:
+      "Le plateau occupe la zone principale. La réserve, le chevalet, les actions et les messages restent visibles à droite."
+  },
+  {
+    title: "Sélectionner une case vide",
+    image: "/static/docs/interactions/02-board-empty-cell-selected.png",
+    alt: "Case vide sélectionnée sur le plateau.",
+    description:
+      "Touchez ou cliquez une case vide pour la choisir comme destination. La case sélectionnée est mise en évidence."
+  },
+  {
+    title: "Poser une lettre depuis la réserve",
+    image: "/static/docs/interactions/03-board-letter-placed-from-rack.png",
+    alt: "Lettre posée sur la case sélectionnée depuis les lettres disponibles.",
+    description:
+      "Après avoir choisi une case, touchez une lettre disponible. Elle est posée immédiatement sur le plateau."
+  },
+  {
+    title: "Déplacer une lettre déjà posée",
+    image: "/static/docs/interactions/06-board-letter-moved-to-selected-cell.png",
+    alt: "Lettre déjà posée déplacée vers une case précédemment sélectionnée.",
+    description:
+      "Si une case vide est déjà sélectionnée, touchez une lettre posée pendant le tour pour la déplacer vers cette case."
+  },
+  {
+    title: "Préparer un mot dans le chevalet",
+    image: "/static/docs/interactions/08-prepared-word-in-rack.png",
+    alt: "Mot préparé dans le chevalet avant d'être posé.",
+    description:
+      "Le chevalet permet d'organiser plusieurs lettres avant de poser le mot en une seule action. Il reste possible de déplacer les lettres dans le chevalet avant la pose."
+  },
+  {
+    title: "Poser un mot préparé",
+    image: "/static/docs/interactions/09-prepared-word-placed-on-board.png",
+    alt: "Mot préparé posé sur le plateau.",
+    description:
+      "Quand plusieurs lettres sont préparées, touchez une case compatible. Le jeu cherche une pose horizontale ou verticale valide à partir de cette case."
+  },
+  {
+    title: "Vue smartphone",
+    image: "/static/docs/interactions/10-mobile-game-overview.png",
+    alt: "Vue générale de la partie sur smartphone.",
+    description:
+      "Sur téléphone, le plateau reste prioritaire et la zone de préparation est placée sous le plateau."
+  },
+  {
+    title: "Actions rapides mobiles",
+    image: "/static/docs/interactions/12-mobile-quick-actions.png",
+    alt: "Barre d'actions rapides sur smartphone.",
+    description:
+      "La barre mobile regroupe les actions utiles pendant le tour : valider, demander un indice, passer, reprendre et effacer."
+  }
+];
+
+export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenProps) {
   const totalTiles = LETTER_DISTRIBUTION.reduce((total, entry) => total + entry.count, 0);
   const board = createBoard();
   const bonusCounts = new Map<BonusKind, number>();
@@ -55,11 +115,11 @@ export function RulesScreen({ hasGame, onBack }: RulesScreenProps) {
           <article className="rules-section">
             <h2>Tour de jeu</h2>
             <ul>
-              <li>Préparez un mot avec les lettres du chevalet.</li>
-              <li>Choisissez le sens horizontal ou vertical.</li>
-              <li>Touchez la case de départ ou déplacez le mot flottant.</li>
+              <li>Posez les lettres une par une ou préparez un mot dans le chevalet.</li>
+              <li>Touchez une case vide du plateau pour choisir la destination d'une lettre.</li>
+              <li>Touchez une case compatible pour poser un mot préparé de plusieurs lettres.</li>
               <li>Validez seulement quand le mot est correct.</li>
-              <li>Vous pouvez retirer, effacer ou annuler votre coup avant validation.</li>
+              <li>Vous pouvez déplacer, retirer, reprendre, effacer ou annuler votre coup avant validation.</li>
             </ul>
           </article>
 
@@ -73,6 +133,58 @@ export function RulesScreen({ hasGame, onBack }: RulesScreenProps) {
               <li>Les mots croisés créés doivent aussi exister dans le dictionnaire.</li>
             </ul>
           </article>
+        </section>
+
+        <section className="rules-section" aria-labelledby="interaction-doc-title">
+          <h2 id="interaction-doc-title">Documentation des interactions</h2>
+          <p>
+            Le jeu propose toujours une alternative au glisser-déposer. Les gestes principaux
+            fonctionnent à la souris, au trackpad ou au toucher selon l'appareil.
+          </p>
+          <div className="interaction-guide-grid">
+            {INTERACTION_GUIDES.map((guide) => (
+              <figure className="interaction-guide-card" key={guide.image}>
+                <img src={guide.image} alt={guide.alt} loading="lazy" />
+                <figcaption>
+                  <strong>{guide.title}</strong>
+                  <span>{guide.description}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          <div className="interaction-summary" role="list" aria-label="Résumé des gestes">
+            <p role="listitem">
+              <strong>Case vide du plateau.</strong> Elle devient la destination sélectionnée.
+            </p>
+            <p role="listitem">
+              <strong>Case sélectionnée puis lettre disponible.</strong> La lettre est posée sur
+              cette case.
+            </p>
+            <p role="listitem">
+              <strong>Case sélectionnée puis lettre déjà posée ce tour.</strong> La lettre est
+              déplacée vers cette case.
+            </p>
+            <p role="listitem">
+              <strong>Lettre déjà posée, sans case sélectionnée.</strong> Seule cette lettre est
+              retirée du plateau.
+            </p>
+            <p role="listitem">
+              <strong>Emplacement vide du chevalet puis lettre.</strong> La lettre se déplace vers
+              cet emplacement.
+            </p>
+            <p role="listitem">
+              <strong>Glisser-déposer.</strong> Il reste possible depuis la réserve, le chevalet ou
+              une lettre déjà posée.
+            </p>
+            <p role="listitem">
+              <strong>Lettre déjà validée.</strong> Elle peut servir de repère dans un mot préparé si
+              elle correspond à la lettre attendue.
+            </p>
+          </div>
+          <p>
+            La version complète destinée au dépôt, avec toutes les captures, est disponible dans :
+            docs/interactions.md.
+          </p>
         </section>
 
         <section className="rules-section" aria-labelledby="score-title">
@@ -125,6 +237,51 @@ export function RulesScreen({ hasGame, onBack }: RulesScreenProps) {
             Le prototype utilise {DICTIONARY_LABEL}, un dictionnaire local basé sur{" "}
             {ORIGINAL_LEXICON_LABEL}. Les accents sont normalisés pour comparer les mots avec les
             lettres du jeu.
+          </p>
+          <button type="button" onClick={onLexiconRequest}>
+            Voir la page Lexique
+          </button>
+        </section>
+
+        <section className="rules-section" aria-labelledby="anti-confusion-title">
+          <h2 id="anti-confusion-title">Anti-confusion</h2>
+          <p>
+            Sérénimot est un jeu original et indépendant de lettres croisées sur grille. Il n'est
+            pas affilié à Scrabble, Mattel, Hasbro, Larousse, la FISF ou une fédération de jeu de
+            lettres.
+          </p>
+          <p>
+            Le jeu utilise son propre nom, son propre plateau, sa propre disposition de bonus, ses
+            propres règles, son propre système de score et un lexique ouvert documenté. Il ne reprend
+            pas le plateau officiel, les règles officielles ni un dictionnaire officiel de
+            compétition.
+          </p>
+        </section>
+
+        <section className="rules-section" aria-labelledby="about-title">
+          <h2 id="about-title">À propos de l'application</h2>
+          <p>
+            Sérénimot fonctionne localement dans votre navigateur ou dans l'application installée.
+            Aucune inscription n'est demandée, aucune donnée personnelle n'est collectée et aucune
+            publicité n'est affichée.
+          </p>
+          <p>
+            L'application est actuellement hébergée gratuitement avec GitHub Pages. Elle a été
+            conçue en vibecoding avec Codex, dans l'idée de créer rapidement une application
+            directement utilisable, facile à prendre en main et sans compte utilisateur.
+          </p>
+          <p>
+            Le projet devait d'abord tourner confortablement sur ordinateur. Une version smartphone
+            et tablette a ensuite été ajoutée, avec le risque assumé que l'interface tactile soit un
+            peu plus dense ou plus complexe selon la taille de l'écran.
+          </p>
+          <p>
+            La baisse du coût de développement pourrait encourager un mouvement similaire pour des
+            jeux captifs, sobres, indépendants, sans publicité et adaptés à des usages précis.
+          </p>
+          <p>
+            Vous pouvez me joindre à arnaud point gaudinat arobas gmail point com. Je ne garantis
+            pas une réponse ; merci par avance pour votre compréhension.
           </p>
         </section>
       </section>

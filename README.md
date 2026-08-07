@@ -1,10 +1,14 @@
 # Sérénimot
 
-Jeu original de lettres croisées sur grille, installable comme PWA.
+Jeu original de lettres croisées sur grille, sans compte, sans publicité, jouable hors ligne et installable comme PWA.
 
 Sérénimot est un jeu original de lettres croisées sur grille. Cette première base vise un prototype local simple : commencer une partie, placer des lettres par sélection puis clic ou toucher, annuler son coup, valider des mots avec un dictionnaire local, sauvegarder et reprendre.
 
 Accroche de travail : « Les mots, à votre rythme. »
+
+## Pour qui ?
+
+Sérénimot s'adresse aux personnes qui aiment les jeux de lettres sur grille et souhaitent une expérience plus calme, sans inscription, sans publicité et utilisable sur ordinateur, tablette ou smartphone.
 
 ## Installation développeur
 
@@ -41,6 +45,14 @@ Le code de l'application est distribué sous licence MIT. Les ressources lexical
 ## Avertissement
 
 Sérénimot est un projet indépendant. Il n'est pas affilié à Scrabble, Mattel, Hasbro, Larousse, la FISF ou une fédération de jeu de lettres. Le lexique inclus est une ressource ouverte adaptée au projet ; il ne constitue pas un dictionnaire officiel de compétition.
+
+## Anti-confusion
+
+### Sérénimot est-il une version de Scrabble ?
+
+Non. Sérénimot est un jeu original et indépendant de lettres croisées sur grille. Il s'inspire du plaisir général des jeux de lettres, mais il utilise son propre nom, son propre plateau, ses propres règles, son propre système de score et un lexique ouvert documenté.
+
+Le dépôt ne doit donc pas être présenté comme une copie, une variante officielle ou une application affiliée à Scrabble. Toute comparaison éventuelle doit rester descriptive et ne pas laisser croire à un partenariat.
 
 ## État du prototype
 

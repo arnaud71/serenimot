@@ -1539,9 +1539,10 @@ export function GameScreen({
         <details className="help-panel">
           <summary>Aide</summary>
           <p>
-            Touchez les lettres pour préparer un mot, choisissez le sens, puis touchez la case de
-            départ sur le plateau. Le premier mot doit passer par la case centrale. Le dictionnaire
-            actuel est {DICTIONARY_LABEL} avec {dictionaryWordCount} mots.
+            Touchez une case vide puis une lettre pour poser lettre par lettre, ou préparez plusieurs
+            lettres dans le chevalet puis touchez une case compatible pour poser le mot. Le premier
+            mot doit passer par la case centrale. Le dictionnaire actuel est {DICTIONARY_LABEL} avec{" "}
+            {dictionaryWordCount} mots.
           </p>
         </details>
         {import.meta.env.DEV && developerMode && searchDiagnostic ? (

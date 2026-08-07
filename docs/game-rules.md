@@ -18,11 +18,15 @@ Chaque joueur reçoit 8 lettres. La pioche est mélangée au début d'une nouvel
 
 ## Préparation et placement
 
-Le joueur peut préparer un mot en touchant plusieurs lettres du chevalet, choisir le sens horizontal ou vertical, puis toucher la case de départ sur le plateau. Le mot entier est posé en une seule action si toutes les cases sont disponibles.
+Le joueur peut poser une lettre en touchant d'abord une case vide du plateau, puis une lettre disponible. La même logique permet de déplacer une lettre déjà posée pendant le tour : une case vide est choisie, puis la lettre posée est touchée.
+
+Le joueur peut aussi préparer un mot en touchant plusieurs lettres du chevalet, puis toucher une case compatible sur le plateau. Le jeu cherche une pose horizontale ou verticale valide à partir de cette case. Le mot entier est posé en une seule action si les cases sont compatibles et si le coup respecte les règles de validation.
 
 Si le mot préparé traverse une lettre déjà posée et que cette lettre correspond, la case existante est utilisée comme repère et la tuile préparée correspondante reste dans le chevalet.
 
 Le joueur peut aussi toucher une lettre déjà validée sur le plateau pour l'ajouter au mot préparé. Cette lettre sert de repère, n'est pas consommée dans le chevalet et peut être retirée avec `Retirer` ou `Effacer`.
+
+Dans le chevalet, le joueur peut sélectionner un emplacement vide puis toucher une lettre du chevalet pour la déplacer vers cet emplacement. Le glisser-déposer reste disponible, mais n'est pas obligatoire.
 
 Le premier mot doit passer par la case centrale. Les lettres posées pendant le tour doivent rester sur une même ligne ou une même colonne. Le mot principal doit être continu, sans case vide entre les lettres posées ou déjà présentes.
 
@@ -49,3 +53,9 @@ L'adversaire facile joue localement. Il cherche un mot court du dictionnaire act
 Le bouton `Indice` propose le meilleur mot trouvé localement avec le chevalet actuel et le dictionnaire actuel. Il indique le mot, le sens, la ligne, la colonne et le score estimé.
 
 Lorsque l'indice est affiché, les lettres nécessaires sont préparées dans le chevalet et le joueur peut utiliser le bouton `Valider` pour jouer cette proposition.
+
+## Anti-confusion
+
+Sérénimot est un jeu original et indépendant de lettres croisées sur grille. Il n'est pas affilié à Scrabble, Mattel, Hasbro, Larousse, la FISF ou une fédération de jeu de lettres.
+
+Le jeu utilise son propre nom, son propre plateau, sa propre disposition de bonus, ses propres règles, son propre système de score et un lexique ouvert documenté. Il ne reprend pas le plateau officiel, les règles officielles ni un dictionnaire officiel de compétition.

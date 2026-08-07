@@ -1,7 +1,7 @@
 {
   "name": "Sérénimot",
   "short_name": "Sérénimot",
-  "description": "Un jeu original de lettres croisées sur grille.",
+  "description": "Jeu original de lettres croisées sur grille, sans compte, sans publicité, jouable hors ligne et installable comme PWA.",
   "id": "ch.serenimot.app",
   "start_url": ".",
   "scope": ".",
