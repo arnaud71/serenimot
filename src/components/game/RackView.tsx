@@ -5,6 +5,7 @@ import { Rack } from "../../domain/tiles/types";
 type RackViewProps = {
   rack: Rack;
   preparedTileIds: string[];
+  selectedBoardCell: { row: number; col: number } | null;
   selectedPreparedSlotIndex: number | null;
   onAddTile: (tileId: string) => void;
   onBoardDrop: (tileId: string, row: number, col: number) => void;
@@ -31,6 +32,7 @@ const TOUCH_DRAG_THRESHOLD_PX = 8;
 export function RackView({
   rack,
   preparedTileIds,
+  selectedBoardCell,
   selectedPreparedSlotIndex,
   onAddTile,
   onBoardDrop,
@@ -157,9 +159,11 @@ export function RackView({
               key={tile.id}
               type="button"
               aria-label={
-                selectedPreparedSlotIndex === null
-                  ? `Ajouter la lettre ${tile.letter}, valeur ${tile.value}`
-                  : `Placer la lettre ${tile.letter}, valeur ${tile.value}, dans l'emplacement ${selectedPreparedSlotIndex + 1}`
+                selectedBoardCell
+                  ? `Poser la lettre ${tile.letter}, valeur ${tile.value}, ligne ${selectedBoardCell.row + 1}, colonne ${selectedBoardCell.col + 1}`
+                  : selectedPreparedSlotIndex === null
+                    ? `Ajouter la lettre ${tile.letter}, valeur ${tile.value}`
+                    : `Placer la lettre ${tile.letter}, valeur ${tile.value}, dans l'emplacement ${selectedPreparedSlotIndex + 1}`
               }
               onClick={() => {
                 if (ignoreNextClickRef.current) {

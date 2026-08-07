@@ -77,12 +77,18 @@ type UndoSnapshot = {
   game: GameState;
   preparedTileSlots: (string | null)[];
   selectedTileId: string | null;
+  selectedBoardCell: SelectedBoardCell | null;
   hint: BestMoveHint | null;
   hintLevel: HintLevel;
   isPendingWordSelected: boolean;
   errorPreviewCells: BoardPreviewCell[];
   invalidCellKeys: string[];
   floatingScorePreview: number | null;
+};
+
+type SelectedBoardCell = {
+  row: number;
+  col: number;
 };
 
 export function GameScreen({
@@ -106,6 +112,7 @@ export function GameScreen({
   onIncreaseInterfaceScale
 }: GameScreenProps) {
   const [selectedTileId, setSelectedTileId] = useState<string | null>(null);
+  const [selectedBoardCell, setSelectedBoardCell] = useState<SelectedBoardCell | null>(null);
   const [preparedTileSlots, setPreparedTileSlots] = useState<(string | null)[]>(() => createEmptyPreparedSlots());
   const [selectedPreparedSlotIndex, setSelectedPreparedSlotIndex] = useState<number | null>(null);
   const [hint, setHint] = useState<BestMoveHint | null>(null);
@@ -242,6 +249,7 @@ export function GameScreen({
       game: cloneGameState(game),
       preparedTileSlots: [...preparedTileSlots],
       selectedTileId,
+      selectedBoardCell,
       hint: cloneHint(hint),
       hintLevel,
       isPendingWordSelected,
@@ -257,6 +265,7 @@ export function GameScreen({
       snapshot.errorPreviewCells.length > 0 || snapshot.invalidCellKeys.length > 0 || snapshot.floatingScorePreview !== null;
 
     setSelectedTileId(snapshot.selectedTileId);
+    setSelectedBoardCell(snapshot.selectedBoardCell);
     setPreparedTileSlots(snapshot.preparedTileSlots);
     setIsPendingWordSelected(snapshot.isPendingWordSelected);
     setHint(snapshot.hint);
@@ -290,6 +299,7 @@ export function GameScreen({
     clearUndoHistory();
     setPreparedTileSlots(createEmptyPreparedSlots());
     setSelectedTileId(null);
+    setSelectedBoardCell(null);
     setSelectedPreparedSlotIndex(null);
     clearHint();
     clearErrorHighlights();
@@ -610,6 +620,21 @@ export function GameScreen({
     }
 
     if (!selectedTileId) {
+      if (!cellTile) {
+        setSelectedBoardCell((currentCell) =>
+          currentCell?.row === row && currentCell.col === col ? null : { row, col }
+        );
+        setSelectedPreparedSlotIndex(null);
+        onGameChange({
+          ...game,
+          message: {
+            tone: "info",
+            text: "Case choisie. Touchez une lettre dans vos lettres pour la poser ici."
+          }
+        });
+        return;
+      }
+
       onGameChange({
         ...game,
         message: {
@@ -622,6 +647,7 @@ export function GameScreen({
 
     const result = placeTile(game, selectedTileId, row, col);
     clearHint();
+    setSelectedBoardCell(null);
     pushUndoPoint();
     onGameChange(
       result.ok
@@ -648,6 +674,8 @@ export function GameScreen({
 
     clearErrorHighlights();
     clearHint();
+    setSelectedBoardCell(null);
+    setSelectedPreparedSlotIndex(null);
 
     const result = placeTile(game, tileId, row, col);
     pushUndoPoint();
@@ -794,6 +822,7 @@ export function GameScreen({
     const completeHint = isCompleteHintVisible ? hint : null;
 
     setSelectedTileId(null);
+    setSelectedBoardCell(null);
     clearHint();
     clearErrorHighlights();
 
@@ -843,6 +872,7 @@ export function GameScreen({
     cancelHintSearch();
     setSelectedTileId(null);
     setPreparedTileIds([]);
+    setSelectedBoardCell(null);
     setSelectedPreparedSlotIndex(null);
     setIsPendingWordSelected(false);
     clearHint();
@@ -884,6 +914,7 @@ export function GameScreen({
     pushUndoPoint();
     clearHint();
     setPreparedTileSlots(createEmptyPreparedSlots());
+    setSelectedBoardCell(null);
     setSelectedPreparedSlotIndex(null);
     setIsPendingWordSelected(false);
     clearErrorHighlights();
@@ -908,6 +939,7 @@ export function GameScreen({
     setHintLevel(nextHintLevel);
     setIsPendingWordSelected(false);
     setSelectedTileId(null);
+    setSelectedBoardCell(null);
     setSelectedPreparedSlotIndex(null);
     clearErrorHighlights();
 
@@ -1026,13 +1058,20 @@ export function GameScreen({
       return;
     }
 
+    if (selectedBoardCell) {
+      handleTileDropOnBoard(tileId, selectedBoardCell.row, selectedBoardCell.col);
+      return;
+    }
+
     const targetIndex = selectedPreparedSlotIndex ?? getAppendPreparedSlotIndex(preparedTileSlots);
 
     pushUndoPoint();
     setSelectedTileId(null);
+    setSelectedBoardCell(null);
     setSelectedPreparedSlotIndex(null);
     clearHint();
     setIsPendingWordSelected(false);
+    setSelectedBoardCell(null);
     clearErrorHighlights();
     setPreparedTileSlots((currentSlots) => placeTileIdInPreparedSlot(currentSlots, tileId, targetIndex, game));
   }
@@ -1044,6 +1083,7 @@ export function GameScreen({
 
     pushUndoPoint();
     setSelectedTileId(null);
+    setSelectedBoardCell(null);
     setSelectedPreparedSlotIndex(null);
     clearHint();
     setIsPendingWordSelected(false);
@@ -1066,6 +1106,7 @@ export function GameScreen({
 
     clearHint();
     setIsPendingWordSelected(false);
+    setSelectedBoardCell(null);
     setSelectedPreparedSlotIndex(null);
     clearErrorHighlights();
     pushUndoPoint();
@@ -1243,6 +1284,7 @@ export function GameScreen({
         <BoardView
           board={game.board}
           selectedTileId={selectedTileId ?? (preparedTileIds.length > 0 ? "prepared-word" : null)}
+          selectedBoardCellKey={selectedBoardCell ? `${selectedBoardCell.row}:${selectedBoardCell.col}` : null}
           hint={isCompleteHintVisible ? hint : null}
           hintAreaCellKeys={hintAreaCellKeys}
           hintAnchorCellKeys={hintAnchorCellKeys}
@@ -1310,6 +1352,7 @@ export function GameScreen({
           <RackView
             rack={game.racks.human}
             preparedTileIds={preparedTileIds}
+            selectedBoardCell={selectedBoardCell}
             selectedPreparedSlotIndex={selectedPreparedSlotIndex}
             onAddTile={handleAddPreparedTile}
             onBoardDrop={handleTileDropOnBoard}
@@ -1329,9 +1372,10 @@ export function GameScreen({
               onInsertTile={handleInsertPreparedTile}
               onMoveTileToEnd={handleMovePreparedTileToEnd}
               onRemoveTile={handleRemovePreparedTile}
-              onSelectSlot={(slotIndex) =>
-                setSelectedPreparedSlotIndex((currentIndex) => (currentIndex === slotIndex ? null : slotIndex))
-              }
+              onSelectSlot={(slotIndex) => {
+                setSelectedBoardCell(null);
+                setSelectedPreparedSlotIndex((currentIndex) => (currentIndex === slotIndex ? null : slotIndex));
+              }}
             />
           </div>
           <div className="mobile-action-bar" aria-label="Actions rapides">

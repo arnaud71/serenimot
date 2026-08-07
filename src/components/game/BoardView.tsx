@@ -7,6 +7,7 @@ import type { BestMoveHint } from "../../domain/turns/hints";
 type BoardViewProps = {
   board: Board;
   selectedTileId: string | null;
+  selectedBoardCellKey: string | null;
   hint: BestMoveHint | null;
   hintAreaCellKeys: string[];
   hintAnchorCellKeys: string[];
@@ -91,6 +92,7 @@ const PENDING_WORD_DRAG_MIME = "text/serenimot-pending-word";
 export function BoardView({
   board,
   selectedTileId,
+  selectedBoardCellKey,
   hint,
   hintAreaCellKeys,
   hintAnchorCellKeys,
@@ -225,6 +227,7 @@ export function BoardView({
               const isNewWordCell = newWordCellKeys.includes(`${cell.row}:${cell.col}`);
               const isLastMoveCell = lastMoveCellKeys.includes(`${cell.row}:${cell.col}`);
               const cellKey = `${cell.row}:${cell.col}`;
+              const isSelectedBoardCell = selectedBoardCellKey === cellKey;
               const isHintAreaCell = hintAreaCellKeys.includes(cellKey);
               const isHintAnchorCell = hintAnchorCellKeys.includes(cellKey);
               const isHintPositionCell = hintPositionCellKeys.includes(cellKey);
@@ -251,19 +254,18 @@ export function BoardView({
                       ? `Ligne ${cell.row + 1}, colonne ${cell.col + 1}, lettre du plateau utilisée par l'indice`
                     : isHintAreaCell
                       ? `Ligne ${cell.row + 1}, colonne ${cell.col + 1}, zone possible pour l'indice`
-                  : `Ligne ${cell.row + 1}, colonne ${cell.col + 1}, ${bonusName}`;
+                    : `Ligne ${cell.row + 1}, colonne ${cell.col + 1}, ${bonusName}${isSelectedBoardCell ? ", case sélectionnée" : ""}`;
 
               return (
                 <button
-                  className={`board-cell bonus-${cell.bonus} ${cell.row === center && cell.col === center ? "center-cell" : ""} ${isNearLeftEdge ? "tooltip-left-edge" : ""} ${isNearRightEdge ? "tooltip-right-edge" : ""} ${isNearTopEdge ? "tooltip-top-edge" : ""} ${isHintAreaCell ? "hint-area-cell" : ""} ${isHintAnchorCell ? "hint-anchor-cell" : ""} ${isHintPositionCell ? "hint-position-cell" : ""} ${isLastMoveCell ? "last-move-cell" : ""} ${isNewWordCell ? "new-word-cell" : ""} ${isExpandedBonus ? "expanded-bonus-cell" : ""} ${isAnimatedCell ? "computer-move-cell" : ""} ${bonusAnimation ? `bonus-score-cell bonus-score-${bonusAnimation.bonus}-cell` : ""} ${isInvalidCell ? "invalid-cell" : ""}`}
+                  className={`board-cell bonus-${cell.bonus} ${cell.row === center && cell.col === center ? "center-cell" : ""} ${isNearLeftEdge ? "tooltip-left-edge" : ""} ${isNearRightEdge ? "tooltip-right-edge" : ""} ${isNearTopEdge ? "tooltip-top-edge" : ""} ${isHintAreaCell ? "hint-area-cell" : ""} ${isHintAnchorCell ? "hint-anchor-cell" : ""} ${isHintPositionCell ? "hint-position-cell" : ""} ${isSelectedBoardCell ? "selected-board-cell" : ""} ${isLastMoveCell ? "last-move-cell" : ""} ${isNewWordCell ? "new-word-cell" : ""} ${isExpandedBonus ? "expanded-bonus-cell" : ""} ${isAnimatedCell ? "computer-move-cell" : ""} ${bonusAnimation ? `bonus-score-cell bonus-score-${bonusAnimation.bonus}-cell` : ""} ${isInvalidCell ? "invalid-cell" : ""}`}
                   key={`${cell.row}-${cell.col}`}
                   type="button"
                   role="gridcell"
                   data-row={cell.row}
                   data-col={cell.col}
                   aria-label={label}
-                  aria-pressed={isPreparedBoardTile}
-                  aria-disabled={!selectedTileId && !tile}
+                  aria-pressed={isPreparedBoardTile || isSelectedBoardCell}
                   draggable={Boolean(tile && !tile.committed)}
                   onClick={() => {
                     setExpandedBonusKey(cell.bonus === "plain" || expandedBonusKey === cellKey ? null : cellKey);
