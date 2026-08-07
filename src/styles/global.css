@@ -1935,6 +1935,43 @@ p {
   line-height: 1;
 }
 
+.touch-drag-tile {
+  position: fixed;
+  z-index: 80;
+  display: none;
+  width: var(--preparation-tile-size);
+  min-width: 2.6rem;
+  aspect-ratio: 1;
+  place-items: center;
+  color: var(--ink);
+  background: #fff7cf;
+  border: 2px solid rgb(18 51 49 / 0.2);
+  border-radius: var(--radius-sm);
+  box-shadow:
+    0 0.6rem 1.4rem rgb(18 51 49 / 0.28),
+    inset 0 0 0 2px rgb(255 255 255 / 0.52);
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.touch-drag-tile span {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: clamp(1.05rem, calc(var(--preparation-tile-size) * 0.48), 1.9rem);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.touch-drag-tile small {
+  position: absolute;
+  right: max(0.14rem, calc(var(--preparation-tile-size) * 0.08));
+  bottom: max(0.1rem, calc(var(--preparation-tile-size) * 0.05));
+  font-size: clamp(0.58rem, calc(var(--preparation-tile-size) * 0.24), 0.82rem);
+  font-weight: 800;
+}
+
 .rack-empty {
   grid-column: 1 / -1;
   margin: 0;
@@ -2650,6 +2687,17 @@ p {
   .bonus-rules,
   .letter-distribution {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (pointer: coarse) {
+  .rack-tile,
+  .prepared-word-tile {
+    touch-action: none;
+  }
+
+  .touch-drag-tile {
+    display: grid;
   }
 }
 

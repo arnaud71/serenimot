@@ -1300,6 +1300,7 @@ export function GameScreen({
             rack={game.racks.human}
             preparedTileIds={preparedTileIds}
             onAddTile={handleAddPreparedTile}
+            onBoardDrop={handleTileDropOnBoard}
             onDropTile={handleRemovePreparedTile}
           />
           <div className="preparation-subsection">
