@@ -19,7 +19,7 @@ export type ComfortPreferences = {
 
 export const DEFAULT_PREFERENCES: ComfortPreferences = {
   enabled: false,
-  textScale: "standard",
+  textScale: "small",
   boardSize: 13,
   opponentLevel: "easy",
   computerSearchProfile: "auto",

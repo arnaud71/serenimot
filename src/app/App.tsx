@@ -915,8 +915,8 @@ export function App() {
               <button
                 className="secondary-button scale-reset"
                 type="button"
-                onClick={() => setPreferences({ ...preferences, textScale: "standard" })}
-                disabled={preferences.textScale === "standard"}
+                onClick={() => setPreferences({ ...preferences, textScale: DEFAULT_PREFERENCES.textScale })}
+                disabled={preferences.textScale === DEFAULT_PREFERENCES.textScale}
               >
                 Réinitialiser
               </button>
