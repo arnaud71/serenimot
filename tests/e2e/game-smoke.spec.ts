@@ -151,6 +151,26 @@ test("place une lettre sur une case choisie du plateau", async ({ page }) => {
   await expect(page.getByText("La lettre est posée. Vous pouvez valider ou modifier votre coup.")).toBeVisible();
 });
 
+test("priorise la case du plateau choisie sur le chevalet", async ({ page }) => {
+  await installSeededRandom(page, 12);
+  await page.goto("/");
+  await startNewGame(page);
+
+  await page.locator(".rack-tile").first().click();
+  await expect(page.locator(".prepared-word-tile")).toHaveCount(1);
+
+  const centerCell = page.locator(".board-cell[data-row='6'][data-col='6']");
+  const nextRackLetter = await page.locator(".rack-tile").first().locator("span").textContent();
+
+  await centerCell.click();
+  await expect(centerCell).toHaveAttribute("aria-pressed", "true");
+
+  await page.locator(".rack-tile").first().click();
+
+  await expect(centerCell.locator(".board-tile-letter")).toHaveText(nextRackLetter ?? "");
+  await expect(page.locator(".prepared-word-tile")).toHaveCount(1);
+});
+
 test("cherche un indice sans bloquer l'interface", async ({ page }) => {
   const browserErrors = collectBrowserErrors(page);
 

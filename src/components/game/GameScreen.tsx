@@ -574,6 +574,21 @@ export function GameScreen({
       }
     }
 
+    if (!selectedTileId && !cellTile && !hasPendingTiles && preparedTileIds.length <= 1) {
+      setSelectedBoardCell((currentCell) =>
+        currentCell?.row === row && currentCell.col === col ? null : { row, col }
+      );
+      setSelectedPreparedSlotIndex(null);
+      onGameChange({
+        ...game,
+        message: {
+          tone: "info",
+          text: "Case choisie. Touchez une lettre dans vos lettres pour la poser ici."
+        }
+      });
+      return;
+    }
+
     if (preparedTileIds.length > 0) {
       if (hasPendingTiles && !isPendingWordSelected) {
         onGameChange({
