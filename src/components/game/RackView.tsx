@@ -7,6 +7,7 @@ type RackViewProps = {
   preparedTileIds: string[];
   onAddTile: (tileId: string) => void;
   onBoardDrop: (tileId: string, row: number, col: number) => void;
+  onPreparedDrop: (tileId: string, targetIndex: number | null) => void;
   onDropTile: (tileId: string) => void;
 };
 
@@ -26,7 +27,7 @@ type TouchDragState = {
 
 const TOUCH_DRAG_THRESHOLD_PX = 8;
 
-export function RackView({ rack, preparedTileIds, onAddTile, onBoardDrop, onDropTile }: RackViewProps) {
+export function RackView({ rack, preparedTileIds, onAddTile, onBoardDrop, onPreparedDrop, onDropTile }: RackViewProps) {
   const availableTiles = rack.filter((tile) => !preparedTileIds.includes(tile.id));
   const [touchDrag, setTouchDrag] = useState<TouchDragState | null>(null);
   const touchDragRef = useRef<TouchDragState | null>(null);
@@ -104,6 +105,21 @@ export function RackView({ rack, preparedTileIds, onAddTile, onBoardDrop, onDrop
 
     if (Number.isInteger(row) && Number.isInteger(col)) {
       onBoardDrop(currentDrag.tileId, row, col);
+      return;
+    }
+
+    const preparedTarget = document
+      .elementFromPoint(event.clientX, event.clientY)
+      ?.closest(".prepared-word-slot, .prepared-word-tile, .prepared-word");
+    const targetIndex = Number((preparedTarget as HTMLElement | null)?.dataset.slotIndex);
+
+    if (Number.isInteger(targetIndex)) {
+      onPreparedDrop(currentDrag.tileId, targetIndex);
+      return;
+    }
+
+    if (preparedTarget?.classList.contains("prepared-word")) {
+      onPreparedDrop(currentDrag.tileId, null);
     }
   }
 

@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import type { Locator } from "@playwright/test";
 import { collectBrowserErrors, installSeededRandom, startNewGame, waitForAppReady } from "./helpers";
 import {
   addWordFromRack,
@@ -56,6 +57,65 @@ test("compose, pose et valide un premier mot", async ({ page }) => {
   for (const letter of word ?? "") {
     await expect(page.getByRole("gridcell", { name: new RegExp(`lettre ${letter}`) }).first()).toBeVisible();
   }
+});
+
+test("glisse des lettres dans le chevalet sur écran tactile", async ({ page, browserName }) => {
+  test.skip(browserName !== "chromium", "La simulation tactile fine utilise le protocole DevTools Chromium.");
+
+  await installSeededRandom(page, 9);
+  await page.goto("/");
+  await startNewGame(page);
+
+  const client = await page.context().newCDPSession(page);
+
+  async function touchDrag(source: Locator, target: Locator) {
+    await source.scrollIntoViewIfNeeded();
+    const sourceBox = await source.boundingBox();
+    const targetBox = await target.boundingBox();
+
+    expect(sourceBox).not.toBeNull();
+    expect(targetBox).not.toBeNull();
+
+    const startX = sourceBox!.x + sourceBox!.width / 2;
+    const startY = sourceBox!.y + sourceBox!.height / 2;
+    const endX = targetBox!.x + targetBox!.width / 2;
+    const endY = targetBox!.y + targetBox!.height / 2;
+
+    await client.send("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: [{ x: startX, y: startY, id: 1 }]
+    });
+
+    for (let step = 1; step <= 8; step += 1) {
+      await client.send("Input.dispatchTouchEvent", {
+        type: "touchMove",
+        touchPoints: [
+          {
+            x: startX + ((endX - startX) * step) / 8,
+            y: startY + ((endY - startY) * step) / 8,
+            id: 1
+          }
+        ]
+      });
+    }
+
+    await client.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+  }
+
+  await touchDrag(page.locator(".rack-tile").first(), page.locator(".prepared-word-slot[data-slot-index='0']"));
+  await touchDrag(page.locator(".rack-tile").first(), page.locator(".prepared-word-slot[data-slot-index='1']"));
+
+  await expect(page.locator(".prepared-word-tile")).toHaveCount(2);
+  const firstBefore = await page.locator(".prepared-word-tile[data-slot-index='0'] span").textContent();
+  const secondBefore = await page.locator(".prepared-word-tile[data-slot-index='1'] span").textContent();
+
+  await touchDrag(
+    page.locator(".prepared-word-tile[data-slot-index='1']"),
+    page.locator(".prepared-word-tile[data-slot-index='0']")
+  );
+
+  await expect(page.locator(".prepared-word-tile[data-slot-index='0'] span")).toHaveText(secondBefore ?? "");
+  await expect(page.locator(".prepared-word-tile[data-slot-index='1'] span")).toHaveText(firstBefore ?? "");
 });
 
 test("cherche un indice sans bloquer l'interface", async ({ page }) => {

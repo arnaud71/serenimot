@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { DragEvent } from "react";
+import type { DragEvent, PointerEvent } from "react";
 import { BoardView } from "./BoardView";
 import type { BoardBonusAnimationCell, BoardFloatingWord, BoardPreviewCell, BoardScorePreview } from "./BoardView";
 import { RackView } from "./RackView";
@@ -56,6 +56,7 @@ type GameScreenProps = {
 };
 
 const TILE_DRAG_MIME = "text/serenimot-tile-id";
+const TOUCH_DRAG_THRESHOLD_PX = 8;
 const HINT_SEARCH_DELAY_MS = 850;
 const COMPUTER_THINKING_DELAY_MS = 1200;
 const COMPUTER_AUTO_PROFILE_SAMPLE_SIZE = 4;
@@ -1301,6 +1302,9 @@ export function GameScreen({
             preparedTileIds={preparedTileIds}
             onAddTile={handleAddPreparedTile}
             onBoardDrop={handleTileDropOnBoard}
+            onPreparedDrop={(tileId, targetIndex) =>
+              targetIndex === null ? handleMovePreparedTileToEnd(tileId) : handleInsertPreparedTile(tileId, targetIndex)
+            }
             onDropTile={handleRemovePreparedTile}
           />
           <div className="preparation-subsection">
@@ -1571,96 +1575,237 @@ function PreparedWordTiles({
   onRemoveTile: (tileId: string) => void;
 }) {
   const [dropIndicatorIndex, setDropIndicatorIndex] = useState<number | null>(null);
+  const [touchDrag, setTouchDrag] = useState<PreparedTouchDragState | null>(null);
+  const touchDragRef = useRef<PreparedTouchDragState | null>(null);
+  const ignoreNextClickRef = useRef(false);
   const hasPreparedTiles = tileSlots.some(Boolean);
 
+  function handleTilePointerDown(
+    event: PointerEvent<HTMLButtonElement>,
+    tileId: string,
+    tile: Tile
+  ) {
+    if (event.pointerType === "mouse") {
+      return;
+    }
+
+    event.currentTarget.setPointerCapture(event.pointerId);
+    const nextDrag = {
+      tileId,
+      letter: tile.letter,
+      value: tile.value,
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      x: event.clientX,
+      y: event.clientY,
+      active: false
+    };
+    touchDragRef.current = nextDrag;
+    setTouchDrag(nextDrag);
+  }
+
+  function handleTilePointerMove(event: PointerEvent<HTMLButtonElement>) {
+    const currentDrag = touchDragRef.current;
+
+    if (!currentDrag || currentDrag.pointerId !== event.pointerId) {
+      return;
+    }
+
+    const distance = Math.hypot(event.clientX - currentDrag.startX, event.clientY - currentDrag.startY);
+    const active = currentDrag.active || distance >= TOUCH_DRAG_THRESHOLD_PX;
+
+    if (active) {
+      event.preventDefault();
+      ignoreNextClickRef.current = true;
+    }
+
+    const target = document
+      .elementFromPoint(event.clientX, event.clientY)
+      ?.closest(".prepared-word-slot, .prepared-word-tile");
+    const targetIndex = Number((target as HTMLElement | null)?.dataset.slotIndex);
+    setDropIndicatorIndex(Number.isInteger(targetIndex) ? targetIndex : null);
+
+    const nextDrag = {
+      ...currentDrag,
+      x: event.clientX,
+      y: event.clientY,
+      active
+    };
+    touchDragRef.current = nextDrag;
+    setTouchDrag(nextDrag);
+  }
+
+  function handleTilePointerUp(event: PointerEvent<HTMLButtonElement>) {
+    const currentDrag = touchDragRef.current;
+
+    if (!currentDrag || currentDrag.pointerId !== event.pointerId) {
+      return;
+    }
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+
+    touchDragRef.current = null;
+    setTouchDrag(null);
+    setDropIndicatorIndex(null);
+
+    if (!currentDrag.active) {
+      return;
+    }
+
+    event.preventDefault();
+    ignoreNextClickRef.current = true;
+    const target = document
+      .elementFromPoint(event.clientX, event.clientY)
+      ?.closest(".prepared-word-slot, .prepared-word-tile, .prepared-word, .rack");
+    const targetIndex = Number((target as HTMLElement | null)?.dataset.slotIndex);
+
+    if (Number.isInteger(targetIndex)) {
+      onInsertTile(currentDrag.tileId, targetIndex);
+      return;
+    }
+
+    if (target?.classList.contains("rack")) {
+      onRemoveTile(currentDrag.tileId);
+      return;
+    }
+
+    if (target?.classList.contains("prepared-word")) {
+      onMoveTileToEnd(currentDrag.tileId);
+    }
+  }
+
   return (
-    <div
-      className={`prepared-word prepared-word-tiles prepared-word-slots${hasPreparedTiles ? "" : " prepared-word-empty"}`}
-      aria-label={displayedWord ? `Chevalet ${displayedWord}` : "Chevalet vide"}
-      onDragOver={(event) => event.preventDefault()}
-      onDragLeave={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+    <>
+      <div
+        className={`prepared-word prepared-word-tiles prepared-word-slots${hasPreparedTiles ? "" : " prepared-word-empty"}`}
+        aria-label={displayedWord ? `Chevalet ${displayedWord}` : "Chevalet vide"}
+        onDragOver={(event) => event.preventDefault()}
+        onDragLeave={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+            setDropIndicatorIndex(null);
+          }
+        }}
+        onDrop={(event) => {
+          event.preventDefault();
           setDropIndicatorIndex(null);
-        }
-      }}
-      onDrop={(event) => {
-        event.preventDefault();
-        setDropIndicatorIndex(null);
-        const tileId = getDraggedTileId(event);
+          const tileId = getDraggedTileId(event);
 
-        if (tileId) {
-          onMoveTileToEnd(tileId);
-        }
-      }}
-    >
-      {tileSlots.map((tile, index) => {
-        const tileId = tileIdSlots[index];
-        const isBoardTile = tileId ? boardTileKeys.includes(parseBoardTileKey(tileId) ?? "") : false;
+          if (tileId) {
+            onMoveTileToEnd(tileId);
+          }
+        }}
+      >
+        {tileSlots.map((tile, index) => {
+          const tileId = tileIdSlots[index];
+          const isBoardTile = tileId ? boardTileKeys.includes(parseBoardTileKey(tileId) ?? "") : false;
 
-        if (!tile || !tileId) {
+          if (!tile || !tileId) {
+            return (
+              <button
+                className={`prepared-word-slot${dropIndicatorIndex === index ? " prepared-word-slot-drop-target" : ""}`}
+                key={`slot-${index}`}
+                type="button"
+                data-slot-index={index}
+                aria-label={`Emplacement vide ${index + 1}`}
+                onDragOver={(event) => {
+                  event.preventDefault();
+                  setDropIndicatorIndex(index);
+                }}
+                onDragLeave={() => setDropIndicatorIndex(null)}
+                onDrop={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  setDropIndicatorIndex(null);
+                  const draggedTileId = getDraggedTileId(event);
+
+                  if (draggedTileId) {
+                    onInsertTile(draggedTileId, index);
+                  }
+                }}
+              />
+            );
+          }
+
           return (
             <button
-              className={`prepared-word-slot${dropIndicatorIndex === index ? " prepared-word-slot-drop-target" : ""}`}
-              key={`slot-${index}`}
+              className={`prepared-word-tile${isBoardTile ? " prepared-word-tile-board" : ""}${dropIndicatorIndex === index ? " prepared-word-slot-drop-target" : ""}`}
+              draggable
+              key={tileId}
               type="button"
-              aria-label={`Emplacement vide ${index + 1}`}
+              data-slot-index={index}
+              aria-label={`${isBoardTile ? "Lettre du plateau" : "Retirer la lettre"} ${tile.letter} du chevalet`}
+              title={isBoardTile ? "Lettre déjà sur le plateau" : "Remettre dans vos lettres"}
+              onClick={() => {
+                if (ignoreNextClickRef.current) {
+                  ignoreNextClickRef.current = false;
+                  return;
+                }
+
+                onRemoveTile(tileId);
+              }}
+              onDragStart={(event) => {
+                event.dataTransfer.setData(TILE_DRAG_MIME, tileId);
+                event.dataTransfer.setData("text/plain", tileId);
+                event.dataTransfer.effectAllowed = "move";
+              }}
+              onDragEnd={() => setDropIndicatorIndex(null)}
               onDragOver={(event) => {
                 event.preventDefault();
                 setDropIndicatorIndex(index);
               }}
-              onDragLeave={() => setDropIndicatorIndex(null)}
               onDrop={(event) => {
                 event.preventDefault();
                 event.stopPropagation();
                 setDropIndicatorIndex(null);
-                const draggedTileId = getDraggedTileId(event);
+                const tileId = getDraggedTileId(event);
 
-                if (draggedTileId) {
-                  onInsertTile(draggedTileId, index);
+                if (tileId) {
+                  onInsertTile(tileId, index);
                 }
               }}
-            />
+              onPointerDown={(event) => handleTilePointerDown(event, tileId, tile)}
+              onPointerMove={handleTilePointerMove}
+              onPointerCancel={() => {
+                touchDragRef.current = null;
+                setTouchDrag(null);
+                setDropIndicatorIndex(null);
+              }}
+              onPointerUp={handleTilePointerUp}
+            >
+              <span>{tile.letter}</span>
+              <small>{tile.value}</small>
+            </button>
           );
-        }
-
-        return (
-          <button
-            className={`prepared-word-tile${isBoardTile ? " prepared-word-tile-board" : ""}${dropIndicatorIndex === index ? " prepared-word-slot-drop-target" : ""}`}
-            draggable
-            key={tileId}
-            type="button"
-            aria-label={`${isBoardTile ? "Lettre du plateau" : "Retirer la lettre"} ${tile.letter} du chevalet`}
-            title={isBoardTile ? "Lettre déjà sur le plateau" : "Remettre dans vos lettres"}
-            onClick={() => onRemoveTile(tileId)}
-            onDragStart={(event) => {
-              event.dataTransfer.setData(TILE_DRAG_MIME, tileId);
-              event.dataTransfer.setData("text/plain", tileId);
-              event.dataTransfer.effectAllowed = "move";
-            }}
-            onDragEnd={() => setDropIndicatorIndex(null)}
-            onDragOver={(event) => {
-              event.preventDefault();
-              setDropIndicatorIndex(index);
-            }}
-            onDrop={(event) => {
-              event.preventDefault();
-              event.stopPropagation();
-              setDropIndicatorIndex(null);
-              const tileId = getDraggedTileId(event);
-
-              if (tileId) {
-                onInsertTile(tileId, index);
-              }
-            }}
-          >
-            <span>{tile.letter}</span>
-            <small>{tile.value}</small>
-          </button>
-        );
-      })}
-    </div>
+        })}
+      </div>
+      {touchDrag?.active ? (
+        <span
+          className="touch-drag-tile"
+          style={{ left: `${touchDrag.x}px`, top: `${touchDrag.y}px` }}
+          aria-hidden="true"
+        >
+          <span>{touchDrag.letter}</span>
+          <small>{touchDrag.value}</small>
+        </span>
+      ) : null}
+    </>
   );
 }
+
+type PreparedTouchDragState = {
+  tileId: string;
+  letter: string;
+  value: number;
+  pointerId: number;
+  startX: number;
+  startY: number;
+  x: number;
+  y: number;
+  active: boolean;
+};
 
 function getDraggedTileId(event: DragEvent<HTMLElement>): string {
   return event.dataTransfer.getData(TILE_DRAG_MIME) || event.dataTransfer.getData("text/plain");
