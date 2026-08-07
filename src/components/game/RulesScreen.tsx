@@ -24,59 +24,61 @@ const BONUS_RULES: Array<{
   { kind: "word3", label: "Mx3", name: "Mot triplé", description: "triple le score du mot formé" }
 ];
 
+const DOCS_IMAGE_BASE_URL = `${import.meta.env.BASE_URL}static/docs/interactions/`;
+
 const INTERACTION_GUIDES = [
   {
     title: "Vue générale sur ordinateur",
-    image: "/static/docs/interactions/01-desktop-game-overview.png",
+    image: `${DOCS_IMAGE_BASE_URL}01-desktop-game-overview.png`,
     alt: "Vue générale de la partie sur ordinateur avec le plateau et la zone de préparation.",
     description:
       "Le plateau occupe la zone principale. La réserve, le chevalet, les actions et les messages restent visibles à droite."
   },
   {
     title: "Sélectionner une case vide",
-    image: "/static/docs/interactions/02-board-empty-cell-selected.png",
+    image: `${DOCS_IMAGE_BASE_URL}02-board-empty-cell-selected.png`,
     alt: "Case vide sélectionnée sur le plateau.",
     description:
       "Touchez ou cliquez une case vide pour la choisir comme destination. La case sélectionnée est mise en évidence."
   },
   {
     title: "Poser une lettre depuis la réserve",
-    image: "/static/docs/interactions/03-board-letter-placed-from-rack.png",
+    image: `${DOCS_IMAGE_BASE_URL}03-board-letter-placed-from-rack.png`,
     alt: "Lettre posée sur la case sélectionnée depuis les lettres disponibles.",
     description:
       "Après avoir choisi une case, touchez une lettre disponible. Elle est posée immédiatement sur le plateau."
   },
   {
     title: "Déplacer une lettre déjà posée",
-    image: "/static/docs/interactions/06-board-letter-moved-to-selected-cell.png",
+    image: `${DOCS_IMAGE_BASE_URL}06-board-letter-moved-to-selected-cell.png`,
     alt: "Lettre déjà posée déplacée vers une case précédemment sélectionnée.",
     description:
       "Si une case vide est déjà sélectionnée, touchez une lettre posée pendant le tour pour la déplacer vers cette case."
   },
   {
     title: "Préparer un mot dans le chevalet",
-    image: "/static/docs/interactions/08-prepared-word-in-rack.png",
+    image: `${DOCS_IMAGE_BASE_URL}08-prepared-word-in-rack.png`,
     alt: "Mot préparé dans le chevalet avant d'être posé.",
     description:
       "Le chevalet permet d'organiser plusieurs lettres avant de poser le mot en une seule action. Il reste possible de déplacer les lettres dans le chevalet avant la pose."
   },
   {
     title: "Poser un mot préparé",
-    image: "/static/docs/interactions/09-prepared-word-placed-on-board.png",
+    image: `${DOCS_IMAGE_BASE_URL}09-prepared-word-placed-on-board.png`,
     alt: "Mot préparé posé sur le plateau.",
     description:
       "Quand plusieurs lettres sont préparées, touchez une case compatible. Le jeu cherche une pose horizontale ou verticale valide à partir de cette case."
   },
   {
     title: "Vue smartphone",
-    image: "/static/docs/interactions/10-mobile-game-overview.png",
+    image: `${DOCS_IMAGE_BASE_URL}10-mobile-game-overview.png`,
     alt: "Vue générale de la partie sur smartphone.",
     description:
       "Sur téléphone, le plateau reste prioritaire et la zone de préparation est placée sous le plateau."
   },
   {
     title: "Actions rapides mobiles",
-    image: "/static/docs/interactions/12-mobile-quick-actions.png",
+    image: `${DOCS_IMAGE_BASE_URL}12-mobile-quick-actions.png`,
     alt: "Barre d'actions rapides sur smartphone.",
     description:
       "La barre mobile regroupe les actions utiles pendant le tour : valider, demander un indice, passer, reprendre et effacer."
