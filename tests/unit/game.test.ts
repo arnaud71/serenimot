@@ -31,6 +31,7 @@ import { CENTER, PlacedTile } from "../../src/domain/tiles/types";
 import { validateTurn } from "../../src/domain/rules/validation";
 import { getDictionarySize, isWordAccepted, loadDictionaryFromText } from "../../src/domain/rules/dictionary";
 import { getWordCheckResult } from "../../src/domain/rules/wordCheck";
+import { getTileCountForBoardSize } from "../../src/domain/tiles/bag";
 import {
   formatWordExplanationDefinition,
   getKnownWordExplanations,
@@ -650,6 +651,24 @@ describe("tour du joueur", () => {
     expect(state.racks.human).toHaveLength(8);
     expect(state.racks.computer).toHaveLength(8);
     expect(state.bag).toHaveLength(20);
+  });
+
+  it("adapte le nombre de pièces à la taille de la grille", () => {
+    const smallGame = createNewGame({ boardSize: 9, random: () => 0 });
+    const standardGame = createNewGame({ boardSize: 13, random: () => 0 });
+    const largeGame = createNewGame({ boardSize: 17, random: () => 0 });
+
+    expect(getTileCountForBoardSize(9)).toBeLessThan(getTileCountForBoardSize(13));
+    expect(getTileCountForBoardSize(17)).toBeGreaterThan(getTileCountForBoardSize(13));
+    expect(smallGame.racks.human.length + smallGame.racks.computer.length + smallGame.bag.length).toBe(
+      getTileCountForBoardSize(9)
+    );
+    expect(standardGame.racks.human.length + standardGame.racks.computer.length + standardGame.bag.length).toBe(
+      getTileCountForBoardSize(13)
+    );
+    expect(largeGame.racks.human.length + largeGame.racks.computer.length + largeGame.bag.length).toBe(
+      getTileCountForBoardSize(17)
+    );
   });
 
   it("place une lettre depuis le chevalet vers le plateau", () => {

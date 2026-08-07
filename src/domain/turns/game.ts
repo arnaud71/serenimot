@@ -90,7 +90,8 @@ export function recordHumanHintUse(state: GameState, kind: "partial" | "complete
 }
 
 export function createNewGame(options: NewGameOptions = {}): GameState {
-  const initialBag = options.useDemoBag ? createDemoBag() : shuffleTiles(createBag(), options.random);
+  const boardSize = options.boardSize ?? 13;
+  const initialBag = options.useDemoBag ? createDemoBag(boardSize) : shuffleTiles(createBag(boardSize), options.random);
   const humanDraw = drawTiles(initialBag, RACK_SIZE);
   const computerDraw = drawTiles(humanDraw.bag, RACK_SIZE);
   const remainingBag =
@@ -98,7 +99,7 @@ export function createNewGame(options: NewGameOptions = {}): GameState {
 
   return {
     gameId: crypto.randomUUID(),
-    board: createBoard(options.boardSize),
+    board: createBoard(boardSize),
     bag: remainingBag,
     racks: {
       human: humanDraw.drawn,

@@ -87,15 +87,15 @@ export async function getBoardSize(page: Page) {
 }
 
 export function getHumanScore(page: Page) {
-  return page.locator(".topbar-score-panel > div").filter({ hasText: "Vous" }).locator("strong");
+  return page.locator(".game-status-panel > div").filter({ hasText: "Vous" }).locator("strong");
 }
 
 export function getComputerScore(page: Page) {
-  return page.locator(".topbar-score-panel > div").filter({ hasText: "Ordinateur" }).locator("strong");
+  return page.locator(".game-status-panel > div").filter({ hasText: /Robot|Ordinateur/u }).locator("strong");
 }
 
 export function getBagCount(page: Page) {
-  return page.locator(".topbar-score-panel > div").filter({ hasText: "Pioche" }).locator("strong");
+  return page.locator(".game-status-panel > div").filter({ hasText: "Pioche" }).locator("strong");
 }
 
 export async function getScoreSummary(page: Page) {

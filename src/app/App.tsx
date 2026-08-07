@@ -16,13 +16,13 @@ import {
 import { playGameMessageSound } from "../features/audio/gameSounds";
 import { deleteSavedGame, loadSavedGame } from "../features/persistence/gameStorage";
 import { DEFAULT_PREFERENCES, loadPreferences, savePreferences } from "../features/accessibility/preferences";
+import { PROJECT_REPOSITORY_URL } from "./links";
 
 type Screen = "home" | "rules" | "lexicon" | "options" | "game" | "pwa";
 type DictionaryStatus = "loading" | "ready" | "fallback";
 type ExplanationsStatus = "idle" | "loading" | "partial" | "ready" | "fallback";
 type TextScale = typeof DEFAULT_PREFERENCES.textScale;
 type HintMode = typeof DEFAULT_PREFERENCES.hintMode;
-type UndoMode = typeof DEFAULT_PREFERENCES.undoMode;
 type ComputerSearchPreference = typeof DEFAULT_PREFERENCES.computerSearchProfile;
 type VisualHintProps = {
   "aria-description": string;
@@ -60,19 +60,6 @@ const HINT_MODE_OPTIONS: { value: HintMode; label: string; description: string }
   { value: "none", label: "Pas d'indice", description: "Le bouton Indice est désactivé pendant la partie." },
   { value: "progressive", label: "Indice progressif", description: "Chaque appui révèle une aide supplémentaire." },
   { value: "complete", label: "Indice complet", description: "Un appui donne directement le meilleur mot trouvé." }
-];
-
-const UNDO_MODE_OPTIONS: { value: UndoMode; label: string; description: string }[] = [
-  {
-    value: "all-actions",
-    label: "Toutes actions",
-    description: "Ajoute Défaire pour revenir en arrière dans les actions de préparation, de pose et de validation."
-  },
-  {
-    value: "off",
-    label: "Désactivé",
-    description: "Masque l'action Défaire pendant la partie."
-  }
 ];
 
 const COMPUTER_SEARCH_PROFILE_OPTIONS: { value: ComputerSearchPreference; label: string; description: string }[] = [
@@ -235,7 +222,10 @@ function PromoHome({
         <PromoFlyingTiles />
         <div className="promo-copy">
           <p className="eyebrow">Les mots, à votre rythme.</p>
-          <h1 id="home-title">Sérénimot</h1>
+          <div className="promo-title-lockup">
+            <img className="promo-title-icon" src={APP_ICON_URL} alt="" />
+            <h1 id="home-title">Sérénimot</h1>
+          </div>
           <p className="promo-lead">
             Jeu original de lettres croisées sur grille, gratuit, en code ouvert, sans compte, sans
             publicité, jouable hors ligne et installable comme PWA.
@@ -435,6 +425,9 @@ function PromoHome({
         <button type="button" onClick={onPwaInfoRequest}>
           C'est quoi une PWA ?
         </button>
+        <a href={PROJECT_REPOSITORY_URL} target="_blank" rel="noreferrer">
+          Projet GitHub
+        </a>
       </nav>
     </main>
   );
@@ -452,7 +445,6 @@ const PROMO_FLYING_TILES = [
 function PromoTileBoard() {
   return (
     <div className="promo-board" aria-hidden="true">
-      <img className="promo-app-icon" src={APP_ICON_URL} alt="" />
       {PROMO_BOARD_LETTERS.map((letter, index) => (
         <span className="promo-board-tile" key={`${letter}-${index}`}>
           {letter}
@@ -897,6 +889,19 @@ export function App() {
           <p className="setting-help">
             {getOpponentLevelLabel(preferences.opponentLevel)} : {getOpponentLevelDescription(preferences.opponentLevel)}
           </p>
+          <div className="opponent-level-legend" aria-label="Code couleur des niveaux de l'ordinateur">
+            <span className="opponent-level-legend-label">Code couleur</span>
+            {OPPONENT_LEVEL_OPTIONS.map((option) => (
+              <span
+                key={option.value}
+                className={`opponent-level-badge level-${option.value} ${
+                  option.value === preferences.opponentLevel ? "is-selected" : ""
+                }`}
+              >
+                {option.label}
+              </span>
+            ))}
+          </div>
           <label
             className="setting-row"
             {...optionHintProps("Ajuste l'effort de recherche pour préserver la fluidité sur cet appareil.")}
@@ -943,24 +948,27 @@ export function App() {
           <p className="setting-help">
             {HINT_MODE_OPTIONS.find((option) => option.value === preferences.hintMode)?.description}
           </p>
-          <label
-            className="setting-row"
+          <div
+            className="setting-row checkbox-setting"
             {...optionHintProps("Affiche ou masque les boutons pour défaire et refaire les actions.")}
           >
-            <span>Retour arrière</span>
-            <select
-              value={preferences.undoMode}
-              onChange={(event) => setPreferences({ ...preferences, undoMode: event.target.value as UndoMode })}
-            >
-              {UNDO_MODE_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
+            <span>Annuler / refaire</span>
+            <label className="toggle-setting">
+              <span>{preferences.undoMode === "all-actions" ? "Actif" : "Inactif"}</span>
+              <input
+                aria-label="Annuler / refaire"
+                type="checkbox"
+                checked={preferences.undoMode === "all-actions"}
+                onChange={(event) =>
+                  setPreferences({ ...preferences, undoMode: event.target.checked ? "all-actions" : "off" })
+                }
+              />
+            </label>
+          </div>
           <p className="setting-help">
-            {UNDO_MODE_OPTIONS.find((option) => option.value === preferences.undoMode)?.description}
+            {preferences.undoMode === "all-actions"
+              ? "Affiche les boutons ↶ et ↷ pour revenir en arrière ou refaire une action."
+              : "Masque les boutons ↶ et ↷ pendant la partie."}
           </p>
           {import.meta.env.DEV ? (
             <>
@@ -969,11 +977,14 @@ export function App() {
                 {...optionHintProps("Affiche des informations techniques utiles pendant les tests.")}
               >
                 <span>Mode dev</span>
-                <input
-                  type="checkbox"
-                  checked={preferences.developerMode}
-                  onChange={(event) => setPreferences({ ...preferences, developerMode: event.target.checked })}
-                />
+                <span className="toggle-setting">
+                  <span>{preferences.developerMode ? "Actif" : "Inactif"}</span>
+                  <input
+                    type="checkbox"
+                    checked={preferences.developerMode}
+                    onChange={(event) => setPreferences({ ...preferences, developerMode: event.target.checked })}
+                  />
+                </span>
               </label>
               <p className="setting-help">
                 Affiche les diagnostics de recherche et limite les nouvelles parties à une pioche de 20 lettres.
@@ -985,11 +996,14 @@ export function App() {
             {...optionHintProps("Active ou masque les bulles d'aide visuelles après un court survol ou focus.")}
           >
             <span>Bulles d'aide</span>
-            <input
-              type="checkbox"
-              checked={preferences.hintsEnabled}
-              onChange={(event) => setPreferences({ ...preferences, hintsEnabled: event.target.checked })}
-            />
+            <span className="toggle-setting">
+              <span>{preferences.hintsEnabled ? "Actif" : "Inactif"}</span>
+              <input
+                type="checkbox"
+                checked={preferences.hintsEnabled}
+                onChange={(event) => setPreferences({ ...preferences, hintsEnabled: event.target.checked })}
+              />
+            </span>
           </label>
           <p className="setting-help">
             Les descriptions restent disponibles pour l'accessibilité, même quand les bulles visuelles sont masquées.
@@ -1066,11 +1080,14 @@ export function App() {
             {...optionHintProps("Active ou coupe les sons du jeu.")}
           >
             <span>Sons</span>
-            <input
-              type="checkbox"
-              checked={preferences.soundEnabled}
-              onChange={(event) => setPreferences({ ...preferences, soundEnabled: event.target.checked })}
-            />
+            <span className="toggle-setting">
+              <span>{preferences.soundEnabled ? "Actif" : "Inactif"}</span>
+              <input
+                type="checkbox"
+                checked={preferences.soundEnabled}
+                onChange={(event) => setPreferences({ ...preferences, soundEnabled: event.target.checked })}
+              />
+            </span>
           </label>
           <p className="setting-help">Ajoute de petits sons pour les coups acceptés, les alertes et le tour de l'ordinateur.</p>
           {preferences.soundEnabled ? (

@@ -2,7 +2,7 @@
 
 ## Plateau
 
-Le plateau comporte 13 x 13 cases. La disposition des bonus est originale :
+Le plateau peut comporter 9 x 9, 11 x 11, 13 x 13, 15 x 15 ou 17 x 17 cases. La disposition des bonus est originale et s'adapte à la taille choisie :
 
 - `Lx2` double la valeur d'une lettre posée pendant le tour.
 - `Lx3` triple la valeur d'une lettre posée pendant le tour.
@@ -15,6 +15,18 @@ Les bonus restent volontairement peu nombreux pour laisser respirer la grille. L
 ## Chevalet
 
 Chaque joueur reçoit 8 lettres. La pioche est mélangée au début d'une nouvelle partie.
+
+Le nombre total de pièces s'adapte à la taille de la grille afin d'éviter les parties trop longues sur les petites grilles ou trop courtes sur les grandes :
+
+- 9 x 9 : 52 pièces.
+- 11 x 11 : 77 pièces.
+- 13 x 13 : 108 pièces.
+- 15 x 15 : 144 pièces.
+- 17 x 17 : 185 pièces.
+
+La distribution des lettres garde les mêmes proportions que la grille 13 x 13 : chaque taille de grille
+utilise donc un nombre différent de `A`, `E`, `I`, etc. Dans l'application, la section `Règles`
+affiche un onglet par taille de grille pour consulter la distribution réellement utilisée.
 
 ## Échange de lettres
 

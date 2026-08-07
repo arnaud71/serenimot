@@ -39,7 +39,7 @@ test("conserve les options entre les parties et après rechargement", async ({ p
   await page.getByLabel("Niveau de l'ordinateur").selectOption("expert");
   await page.getByLabel("Performance ordinateur").selectOption("quality");
   await page.getByLabel("Indice").selectOption("none");
-  await page.getByLabel("Retour arrière").selectOption("off");
+  await page.getByLabel("Annuler / refaire").uncheck();
   await page.getByLabel("Bulles d'aide").uncheck();
   await page.getByLabel("Sons").uncheck();
   await expect(page.getByLabel("Volume")).toHaveCount(0);
@@ -58,7 +58,7 @@ test("conserve les options entre les parties et après rechargement", async ({ p
   await expect(page.getByLabel("Niveau de l'ordinateur")).toHaveValue("expert");
   await expect(page.getByLabel("Performance ordinateur")).toHaveValue("quality");
   await expect(page.getByLabel("Indice")).toHaveValue("none");
-  await expect(page.getByLabel("Retour arrière")).toHaveValue("off");
+  await expect(page.getByLabel("Annuler / refaire")).not.toBeChecked();
   await expect(page.getByLabel("Bulles d'aide")).not.toBeChecked();
   await expect(page.getByLabel("Sons")).not.toBeChecked();
 });

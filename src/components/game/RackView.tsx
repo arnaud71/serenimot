@@ -147,7 +147,9 @@ export function RackView({
 
   return (
     <div className="preparation-subsection">
-      <h3 id="rack-title">Vos lettres</h3>
+      <h3 id="rack-title" className="visually-hidden">
+        Vos lettres
+      </h3>
       <div
         className="rack"
         role="list"

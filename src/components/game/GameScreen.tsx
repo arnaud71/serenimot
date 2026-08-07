@@ -75,6 +75,14 @@ type SearchDiagnostic = {
   metrics: SearchWorkerMetrics;
 };
 
+const OPPONENT_LEVEL_LABELS: Record<OpponentLevel, string> = {
+  "very-easy": "Très facile",
+  easy: "Facile",
+  normal: "Normal",
+  hard: "Difficile",
+  expert: "Expert"
+};
+
 type SelectedBoardCell = {
   row: number;
   col: number;
@@ -1378,30 +1386,6 @@ export function GameScreen({
             Options
           </button>
         </nav>
-        <section className="topbar-score-panel" aria-label="Scores">
-          <div
-            className={!isFinished && game.turn.player === "human" ? "active-score active-score-human" : undefined}
-            aria-current={!isFinished && game.turn.player === "human" ? "true" : undefined}
-          >
-            <span>Vous</span>
-            <strong>{game.scores.human}</strong>
-          </div>
-          <div
-            className={!isFinished && game.turn.player === "computer" ? "active-score active-score-computer" : undefined}
-            aria-current={!isFinished && game.turn.player === "computer" ? "true" : undefined}
-          >
-            <span>Ordinateur</span>
-            <strong>{game.scores.computer}</strong>
-          </div>
-          <div>
-            <span>Pioche</span>
-            <strong>{game.bag.length}</strong>
-          </div>
-          <div>
-            <span>Grille</span>
-            <strong>{game.board.length}x{game.board.length}</strong>
-          </div>
-        </section>
         <div className="topbar-scale-control" aria-label="Taille de l'interface">
           <span>Affichage</span>
           <button
@@ -1429,6 +1413,33 @@ export function GameScreen({
       </header>
 
       <section ref={boardSectionRef} className="game-main" aria-label="Partie en cours">
+        <section className="game-status-panel" aria-label="Scores et informations de partie">
+          <div
+            className={!isFinished && game.turn.player === "human" ? "active-score active-score-human" : undefined}
+            aria-current={!isFinished && game.turn.player === "human" ? "true" : undefined}
+          >
+            <span>Vous</span>
+            <strong>{game.scores.human}</strong>
+          </div>
+          <div
+            className={!isFinished && game.turn.player === "computer" ? "active-score active-score-computer" : undefined}
+            aria-current={!isFinished && game.turn.player === "computer" ? "true" : undefined}
+          >
+            <span className="status-label-with-badge">
+              Robot
+              <em className={`opponent-level-badge level-${opponentLevel}`}>{OPPONENT_LEVEL_LABELS[opponentLevel]}</em>
+            </span>
+            <strong>{game.scores.computer}</strong>
+          </div>
+          <div>
+            <span>Pioche</span>
+            <strong>{game.bag.length}</strong>
+          </div>
+          <div>
+            <span className="status-grid-label">Grille</span>
+            <strong>{game.board.length}x{game.board.length}</strong>
+          </div>
+        </section>
         <BoardView
           board={game.board}
           selectedBoardCellKey={selectedBoardCell ? `${selectedBoardCell.row}:${selectedBoardCell.col}` : null}
@@ -1461,41 +1472,9 @@ export function GameScreen({
 
       <aside className="game-side" aria-label="Informations de partie">
         <section className="panel word-builder preparation-zone" aria-labelledby="word-builder-title" aria-live="polite">
-          <div className="panel-heading">
-            <h2 id="word-builder-title">Zone de préparation</h2>
-            {usesUndoMode ? (
-              <div className="history-actions" aria-label="Historique des actions">
-                <button
-                  className="secondary-button icon-action-button"
-                  type="button"
-                  aria-label="Défaire"
-                  onClick={handleUndoAction}
-                  disabled={!canUndoAction || game.turn.player !== "human"}
-                  {...getButtonHintProps(
-                    canUndoAction
-                      ? "Défait la dernière action de préparation, de pose ou de validation."
-                      : "Aucune action à défaire pour le moment."
-                  )}
-                >
-                  <span aria-hidden="true">↶</span>
-                </button>
-                <button
-                  className="secondary-button icon-action-button"
-                  type="button"
-                  aria-label="Refaire"
-                  onClick={handleRedoAction}
-                  disabled={!canRedoAction || game.turn.player !== "human"}
-                  {...getButtonHintProps(
-                    canRedoAction
-                      ? "Refait la dernière action qui vient d'être défaite."
-                      : "Aucune action à refaire pour le moment."
-                  )}
-                >
-                  <span aria-hidden="true">↷</span>
-                </button>
-              </div>
-            ) : null}
-          </div>
+          <h2 id="word-builder-title" className="visually-hidden">
+            Zone de préparation
+          </h2>
           <div className="preparation-rack-area">
             <RackView
               rack={game.racks.human}
@@ -1514,12 +1493,14 @@ export function GameScreen({
             />
           </div>
           <div className="preparation-subsection">
-            <h3>Chevalet</h3>
-              <PreparedWordTiles
-                displayedWord={displayedPreparedWord}
-                tileSlots={preparedTileSlotDetails}
-                tileIdSlots={preparedTileSlots}
-                selectedSlotIndex={selectedPreparedSlotIndex}
+            <div className="preparation-subheading">
+              <h3>Chevalet</h3>
+            </div>
+            <PreparedWordTiles
+              displayedWord={displayedPreparedWord}
+              tileSlots={preparedTileSlotDetails}
+              tileIdSlots={preparedTileSlots}
+              selectedSlotIndex={selectedPreparedSlotIndex}
               boardTileKeys={preparedBoardTileKeys}
               onBoardDrop={handleTileDropOnBoard}
               onInsertTile={handleInsertPreparedTile}
@@ -1531,7 +1512,7 @@ export function GameScreen({
               }}
             />
           </div>
-          <div className="mobile-action-bar" aria-label="Actions rapides">
+          <div className={`mobile-action-bar${usesUndoMode ? " with-history" : ""}`} aria-label="Actions rapides">
             <button
               type="button"
               onClick={handleValidate}
@@ -1567,6 +1548,22 @@ export function GameScreen({
             >
               Passer
             </button>
+            {usesUndoMode ? (
+              <button
+                className="secondary-button icon-action-button"
+                type="button"
+                aria-label="Défaire"
+                onClick={handleUndoAction}
+                disabled={!canUndoAction || game.turn.player !== "human"}
+                {...getButtonHintProps(
+                  canUndoAction
+                    ? "Défait la dernière action de préparation, de pose ou de validation."
+                    : "Aucune action à défaire pour le moment."
+                )}
+              >
+                <span aria-hidden="true">↶</span>
+              </button>
+            ) : null}
             <button
               className={`secondary-button${isExchangeMode ? " active-action" : ""}`}
               type="button"
@@ -1605,8 +1602,22 @@ export function GameScreen({
             >
               Effacer
             </button>
+            {usesUndoMode ? (
+              <button
+                className="secondary-button icon-action-button"
+                type="button"
+                aria-label="Refaire"
+                onClick={handleRedoAction}
+                disabled={!canRedoAction || game.turn.player !== "human"}
+                {...getButtonHintProps(
+                  canRedoAction ? "Refait la dernière action qui vient d'être défaite." : "Aucune action à refaire pour le moment."
+                )}
+              >
+                <span aria-hidden="true">↷</span>
+              </button>
+            ) : null}
           </div>
-          <div className="builder-actions">
+          <div className={`builder-actions${usesUndoMode ? " with-history" : ""}`}>
             <button
               type="button"
               onClick={handleValidate}
@@ -1642,6 +1653,22 @@ export function GameScreen({
             >
               Passer
             </button>
+            {usesUndoMode ? (
+              <button
+                className="secondary-button icon-action-button"
+                type="button"
+                aria-label="Défaire"
+                onClick={handleUndoAction}
+                disabled={!canUndoAction || game.turn.player !== "human"}
+                {...getButtonHintProps(
+                  canUndoAction
+                    ? "Défait la dernière action de préparation, de pose ou de validation."
+                    : "Aucune action à défaire pour le moment."
+                )}
+              >
+                <span aria-hidden="true">↶</span>
+              </button>
+            ) : null}
             <button
               className={`secondary-button${isExchangeMode ? " active-action" : ""}`}
               type="button"
@@ -1680,6 +1707,20 @@ export function GameScreen({
             >
               Effacer
             </button>
+            {usesUndoMode ? (
+              <button
+                className="secondary-button icon-action-button"
+                type="button"
+                aria-label="Refaire"
+                onClick={handleRedoAction}
+                disabled={!canRedoAction || game.turn.player !== "human"}
+                {...getButtonHintProps(
+                  canRedoAction ? "Refait la dernière action qui vient d'être défaite." : "Aucune action à refaire pour le moment."
+                )}
+              >
+                <span aria-hidden="true">↷</span>
+              </button>
+            ) : null}
           </div>
           {pendingScoreDetails ? (
             <div className="pending-score-preview" aria-live="polite">
@@ -1728,10 +1769,10 @@ export function GameScreen({
             )}
           </div>
           {game.message.scoreDetails ? (
-            <ScoreWordExplanations details={game.message.scoreDetails} />
+            <ScoreDetailsDisclosure details={game.message.scoreDetails} />
           ) : null}
           {game.message.scoreDetails ? (
-            <ScoreDetailsDisclosure details={game.message.scoreDetails} />
+            <ScoreWordExplanations details={game.message.scoreDetails} />
           ) : null}
         </div>
 
@@ -2079,7 +2120,7 @@ function GameOverAnimation({ winner }: { winner: PlayerId | "draw" }) {
 function WinButterfliesAnimation() {
   return (
     <svg className="game-over-animation game-over-butterflies" viewBox="0 0 1080 640" aria-hidden="true">
-      {["b1", "b2", "b3", "b4", "b5"].map((className) => (
+      {["b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8"].map((className) => (
         <g className={`game-over-butterfly ${className}`} key={className}>
           <ButterflyShape />
         </g>
@@ -2121,6 +2162,10 @@ function LoseLeavesAnimation() {
       <use className="game-over-leaf l4" href="#game-over-leaf" />
       <use className="game-over-leaf l5" href="#game-over-leaf" />
       <use className="game-over-leaf l6" href="#game-over-leaf" />
+      <use className="game-over-leaf l7" href="#game-over-leaf" />
+      <use className="game-over-leaf l8" href="#game-over-leaf" />
+      <use className="game-over-leaf l9" href="#game-over-leaf" />
+      <use className="game-over-leaf l10" href="#game-over-leaf" />
     </svg>
   );
 }

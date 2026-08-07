@@ -1,4 +1,4 @@
-import { Rack, Tile } from "./types";
+import { BOARD_SIZE, BoardSize, Rack, Tile } from "./types";
 
 export type LetterDistributionEntry = {
   letter: string;
@@ -33,12 +33,72 @@ export const LETTER_DISTRIBUTION: LetterDistributionEntry[] = [
   { letter: "Z", count: 1, value: 8 }
 ];
 
-export function createBag(): Tile[] {
+export function getLetterDistributionForBoardSize(boardSize: BoardSize = BOARD_SIZE): LetterDistributionEntry[] {
+  if (boardSize === BOARD_SIZE) {
+    return LETTER_DISTRIBUTION;
+  }
+
+  const targetTileCount = getTileCountForBoardSize(boardSize);
+  const standardTileCount = getTileCountForDistribution(LETTER_DISTRIBUTION);
+  const scale = targetTileCount / standardTileCount;
+  const scaledDistribution = LETTER_DISTRIBUTION.map((entry) => {
+    const exactCount = entry.count * scale;
+
+    return {
+      ...entry,
+      count: Math.max(1, Math.floor(exactCount)),
+      remainder: exactCount - Math.floor(exactCount)
+    };
+  });
+  let currentTileCount = scaledDistribution.reduce((total, entry) => total + entry.count, 0);
+
+  if (currentTileCount < targetTileCount) {
+    const byRemainder = [...scaledDistribution].sort(
+      (first, second) => second.remainder - first.remainder || second.count - first.count
+    );
+
+    for (let index = 0; currentTileCount < targetTileCount; index = (index + 1) % byRemainder.length) {
+      byRemainder[index].count += 1;
+      currentTileCount += 1;
+    }
+  }
+
+  if (currentTileCount > targetTileCount) {
+    const byCount = [...scaledDistribution].sort(
+      (first, second) => first.remainder - second.remainder || second.count - first.count
+    );
+
+    for (let index = 0; currentTileCount > targetTileCount; index = (index + 1) % byCount.length) {
+      if (byCount[index].count <= 1) {
+        continue;
+      }
+
+      byCount[index].count -= 1;
+      currentTileCount -= 1;
+    }
+  }
+
+  return scaledDistribution.map(({ letter, count, value }) => ({ letter, count, value }));
+}
+
+export function getTileCountForBoardSize(boardSize: BoardSize = BOARD_SIZE): number {
+  const standardTileCount = getTileCountForDistribution(LETTER_DISTRIBUTION);
+  const boardRatio = (boardSize * boardSize) / (BOARD_SIZE * BOARD_SIZE);
+
+  return Math.max(24, Math.round(standardTileCount * boardRatio));
+}
+
+export function getTileCountForDistribution(distribution: LetterDistributionEntry[] = LETTER_DISTRIBUTION): number {
+  return distribution.reduce((total, entry) => total + entry.count, 0);
+}
+
+export function createBag(boardSize: BoardSize = BOARD_SIZE): Tile[] {
+  const distribution = getLetterDistributionForBoardSize(boardSize);
   const values = new Map(LETTER_DISTRIBUTION.map(({ letter, value }) => [letter, value]));
   const tiles: Tile[] = [];
   const letterIndexes = new Map<string, number>();
 
-  for (const { letter, count } of LETTER_DISTRIBUTION) {
+  for (const { letter, count } of distribution) {
     for (let index = 0; index < count; index += 1) {
       tiles.push(createTile(letter, values, letterIndexes));
     }
@@ -47,8 +107,9 @@ export function createBag(): Tile[] {
   return tiles;
 }
 
-export function createDemoBag(): Tile[] {
-  const remainingCounts = new Map(LETTER_DISTRIBUTION.map(({ letter, count }) => [letter, count]));
+export function createDemoBag(boardSize: BoardSize = BOARD_SIZE): Tile[] {
+  const distribution = getLetterDistributionForBoardSize(boardSize);
+  const remainingCounts = new Map(distribution.map(({ letter, count }) => [letter, count]));
   const values = new Map(LETTER_DISTRIBUTION.map(({ letter, value }) => [letter, value]));
   const openingLetters = ["S", "E", "R", "E", "I", "N", "M", "O"];
   const computerOpeningLetters = ["A", "M", "I", "E", "R", "T", "O", "L"];
@@ -57,7 +118,7 @@ export function createDemoBag(): Tile[] {
 
   for (const letter of [...openingLetters, ...computerOpeningLetters]) {
     tiles.push(createTile(letter, values, letterIndexes));
-    remainingCounts.set(letter, (remainingCounts.get(letter) ?? 0) - 1);
+    remainingCounts.set(letter, Math.max(0, (remainingCounts.get(letter) ?? 0) - 1));
   }
 
   for (const [letter, count] of remainingCounts) {

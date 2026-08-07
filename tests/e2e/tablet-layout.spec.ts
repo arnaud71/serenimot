@@ -12,6 +12,7 @@ test("garde une disposition lisible en tablette paysage", async ({ page }, testI
   expect(viewport, "Le profil tablette doit définir une taille de viewport.").not.toBeNull();
 
   const boardShell = page.locator(".board-shell");
+  const scorePanel = page.locator(".game-status-panel");
   const gameSide = page.locator(".game-side");
   const preparationZone = page.locator(".preparation-zone");
   const mobileActionBar = page.locator(".mobile-action-bar");
@@ -27,9 +28,11 @@ test("garde une disposition lisible en tablette paysage", async ({ page }, testI
   expect(horizontalOverflow).toBeLessThanOrEqual(2);
 
   const boardBox = await boardShell.boundingBox();
+  const scoreBox = await scorePanel.boundingBox();
   const sideBox = await gameSide.boundingBox();
   const preparationBox = await preparationZone.boundingBox();
   expect(boardBox).not.toBeNull();
+  expect(scoreBox).not.toBeNull();
   expect(sideBox).not.toBeNull();
   expect(preparationBox).not.toBeNull();
 
@@ -37,7 +40,9 @@ test("garde une disposition lisible en tablette paysage", async ({ page }, testI
   expect(boardBox?.x ?? -1).toBeGreaterThanOrEqual(0);
   expect((sideBox?.x ?? 0) + (sideBox?.width ?? 0)).toBeLessThanOrEqual(safeViewport.width + 1);
   expect(boardBox?.x ?? 0).toBeLessThan(sideBox?.x ?? 0);
-  expect(Math.abs((boardBox?.y ?? 0) - (sideBox?.y ?? 0))).toBeLessThanOrEqual(4);
+  expect(sideBox?.y ?? safeViewport.height).toBeLessThanOrEqual(boardBox?.y ?? 0);
+  expect(Math.abs((scoreBox?.y ?? 0) - (sideBox?.y ?? 0))).toBeLessThanOrEqual(4);
+  expect(Math.abs((scoreBox?.x ?? 0) - (boardBox?.x ?? 0))).toBeLessThanOrEqual(4);
   expect(boardBox?.height ?? safeViewport.height + 1).toBeLessThanOrEqual(safeViewport.height + 1);
   expect(preparationBox?.width ?? 0).toBeGreaterThan(260);
 

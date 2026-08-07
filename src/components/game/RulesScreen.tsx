@@ -1,7 +1,9 @@
+import { useState } from "react";
+import { PROJECT_REPOSITORY_URL } from "../../app/links";
 import { createBoard } from "../../domain/board/board";
 import { DICTIONARY_LABEL, ORIGINAL_LEXICON_LABEL } from "../../domain/rules/dictionary";
-import { LETTER_DISTRIBUTION } from "../../domain/tiles/bag";
-import { BonusKind, RACK_SIZE } from "../../domain/tiles/types";
+import { getLetterDistributionForBoardSize, getTileCountForBoardSize } from "../../domain/tiles/bag";
+import { BoardSize, BonusKind, RACK_SIZE } from "../../domain/tiles/types";
 
 type RulesScreenProps = {
   hasGame: boolean;
@@ -81,8 +83,12 @@ const INTERACTION_GUIDES = [
   }
 ];
 
+const BOARD_TILE_COUNTS: BoardSize[] = [9, 11, 13, 15, 17];
+
 export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenProps) {
-  const totalTiles = LETTER_DISTRIBUTION.reduce((total, entry) => total + entry.count, 0);
+  const [selectedDistributionSize, setSelectedDistributionSize] = useState<BoardSize>(13);
+  const selectedDistribution = getLetterDistributionForBoardSize(selectedDistributionSize);
+  const selectedDistributionTileCount = getTileCountForBoardSize(selectedDistributionSize);
   const board = createBoard();
   const bonusCounts = new Map<BonusKind, number>();
 
@@ -241,16 +247,45 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
         <section className="rules-section" aria-labelledby="distribution-title">
           <h2 id="distribution-title">Distribution des lettres</h2>
           <p>
-            La pioche contient {totalTiles} tuiles. Cette distribution est originale et adaptée au
-            prototype Sérénimot.
+            Pour garder des parties équilibrées, le nombre de pièces et la quantité de chaque lettre
+            changent selon la taille de la grille. Choisissez une taille pour voir la distribution
+            utilisée en partie.
           </p>
-          <div className="letter-distribution" role="table" aria-label="Distribution des lettres">
+          <div className="distribution-tabs" role="tablist" aria-label="Distribution par taille de grille">
+            {BOARD_TILE_COUNTS.map((boardSize) => (
+              <button
+                aria-controls="letter-distribution-table"
+                aria-selected={selectedDistributionSize === boardSize}
+                className="distribution-tab"
+                id={`distribution-tab-${boardSize}`}
+                key={boardSize}
+                onClick={() => setSelectedDistributionSize(boardSize)}
+                role="tab"
+                type="button"
+              >
+                <span>
+                  {boardSize} × {boardSize}
+                </span>
+                <strong>{getTileCountForBoardSize(boardSize)} pièces</strong>
+              </button>
+            ))}
+          </div>
+          <p className="distribution-summary">
+            Distribution affichée : grille {selectedDistributionSize} × {selectedDistributionSize},{" "}
+            {selectedDistributionTileCount} pièces.
+          </p>
+          <div
+            aria-labelledby={`distribution-tab-${selectedDistributionSize}`}
+            className="letter-distribution"
+            id="letter-distribution-table"
+            role="table"
+          >
             <div className="distribution-header" role="row">
               <span role="columnheader">Lettre</span>
               <span role="columnheader">Nombre</span>
               <span role="columnheader">Valeur</span>
             </div>
-            {LETTER_DISTRIBUTION.map((entry) => (
+            {selectedDistribution.map((entry) => (
               <div className="distribution-row" role="row" key={entry.letter}>
                 <strong role="cell">{entry.letter}</strong>
                 <span role="cell">{entry.count}</span>
@@ -292,7 +327,11 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
           <p>
             Sérénimot fonctionne localement dans votre navigateur ou dans l'application installée.
             Aucune inscription n'est demandée, aucune donnée personnelle n'est collectée et aucune
-            publicité n'est affichée. L'application est gratuite et son code est ouvert.
+            publicité n'est affichée. L'application est gratuite et son code est ouvert :{" "}
+            <a href={PROJECT_REPOSITORY_URL} target="_blank" rel="noreferrer">
+              voir le projet sur GitHub
+            </a>
+            .
           </p>
           <p>
             L'application est actuellement hébergée gratuitement avec GitHub Pages. Elle a été
