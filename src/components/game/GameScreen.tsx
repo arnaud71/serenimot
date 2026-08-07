@@ -1827,6 +1827,11 @@ function PreparedWordTiles({
                   return;
                 }
 
+                if (selectedSlotIndex !== null) {
+                  onInsertTile(tileId, selectedSlotIndex);
+                  return;
+                }
+
                 onRemoveTile(tileId);
               }}
               onDragStart={(event) => {

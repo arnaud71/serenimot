@@ -133,6 +133,27 @@ test("place une lettre dans un emplacement choisi du chevalet", async ({ page })
   await expect(page.locator(".prepared-word-slot[data-slot-index='3']")).toBeVisible();
 });
 
+test("déplace une lettre du chevalet vers l'emplacement choisi", async ({ page }) => {
+  await installSeededRandom(page, 16);
+  await page.goto("/");
+  await startNewGame(page);
+
+  await page.locator(".rack-tile").first().click();
+  await page.locator(".rack-tile").first().click();
+
+  const firstPreparedLetter = await page.locator(".prepared-word-tile[data-slot-index='0'] span").textContent();
+  const secondPreparedLetter = await page.locator(".prepared-word-tile[data-slot-index='1'] span").textContent();
+
+  await page.locator(".prepared-word-slot[data-slot-index='3']").click();
+  await expect(page.locator(".prepared-word-slot[data-slot-index='3']")).toHaveAttribute("aria-pressed", "true");
+
+  await page.locator(".prepared-word-tile[data-slot-index='0']").click();
+
+  await expect(page.locator(".prepared-word-slot[data-slot-index='0']")).toBeVisible();
+  await expect(page.locator(".prepared-word-tile[data-slot-index='1'] span")).toHaveText(secondPreparedLetter ?? "");
+  await expect(page.locator(".prepared-word-tile[data-slot-index='3'] span")).toHaveText(firstPreparedLetter ?? "");
+});
+
 test("place une lettre sur une case choisie du plateau", async ({ page }) => {
   await installSeededRandom(page, 11);
   await page.goto("/");
