@@ -897,7 +897,7 @@ Ne pas recopier sans réflexion la distribution et les valeurs officielles du Sc
 
 La partie peut se terminer lorsque :
 
-    la pioche est vide et un joueur n’a plus de lettres ;
+    aucun nouveau mot ne peut être créé par les deux joueurs avec les lettres restantes et le plateau actuel ;
 
     plusieurs tours consécutifs sont passés ;
 
@@ -2135,5 +2135,3 @@ Lorsqu’un choix oppose sophistication et sérénité, choisir la sérénité.
 Sérénimot doit donner à l’utilisateur le sentiment suivant :
 
     « Je comprends ce que je peux faire, je peux prendre mon temps, et je peux toujours revenir en arrière. »
-
-

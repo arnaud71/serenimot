@@ -61,7 +61,7 @@ export type GameMessage = {
   scoreDetails?: ScoreDetails;
 };
 
-export type GameEndReason = "rack-empty" | "consecutive-passes";
+export type GameEndReason = "rack-empty" | "no-moves" | "consecutive-passes";
 
 export type GameStatus =
   | { state: "playing" }
@@ -70,7 +70,19 @@ export type GameStatus =
       winner: PlayerId | "draw";
       reason: GameEndReason;
       finalScores: Record<PlayerId, number>;
+      stats?: GameStats;
     };
+
+export type GameStats = {
+  humanTurns: number;
+  computerTurns: number;
+  passes: number;
+  exchanges: number;
+  hints: {
+    partial: number;
+    complete: number;
+  };
+};
 
 export type GameState = {
   gameId: string;
@@ -80,6 +92,7 @@ export type GameState = {
   scores: Record<PlayerId, number>;
   turn: Turn;
   passCount: number;
+  stats?: GameStats;
   message: GameMessage;
   status?: GameStatus;
 };

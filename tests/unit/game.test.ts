@@ -20,6 +20,8 @@ import {
   placeTile,
   placeWord,
   playEasyComputerTurn,
+  recordHumanHintUse,
+  exchangeHumanTiles,
   undoHumanTurn,
   validatePreparedHint,
   validateHumanTurn
@@ -362,7 +364,7 @@ describe("tour du joueur", () => {
 
   it("termine la partie après plusieurs tours passés", () => {
     const state = {
-      ...createTestGame(),
+      ...recordHumanHintUse(recordHumanHintUse(createTestGame(), "partial"), "complete"),
       passCount: 3,
       scores: {
         human: 21,
@@ -379,6 +381,27 @@ describe("tour du joueur", () => {
       finalScores: {
         human: 21,
         computer: 18
+      },
+      stats: {
+        hints: {
+          partial: 1,
+          complete: 1
+        }
+      }
+    });
+  });
+
+  it("initialise les statistiques de partie", () => {
+    const state = createTestGame();
+
+    expect(state.stats).toEqual({
+      humanTurns: 0,
+      computerTurns: 0,
+      passes: 0,
+      exchanges: 0,
+      hints: {
+        partial: 0,
+        complete: 0
       }
     });
   });
@@ -406,6 +429,212 @@ describe("tour du joueur", () => {
     });
   });
 
+  it("ne termine pas la partie quand la pioche est vide mais qu'un nouveau mot reste possible", () => {
+    const state = {
+      ...createTestGame(),
+      bag: [],
+      racks: {
+        human: [
+          { id: "human-fin-1", letter: "A", value: 1 },
+          { id: "human-fin-2", letter: "I", value: 1 },
+          { id: "human-fin-3", letter: "R", value: 2 }
+        ],
+        computer: [
+          { id: "computer-fin-1", letter: "Q", value: 6 }
+        ]
+      },
+      scores: {
+        human: 285,
+        computer: 212
+      }
+    };
+    const finished = passHumanTurn(state);
+
+    expect(isGameFinished(finished)).toBe(false);
+    expect(finished.status).toMatchObject({
+      state: "playing"
+    });
+  });
+
+  it("termine la partie quand aucun nouveau mot ne peut être créé par les deux joueurs", () => {
+    const state = {
+      ...createTestGame(),
+      bag: [],
+      racks: {
+        human: [{ id: "human-fin-1", letter: "Q", value: 6 }],
+        computer: [{ id: "computer-fin-1", letter: "W", value: 8 }]
+      },
+      scores: {
+        human: 285,
+        computer: 212
+      }
+    };
+    const finished = passHumanTurn(state);
+
+    expect(isGameFinished(finished)).toBe(true);
+    expect(finished.status).toMatchObject({
+      state: "finished",
+      winner: "human",
+      reason: "no-moves",
+      finalScores: {
+        human: 285,
+        computer: 212
+      }
+    });
+  });
+
+  it("échange des lettres du joueur puis passe le tour", () => {
+    const state = {
+      ...createTestGame(),
+      racks: {
+        human: [
+          { id: "human-exchange-1", letter: "A", value: 1 },
+          { id: "human-exchange-2", letter: "B", value: 4 },
+          { id: "human-exchange-3", letter: "C", value: 3 }
+        ],
+        computer: []
+      },
+      bag: [
+        { id: "bag-exchange-1", letter: "D", value: 3 },
+        { id: "bag-exchange-2", letter: "E", value: 1 },
+        { id: "bag-exchange-3", letter: "F", value: 4 }
+      ],
+      passCount: 0
+    };
+
+    const result = exchangeHumanTiles(state, ["human-exchange-1", "human-exchange-2"], () => 0);
+
+    expect(result.ok).toBe(true);
+    if (!result.ok) {
+      return;
+    }
+
+    expect(result.state.turn.player).toBe("computer");
+    expect(result.state.passCount).toBe(1);
+    expect(result.state.racks.human.map((tile) => tile.id)).toEqual([
+      "human-exchange-3",
+      "bag-exchange-1",
+      "bag-exchange-2"
+    ]);
+    expect(result.state.bag.map((tile) => tile.id)).toEqual(
+      expect.arrayContaining(["human-exchange-1", "human-exchange-2", "bag-exchange-3"])
+    );
+    expect(result.state.message.text).toContain("Vous échangez 2 lettres");
+  });
+
+  it("refuse l'échange quand la pioche ne contient pas assez de lettres", () => {
+    const state = {
+      ...createTestGame(),
+      racks: {
+        ...createTestGame().racks,
+        human: [
+          { id: "human-exchange-1", letter: "A", value: 1 },
+          { id: "human-exchange-2", letter: "B", value: 4 }
+        ]
+      },
+      bag: [{ id: "bag-exchange-1", letter: "D", value: 3 }]
+    };
+
+    const result = exchangeHumanTiles(state, ["human-exchange-1", "human-exchange-2"], () => 0);
+
+    expect(result.ok).toBe(false);
+    if (result.ok) {
+      return;
+    }
+
+    expect(result.reason).toBe(
+      "La pioche ne permet plus d'échanger autant de lettres. Essayez de poser un mot ou passez votre tour."
+    );
+    expect(result.state).toBe(state);
+  });
+
+  it("termine la partie après un échange si aucun joueur ne peut créer de nouveau mot", () => {
+    const state = {
+      ...createTestGame(),
+      racks: {
+        human: [{ id: "human-exchange-1", letter: "Q", value: 6 }],
+        computer: [{ id: "computer-exchange-1", letter: "W", value: 8 }]
+      },
+      bag: [{ id: "bag-exchange-1", letter: "Z", value: 8 }],
+      scores: {
+        human: 41,
+        computer: 39
+      }
+    };
+
+    const result = exchangeHumanTiles(state, ["human-exchange-1"], () => 0);
+
+    expect(result.ok).toBe(true);
+    if (!result.ok) {
+      return;
+    }
+
+    expect(isGameFinished(result.state)).toBe(true);
+    expect(result.state.status).toMatchObject({
+      state: "finished",
+      winner: "human",
+      reason: "no-moves",
+      finalScores: {
+        human: 41,
+        computer: 39
+      }
+    });
+  });
+
+  it("reprend les lettres posées pendant le tour avant de les échanger", () => {
+    const initialState = {
+      ...createTestGame(),
+      racks: {
+        human: [
+          { id: "human-exchange-1", letter: "A", value: 1 },
+          { id: "human-exchange-2", letter: "B", value: 4 }
+        ],
+        computer: [
+          { id: "computer-exchange-1", letter: "A", value: 1 },
+          { id: "computer-exchange-2", letter: "I", value: 1 },
+          { id: "computer-exchange-3", letter: "R", value: 2 }
+        ]
+      },
+      bag: [
+        { id: "bag-exchange-1", letter: "C", value: 3 },
+        { id: "bag-exchange-2", letter: "D", value: 3 }
+      ]
+    };
+    const placement = placeTile(initialState, "human-exchange-1", CENTER, CENTER);
+
+    expect(placement.ok).toBe(true);
+    if (!placement.ok) {
+      return;
+    }
+
+    const result = exchangeHumanTiles(placement.state, ["human-exchange-1"], () => 0);
+
+    expect(result.ok).toBe(true);
+    if (!result.ok) {
+      return;
+    }
+
+    expect(result.state.board[CENTER][CENTER].tile).toBeNull();
+    expect(result.state.turn).toEqual({ player: "computer", placedTileIds: [] });
+    expect(result.state.racks.human.map((tile) => tile.id)).toEqual(["human-exchange-2", "bag-exchange-1"]);
+    expect(result.state.bag.map((tile) => tile.id)).toEqual(
+      expect.arrayContaining(["human-exchange-1", "bag-exchange-2"])
+    );
+  });
+
+  it("refuse l'échange sans lettre sélectionnée", () => {
+    const state = createTestGame();
+    const result = exchangeHumanTiles(state, [], () => 0);
+
+    expect(result.ok).toBe(false);
+    if (result.ok) {
+      return;
+    }
+
+    expect(result.reason).toBe("Choisissez au moins une lettre à échanger.");
+    expect(result.state).toBe(state);
+  });
+
   it("mélange les lettres pour une nouvelle partie normale", () => {
     const firstGame = createNewGame({ random: () => 0 });
     const secondGame = createNewGame({ random: () => 0.9 });
@@ -413,6 +642,14 @@ describe("tour du joueur", () => {
     expect(firstGame.racks.human.map((tile) => tile.id)).not.toEqual(
       secondGame.racks.human.map((tile) => tile.id)
     );
+  });
+
+  it("peut limiter la pioche restante pour les parties de test", () => {
+    const state = createNewGame({ remainingBagSize: 20, random: () => 0 });
+
+    expect(state.racks.human).toHaveLength(8);
+    expect(state.racks.computer).toHaveLength(8);
+    expect(state.bag).toHaveLength(20);
   });
 
   it("place une lettre depuis le chevalet vers le plateau", () => {

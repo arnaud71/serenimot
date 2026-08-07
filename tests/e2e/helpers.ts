@@ -2,12 +2,19 @@ import { expect } from "@playwright/test";
 import type { Page } from "@playwright/test";
 
 export async function waitForAppReady(page: Page) {
-  await expect(page.getByRole("button", { name: "Nouvelle partie" })).toBeEnabled({ timeout: 20_000 });
+  await expect(getStartButton(page)).toBeEnabled({ timeout: 20_000 });
 }
 
 export async function startNewGame(page: Page) {
   await waitForAppReady(page);
-  await page.getByRole("button", { name: "Nouvelle partie" }).click();
+  await getStartButton(page).click();
+}
+
+function getStartButton(page: Page) {
+  return page
+    .getByRole("button", { name: "Jouer maintenant" })
+    .or(page.getByRole("button", { name: "Nouvelle partie" }))
+    .first();
 }
 
 export async function installSeededRandom(page: Page, seed: number) {

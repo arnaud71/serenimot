@@ -10,6 +10,7 @@ import {
   Board,
   BoardSize,
   GameEndReason,
+  GameStats,
   GameState,
   PlacementResult,
   PlacedTile,
@@ -20,6 +21,7 @@ import {
 } from "../tiles/types";
 import { getPlacedTiles, validateTurn } from "../rules/validation";
 import type { TurnWord } from "../rules/validation";
+import { findBestHumanMove } from "./hints";
 import type { BestMoveHint } from "./hints";
 
 export type PlacementDirection = "row" | "col";
@@ -34,6 +36,7 @@ type NewGameOptions = {
   useDemoBag?: boolean;
   boardSize?: BoardSize;
   random?: () => number;
+  remainingBagSize?: number;
 };
 
 const BOARD_TILE_TOKEN_PREFIX = "board:";
@@ -43,15 +46,60 @@ export function createBoardTileToken(row: number, col: number): string {
   return `${BOARD_TILE_TOKEN_PREFIX}${row}:${col}`;
 }
 
+export function createEmptyGameStats(): GameStats {
+  return {
+    humanTurns: 0,
+    computerTurns: 0,
+    passes: 0,
+    exchanges: 0,
+    hints: {
+      partial: 0,
+      complete: 0
+    }
+  };
+}
+
+export function getGameStats(state: GameState): GameStats {
+  return {
+    ...createEmptyGameStats(),
+    ...state.stats,
+    hints: {
+      ...createEmptyGameStats().hints,
+      ...state.stats?.hints
+    }
+  };
+}
+
+export function recordHumanHintUse(state: GameState, kind: "partial" | "complete"): GameState {
+  if (isGameFinished(state)) {
+    return state;
+  }
+
+  const stats = getGameStats(state);
+
+  return {
+    ...state,
+    stats: {
+      ...stats,
+      hints: {
+        ...stats.hints,
+        [kind]: stats.hints[kind] + 1
+      }
+    }
+  };
+}
+
 export function createNewGame(options: NewGameOptions = {}): GameState {
   const initialBag = options.useDemoBag ? createDemoBag() : shuffleTiles(createBag(), options.random);
   const humanDraw = drawTiles(initialBag, RACK_SIZE);
   const computerDraw = drawTiles(humanDraw.bag, RACK_SIZE);
+  const remainingBag =
+    typeof options.remainingBagSize === "number" ? computerDraw.bag.slice(0, options.remainingBagSize) : computerDraw.bag;
 
   return {
     gameId: crypto.randomUUID(),
     board: createBoard(options.boardSize),
-    bag: computerDraw.bag,
+    bag: remainingBag,
     racks: {
       human: humanDraw.drawn,
       computer: computerDraw.drawn
@@ -65,6 +113,7 @@ export function createNewGame(options: NewGameOptions = {}): GameState {
       placedTileIds: []
     },
     passCount: 0,
+    stats: createEmptyGameStats(),
     status: { state: "playing" },
     message: {
       tone: "info",
@@ -427,6 +476,10 @@ export function validateHumanTurn(state: GameState): GameState {
       ...state.scores,
       human: state.scores.human + score
     },
+    stats: {
+      ...getGameStats(state),
+      humanTurns: getGameStats(state).humanTurns + 1
+    },
     turn: {
       player: "computer",
       placedTileIds: []
@@ -462,6 +515,10 @@ export function validatePreparedHint(state: GameState, hint: BestMoveHint): Game
       ...state.scores,
       human: state.scores.human + score
     },
+    stats: {
+      ...getGameStats(state),
+      humanTurns: getGameStats(state).humanTurns + 1
+    },
     turn: {
       player: "computer",
       placedTileIds: []
@@ -483,6 +540,10 @@ export function passHumanTurn(state: GameState): GameState {
   return finishGameIfNeeded({
     ...undoHumanTurn(state),
     passCount: state.passCount + 1,
+    stats: {
+      ...getGameStats(state),
+      passes: getGameStats(state).passes + 1
+    },
     turn: {
       player: "computer",
       placedTileIds: []
@@ -492,6 +553,75 @@ export function passHumanTurn(state: GameState): GameState {
       text: "Vous passez votre tour. L'ordinateur va jouer calmement."
     }
   });
+}
+
+export function exchangeHumanTiles(
+  state: GameState,
+  tileIds: string[],
+  random: () => number = Math.random
+): PlacementResult {
+  if (isGameFinished(state)) {
+    return { ok: false, reason: "La partie est terminée.", state };
+  }
+
+  if (state.turn.player !== "human") {
+    return { ok: false, reason: "Ce n'est pas à vous de jouer.", state };
+  }
+
+  const uniqueTileIds = [...new Set(tileIds)];
+
+  if (uniqueTileIds.length === 0) {
+    return { ok: false, reason: "Choisissez au moins une lettre à échanger.", state };
+  }
+
+  const restoredState = undoHumanTurn(state);
+  const selectedTiles = uniqueTileIds
+    .map((tileId) => restoredState.racks.human.find((tile) => tile.id === tileId))
+    .filter((tile): tile is Tile => Boolean(tile));
+
+  if (selectedTiles.length !== uniqueTileIds.length) {
+    return { ok: false, reason: "Une lettre choisie n'est plus disponible.", state };
+  }
+
+  if (restoredState.bag.length < selectedTiles.length) {
+    return {
+      ok: false,
+      reason: "La pioche ne permet plus d'échanger autant de lettres. Essayez de poser un mot ou passez votre tour.",
+      state
+    };
+  }
+
+  const selectedTileIds = new Set(uniqueTileIds);
+  const keptRack = restoredState.racks.human.filter((tile) => !selectedTileIds.has(tile.id));
+  const draw = drawTiles(restoredState.bag, selectedTiles.length);
+  const nextBag = shuffleTiles([...draw.bag, ...selectedTiles], random);
+  const count = selectedTiles.length;
+
+  return {
+    ok: true,
+    state: finishGameIfNeeded({
+      ...restoredState,
+      bag: nextBag,
+      racks: {
+        ...restoredState.racks,
+        human: [...keptRack, ...draw.drawn]
+      },
+      turn: {
+        player: "computer",
+        placedTileIds: []
+      },
+      passCount: restoredState.passCount + 1,
+      stats: {
+        ...getGameStats(restoredState),
+        exchanges: getGameStats(restoredState).exchanges + 1,
+        passes: getGameStats(restoredState).passes + 1
+      },
+      message: {
+        tone: "info",
+        text: `Vous échangez ${count} lettre${count > 1 ? "s" : ""}. L'ordinateur va jouer calmement.`
+      }
+    })
+  };
 }
 
 export function playComputerTurn(
@@ -523,6 +653,10 @@ export function playAutomatedTurn(
         placedTileIds: []
       },
       passCount: state.passCount + 1,
+      stats: {
+        ...getGameStats(state),
+        passes: getGameStats(state).passes + 1
+      },
       message: {
         tone: "info",
         text:
@@ -549,6 +683,11 @@ export function playAutomatedTurn(
     scores: {
       ...state.scores,
       [player]: state.scores[player] + score
+    },
+    stats: {
+      ...getGameStats(state),
+      computerTurns: player === "computer" ? getGameStats(state).computerTurns + 1 : getGameStats(state).computerTurns,
+      humanTurns: player === "human" ? getGameStats(state).humanTurns + 1 : getGameStats(state).humanTurns
     },
     turn: {
       player: nextPlayer,
@@ -602,7 +741,8 @@ function finishGameIfNeeded(state: GameState): GameState {
       state: "finished",
       winner,
       reason,
-      finalScores: { ...state.scores }
+      finalScores: { ...state.scores },
+      stats: getGameStats(state)
     },
     message: {
       ...state.message,
@@ -613,8 +753,18 @@ function finishGameIfNeeded(state: GameState): GameState {
 }
 
 function getGameEndReason(state: GameState): GameEndReason | null {
-  if (state.bag.length === 0 && (state.racks.human.length === 0 || state.racks.computer.length === 0)) {
-    return "rack-empty";
+  if (state.bag.length === 0) {
+    if (state.racks.human.length === 0 || state.racks.computer.length === 0) {
+      return "rack-empty";
+    }
+
+    if (!canAnyPlayerCreateWord(state)) {
+      return "no-moves";
+    }
+  }
+
+  if (state.passCount > 0 && !canAnyPlayerCreateWord(state)) {
+    return "no-moves";
   }
 
   if (state.passCount >= MAX_CONSECUTIVE_PASSES) {
@@ -622,6 +772,26 @@ function getGameEndReason(state: GameState): GameEndReason | null {
   }
 
   return null;
+}
+
+function canAnyPlayerCreateWord(state: GameState): boolean {
+  return canPlayerCreateWord(state, "human") || canPlayerCreateWord(state, "computer");
+}
+
+function canPlayerCreateWord(state: GameState, player: PlayerId): boolean {
+  return Boolean(
+    findBestHumanMove({
+      ...state,
+      racks: {
+        ...state.racks,
+        human: state.racks[player]
+      },
+      turn: {
+        player: "human",
+        placedTileIds: []
+      }
+    })
+  );
 }
 
 function getWinner(scores: GameState["scores"]): PlayerId | "draw" {

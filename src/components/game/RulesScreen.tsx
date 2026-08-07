@@ -120,6 +120,21 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
               <li>Touchez une case compatible pour poser un mot préparé de plusieurs lettres.</li>
               <li>Validez seulement quand le mot est correct.</li>
               <li>Vous pouvez déplacer, retirer, reprendre, effacer ou annuler votre coup avant validation.</li>
+              <li>Vous pouvez échanger des lettres disponibles si la pioche contient assez de lettres ; cela passe votre tour.</li>
+            </ul>
+          </article>
+
+          <article className="rules-section">
+            <h2>Échange</h2>
+            <ul>
+              <li>Appuyez sur Échanger pour choisir les lettres à remplacer.</li>
+              <li>Si des lettres sont sur le plateau ou dans le chevalet, elles reviennent d'abord dans Vos lettres.</li>
+              <li>Touchez les lettres voulues dans Vos lettres, puis appuyez à nouveau sur Échanger.</li>
+              <li>Les lettres choisies retournent dans la pioche et vous recevez le même nombre de lettres.</li>
+              <li>Pendant la sélection, Indice et Passer restent visibles mais ne sont pas cliquables.</li>
+              <li>Annuler permet de quitter la sélection avant de confirmer l'échange.</li>
+              <li>L'échange n'est disponible que si la pioche suffit.</li>
+              <li>Après l'échange, le jeu vérifie la fin de partie comme après un tour passé.</li>
             </ul>
           </article>
 
@@ -131,6 +146,15 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
               <li>Les lettres d'un même coup restent sur une ligne ou une colonne.</li>
               <li>Le mot principal doit être continu, sans trou.</li>
               <li>Les mots croisés créés doivent aussi exister dans le dictionnaire.</li>
+            </ul>
+          </article>
+
+          <article className="rules-section">
+            <h2>Fin de partie</h2>
+            <ul>
+              <li>La partie se termine quand aucun nouveau mot ne peut être créé par les deux joueurs.</li>
+              <li>Elle peut aussi se terminer après plusieurs tours consécutifs passés.</li>
+              <li>Le score le plus élevé détermine le gagnant.</li>
             </ul>
           </article>
         </section>
@@ -175,6 +199,11 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
             <p role="listitem">
               <strong>Glisser-déposer.</strong> Il reste possible depuis la réserve, le chevalet ou
               une lettre déjà posée.
+            </p>
+            <p role="listitem">
+              <strong>Échanger.</strong> Le bouton active une sélection de lettres disponibles, puis
+              remplace les lettres choisies et passe le tour. Les lettres du coup en cours reviennent
+              d'abord dans Vos lettres.
             </p>
             <p role="listitem">
               <strong>Lettre déjà validée.</strong> Elle peut servir de repère dans un mot préparé si

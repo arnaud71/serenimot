@@ -16,6 +16,16 @@ Les bonus restent volontairement peu nombreux pour laisser respirer la grille. L
 
 Chaque joueur reçoit 8 lettres. La pioche est mélangée au début d'une nouvelle partie.
 
+## Échange de lettres
+
+Le joueur peut remplacer une ou plusieurs lettres disponibles au lieu de poser un mot. Le bouton `Échanger` remet d'abord les lettres posées pendant le tour et les lettres préparées dans `Vos lettres`, puis active une sélection dans `Vos lettres`. Le joueur touche les lettres à remplacer, puis appuie à nouveau sur `Échanger`.
+
+Pendant cette sélection, les boutons `Indice` et `Passer` restent visibles mais ne sont pas cliquables. Le bouton `Annuler` permet de quitter le mode échange sans remplacer de lettre.
+
+Les lettres choisies retournent dans la pioche, le joueur reçoit le même nombre de nouvelles lettres et son tour est passé. L'échange n'est disponible que si la pioche contient au moins autant de lettres que la sélection. Si la pioche ne permet plus l'échange demandé, le joueur doit poser un mot ou passer son tour.
+
+Après un échange, le jeu vérifie la fin de partie comme après un tour passé. Si aucun nouveau mot ne peut être créé par les deux joueurs, la partie se termine.
+
 ## Préparation et placement
 
 Le joueur peut poser une lettre en touchant d'abord une case vide du plateau, puis une lettre disponible. La même logique permet de déplacer une lettre déjà posée pendant le tour : une case vide est choisie, puis la lettre posée est touchée.
@@ -43,6 +53,10 @@ Les mots de 2 à 4 lettres suivent une politique lexicale plus stricte que les m
 ## Score
 
 Le score additionne le mot principal et les mots croisés secondaires formés pendant le tour. Les lettres déjà présentes comptent avec leur valeur simple. Les bonus `Lx2`, `Lx3`, `Mx2`, `Mx3` et `+1` s'appliquent aux nouvelles lettres du tour. Un bonus de 12 points est prévu si les 8 lettres du chevalet sont jouées dans le même tour.
+
+## Fin de partie
+
+La partie se termine lorsqu'aucun nouveau mot ne peut être créé par les deux joueurs avec les lettres restantes et le plateau actuel. Elle peut aussi se terminer après plusieurs tours consécutifs passés sans mot posé.
 
 ## Adversaire
 

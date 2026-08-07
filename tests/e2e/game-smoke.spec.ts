@@ -11,7 +11,7 @@ import {
 test("démarre une partie et vérifie les réglages principaux", async ({ page }) => {
   await page.goto("/");
 
-  await expect(page.getByRole("heading", { name: "Sérénimot" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Sérénimot", exact: true })).toBeVisible();
   await startNewGame(page);
 
   await expect(page.getByRole("heading", { name: "Zone de préparation" })).toBeVisible();
@@ -293,7 +293,7 @@ test("affiche l'indice complet sans numérotation progressive", async ({ page })
 
   await page.getByRole("button", { name: "Indice" }).click();
 
-  const completeHintStatus = page.getByRole("status").filter({ hasText: /Appuyez sur Valider pour le jouer\./ });
+  const completeHintStatus = page.getByRole("status").filter({ hasText: /Valider pour jouer le mot trouvé : [A-Z]+/ });
   await expect(completeHintStatus).toBeVisible({ timeout: 15_000 });
   await expect(completeHintStatus).not.toContainText(/Indice \d\/6/);
   await expect(page.getByRole("button", { name: "Indice" })).toBeVisible();

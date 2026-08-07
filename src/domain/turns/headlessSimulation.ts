@@ -128,6 +128,7 @@ export function runHeadlessSimulationReport(options: HeadlessSimulationReportOpt
   };
   const reasons: HeadlessSimulationReport["reasons"] = {
     "rack-empty": 0,
+    "no-moves": 0,
     "consecutive-passes": 0,
     unfinished: 0
   };

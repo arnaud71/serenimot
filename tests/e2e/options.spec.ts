@@ -78,6 +78,45 @@ test("peut masquer les bulles de hints visuelles", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Lexique" })).not.toHaveAttribute("data-tooltip", /./);
 });
 
+test("affiche les infobulles des actions sans les couper", async ({ page }) => {
+  await installSeededRandom(page, 34);
+  await page.goto("/");
+
+  await startNewGame(page);
+  const hintButtons = page.getByRole("button", { name: /Indice/ });
+  const count = await hintButtons.count();
+  let visibleHintButton = hintButtons.first();
+
+  for (let index = 0; index < count; index += 1) {
+    const candidate = hintButtons.nth(index);
+
+    if (await candidate.isVisible()) {
+      visibleHintButton = candidate;
+      break;
+    }
+  }
+
+  await expect(visibleHintButton).toHaveAttribute("data-tooltip", /bon coup possible/i);
+  await visibleHintButton.focus();
+  await page.waitForTimeout(650);
+
+  const tooltipState = await visibleHintButton.evaluate((button) => {
+    const buttonStyle = window.getComputedStyle(button);
+    const tooltipStyle = window.getComputedStyle(button, "::after");
+
+    return {
+      content: tooltipStyle.content,
+      opacity: Number(tooltipStyle.opacity),
+      overflow: buttonStyle.overflow
+    };
+  });
+
+  expect(tooltipState.overflow).toBe("visible");
+  expect(tooltipState.opacity).toBeGreaterThan(0.9);
+  expect(tooltipState.content).not.toBe("none");
+  expect(tooltipState.content).not.toBe('""');
+});
+
 test("conserve le volume sonore quand les sons sont activés", async ({ page }) => {
   await page.goto("/");
 

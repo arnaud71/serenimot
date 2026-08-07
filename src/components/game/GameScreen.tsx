@@ -14,10 +14,12 @@ import type { SearchWorkerMetrics } from "../../domain/turns/searchWorkerClient"
 import {
   passHumanTurn,
   createBoardTileToken,
+  exchangeHumanTiles,
   isGameFinished,
   moveHumanTurnWord,
   placeTile,
   placeWord,
+  recordHumanHintUse,
   removeHumanTurnTile,
   undoHumanTurn,
   validatePreparedHint,
@@ -26,7 +28,7 @@ import {
 import type { PlacementDirection } from "../../domain/turns/game";
 import type { ComputerSearchProfile, OpponentLevel } from "../../domain/turns/game";
 import { getBoardCenter } from "../../domain/tiles/types";
-import type { GameState, PlacedTile, ScoreDetails, ScoreLetterDetail, Tile } from "../../domain/tiles/types";
+import type { GameState, PlacedTile, PlayerId, ScoreDetails, ScoreLetterDetail, Tile } from "../../domain/tiles/types";
 import { getPlacedTiles, validateTurn } from "../../domain/rules/validation";
 import { explainTurnScore } from "../../domain/scoring/scoring";
 import { DICTIONARY_LABEL, getDictionarySize } from "../../domain/rules/dictionary";
@@ -73,6 +75,35 @@ type SearchDiagnostic = {
   metrics: SearchWorkerMetrics;
 };
 
+type SelectedBoardCell = {
+  row: number;
+  col: number;
+};
+
+type ContextualHelp = {
+  title: string;
+  items: string[];
+  note?: string;
+};
+
+type ContextualHelpParams = {
+  canValidate: boolean;
+  dictionaryWordCount: string;
+  displayedPreparedWord: string;
+  game: GameState;
+  hintLevel: HintLevel;
+  isExchangeMode: boolean;
+  isFinished: boolean;
+  isHintSearching: boolean;
+  pendingScoreDetails: ScoreDetails | null;
+  pendingTurnWord: BoardFloatingWord | null;
+  selectedBoardCell: SelectedBoardCell | null;
+  selectedExchangeTileIds: string[];
+  selectedPreparedSlotIndex: number | null;
+  selectedTile: Tile | null;
+  usesProgressiveHints: boolean;
+};
+
 type UndoSnapshot = {
   game: GameState;
   preparedTileSlots: (string | null)[];
@@ -84,11 +115,6 @@ type UndoSnapshot = {
   errorPreviewCells: BoardPreviewCell[];
   invalidCellKeys: string[];
   floatingScorePreview: number | null;
-};
-
-type SelectedBoardCell = {
-  row: number;
-  col: number;
 };
 
 export function GameScreen({
@@ -128,6 +154,9 @@ export function GameScreen({
   const [isHintSearching, setIsHintSearching] = useState(false);
   const [isBoardRecenterVisible, setIsBoardRecenterVisible] = useState(false);
   const [searchDiagnostic, setSearchDiagnostic] = useState<SearchDiagnostic | null>(null);
+  const [isExchangeMode, setIsExchangeMode] = useState(false);
+  const [selectedExchangeTileIds, setSelectedExchangeTileIds] = useState<string[]>([]);
+  const [dismissedGameOverId, setDismissedGameOverId] = useState<string | null>(null);
   const hintSearchTimeoutRef = useRef<number | null>(null);
   const hintSearchRequestIdRef = useRef(0);
   const computerSearchRequestIdRef = useRef(0);
@@ -220,6 +249,32 @@ export function GameScreen({
     [game, hint, isCompleteHintVisible]
   );
   const isHintDisabled = isFinished || game.turn.player !== "human" || isHintSearching || hintMode === "none";
+  const hasPreparedActivity = preparedTileIds.length > 0 || Boolean(pendingTurnWord);
+  const canUseExchangeMode = !isFinished && game.turn.player === "human" && game.bag.length > 0;
+  const exchangeButtonLabel =
+    isExchangeMode && selectedExchangeTileIds.length > 0
+      ? `Échanger (${selectedExchangeTileIds.length})`
+      : "Échanger";
+  const exchangeButtonHint = isExchangeMode
+    ? "Remplace les lettres choisies et passe votre tour."
+    : "Choisit des lettres à remplacer, puis passe votre tour.";
+  const contextualHelp = getContextualHelp({
+    canValidate,
+    dictionaryWordCount,
+    displayedPreparedWord,
+    game,
+    hintLevel,
+    isExchangeMode,
+    isFinished,
+    isHintSearching,
+    pendingScoreDetails,
+    pendingTurnWord,
+    selectedBoardCell,
+    selectedExchangeTileIds,
+    selectedPreparedSlotIndex,
+    selectedTile,
+    usesProgressiveHints
+  });
 
   function setPreparedTileIds(nextTileIds: string[] | ((currentTileIds: string[]) => string[])) {
     setPreparedTileSlots((currentSlots) => {
@@ -273,6 +328,8 @@ export function GameScreen({
     setErrorPreviewCells(cloneBoardPreviewCells(snapshot.errorPreviewCells));
     setInvalidCellKeys([...snapshot.invalidCellKeys]);
     setFloatingScorePreview(snapshot.floatingScorePreview);
+    setIsExchangeMode(false);
+    setSelectedExchangeTileIds([]);
     onGameChange({
       ...restoredGame,
       message: shouldKeepSnapshotMessage
@@ -301,9 +358,23 @@ export function GameScreen({
     setSelectedTileId(null);
     setSelectedBoardCell(null);
     setSelectedPreparedSlotIndex(null);
+    setIsExchangeMode(false);
+    setSelectedExchangeTileIds([]);
     clearHint();
     clearErrorHighlights();
   }, [game.gameId]);
+
+  useEffect(() => {
+    const availableTileIds = new Set(game.racks.human.map((tile) => tile.id));
+
+    setSelectedExchangeTileIds((currentTileIds) =>
+      currentTileIds.filter((tileId) => availableTileIds.has(tileId) && !preparedTileIds.includes(tileId))
+    );
+
+    if (isFinished || game.turn.player !== "human" || game.bag.length === 0) {
+      setIsExchangeMode(false);
+    }
+  }, [game.bag.length, game.racks.human, game.turn.player, isFinished, preparedTileIds]);
 
   useEffect(() => {
     if (usesUndoMode) {
@@ -888,8 +959,73 @@ export function GameScreen({
     setIsPendingWordSelected(false);
     clearHint();
     clearErrorHighlights();
+    setIsExchangeMode(false);
+    setSelectedExchangeTileIds([]);
     pushUndoPoint();
     onGameChange(passHumanTurn(game));
+  }
+
+  function handleToggleExchangeTile(tileId: string) {
+    setSelectedExchangeTileIds((currentTileIds) =>
+      currentTileIds.includes(tileId)
+        ? currentTileIds.filter((currentTileId) => currentTileId !== tileId)
+        : [...currentTileIds, tileId]
+    );
+  }
+
+  function handleExchange() {
+    if (!canUseExchangeMode && !isExchangeMode) {
+      return;
+    }
+
+    cancelHintSearch();
+    clearHint();
+    clearErrorHighlights();
+    setSelectedTileId(null);
+    setSelectedBoardCell(null);
+    setSelectedPreparedSlotIndex(null);
+    setIsPendingWordSelected(false);
+
+    if (!isExchangeMode) {
+      if (hasPreparedActivity) {
+        pushUndoPoint();
+        setPreparedTileIds([]);
+        onGameChange({
+          ...undoHumanTurn(game),
+          message: {
+            tone: "info",
+            text: "Les lettres du plateau et du chevalet sont revenues dans Vos lettres. Choisissez celles à échanger."
+          }
+        });
+      }
+
+      setSelectedExchangeTileIds([]);
+      setIsExchangeMode(true);
+      return;
+    }
+
+    const result = exchangeHumanTiles(game, selectedExchangeTileIds);
+
+    if (!result.ok) {
+      onGameChange({
+        ...result.state,
+        message: {
+          tone: "notice",
+          text: result.reason
+        }
+      });
+      return;
+    }
+
+    setIsExchangeMode(false);
+    setSelectedExchangeTileIds([]);
+    pushUndoPoint();
+    onGameChange(result.state);
+  }
+
+  function handleCancelExchange() {
+    setIsExchangeMode(false);
+    setSelectedExchangeTileIds([]);
   }
 
   function handleUndoAction() {
@@ -960,8 +1096,10 @@ export function GameScreen({
       setPreparedTileSlots(getHintPreparedTileSlots(nextHint, nextHintLevel));
     }
 
+    const nextGame = recordHumanHintUse(game, nextHintLevel >= MAX_HINT_LEVEL ? "complete" : "partial");
+
     onGameChange({
-      ...game,
+      ...nextGame,
       message: {
         tone: "info",
         text: levelMessage,
@@ -1201,10 +1339,10 @@ export function GameScreen({
         <span />
         <span />
       </span>
-      Recherche
+      <span>Cherche</span>
     </span>
   ) : hint ? (
-    usesProgressiveHints ? `Indice ${hintLevel}/${MAX_HINT_LEVEL}` : "Indice"
+    usesProgressiveHints ? <span className="button-compact-label">{`Indice ${hintLevel}/${MAX_HINT_LEVEL}`}</span> : "Indice"
   ) : hintMode === "none" ? (
     "Indice désactivé"
   ) : (
@@ -1358,18 +1496,23 @@ export function GameScreen({
               </div>
             ) : null}
           </div>
-          <RackView
-            rack={game.racks.human}
-            preparedTileIds={preparedTileIds}
-            selectedBoardCell={selectedBoardCell}
-            selectedPreparedSlotIndex={selectedPreparedSlotIndex}
-            onAddTile={handleAddPreparedTile}
-            onBoardDrop={handleTileDropOnBoard}
-            onPreparedDrop={(tileId, targetIndex) =>
-              targetIndex === null ? handleMovePreparedTileToEnd(tileId) : handleInsertPreparedTile(tileId, targetIndex)
-            }
-            onDropTile={handleRemovePreparedTile}
-          />
+          <div className="preparation-rack-area">
+            <RackView
+              rack={game.racks.human}
+              preparedTileIds={preparedTileIds}
+              exchangeTileIds={selectedExchangeTileIds}
+              isExchangeMode={isExchangeMode}
+              selectedBoardCell={selectedBoardCell}
+              selectedPreparedSlotIndex={selectedPreparedSlotIndex}
+              onAddTile={handleAddPreparedTile}
+              onToggleExchangeTile={handleToggleExchangeTile}
+              onBoardDrop={handleTileDropOnBoard}
+              onPreparedDrop={(tileId, targetIndex) =>
+                targetIndex === null ? handleMovePreparedTileToEnd(tileId) : handleInsertPreparedTile(tileId, targetIndex)
+              }
+              onDropTile={handleRemovePreparedTile}
+            />
+          </div>
           <div className="preparation-subsection">
             <h3>Chevalet</h3>
               <PreparedWordTiles
@@ -1398,12 +1541,16 @@ export function GameScreen({
               Valider
             </button>
             <button
-              className={`secondary-button${hint ? " active-action" : ""}${isHintSearching ? " hint-searching-button" : ""}`}
+              className={`secondary-button hint-action-button${hint ? " active-action" : ""}${isHintSearching ? " hint-searching-button" : ""}`}
               type="button"
               aria-pressed={Boolean(hint)}
               onClick={handleHint}
-              disabled={isHintDisabled}
-              {...getButtonHintProps(getHintButtonDescription(hintMode, isHintSearching, hint, hintLevel))}
+              disabled={isExchangeMode || isHintDisabled}
+              {...getButtonHintProps(
+                isExchangeMode
+                  ? "Terminez ou annulez l'échange avant de demander un indice."
+                  : getHintButtonDescription(hintMode, isHintSearching, hint, hintLevel)
+              )}
             >
               {hintButtonContent}
             </button>
@@ -1411,13 +1558,37 @@ export function GameScreen({
               className="secondary-button"
               type="button"
               onClick={handlePass}
-              disabled={isFinished || game.turn.player !== "human"}
-              {...getButtonHintProps("Passe votre tour et laisse l'ordinateur jouer.")}
+              disabled={isExchangeMode || isFinished || game.turn.player !== "human"}
+              {...getButtonHintProps(
+                isExchangeMode
+                  ? "Terminez ou annulez l'échange avant de passer votre tour."
+                  : "Passe votre tour et laisse l'ordinateur jouer."
+              )}
             >
               Passer
             </button>
             <button
-              className="secondary-button"
+              className={`secondary-button${isExchangeMode ? " active-action" : ""}`}
+              type="button"
+              onClick={handleExchange}
+              disabled={!canUseExchangeMode || (isExchangeMode && selectedExchangeTileIds.length === 0)}
+              aria-pressed={isExchangeMode}
+              {...getButtonHintProps(exchangeButtonHint)}
+            >
+              {exchangeButtonLabel}
+            </button>
+            {isExchangeMode ? (
+              <button
+                className="secondary-button"
+                type="button"
+                onClick={handleCancelExchange}
+                {...getButtonHintProps("Annule la sélection des lettres à échanger.")}
+              >
+                Annuler
+              </button>
+            ) : null}
+            <button
+              className="secondary-button compact-action-button"
               type="button"
               onClick={handleRecallPlacedTurnTiles}
               disabled={isFinished || !pendingTurnWord}
@@ -1445,12 +1616,16 @@ export function GameScreen({
               Valider
             </button>
             <button
-              className={`secondary-button${hint ? " active-action" : ""}${isHintSearching ? " hint-searching-button" : ""}`}
+              className={`secondary-button hint-action-button${hint ? " active-action" : ""}${isHintSearching ? " hint-searching-button" : ""}`}
               type="button"
               aria-pressed={Boolean(hint)}
               onClick={handleHint}
-              disabled={isHintDisabled}
-              {...getButtonHintProps(getHintButtonDescription(hintMode, isHintSearching, hint, hintLevel))}
+              disabled={isExchangeMode || isHintDisabled}
+              {...getButtonHintProps(
+                isExchangeMode
+                  ? "Terminez ou annulez l'échange avant de demander un indice."
+                  : getHintButtonDescription(hintMode, isHintSearching, hint, hintLevel)
+              )}
             >
               {hintButtonContent}
             </button>
@@ -1458,13 +1633,37 @@ export function GameScreen({
               className="secondary-button"
               type="button"
               onClick={handlePass}
-              disabled={isFinished || game.turn.player !== "human"}
-              {...getButtonHintProps("Passe votre tour et laisse l'ordinateur jouer.")}
+              disabled={isExchangeMode || isFinished || game.turn.player !== "human"}
+              {...getButtonHintProps(
+                isExchangeMode
+                  ? "Terminez ou annulez l'échange avant de passer votre tour."
+                  : "Passe votre tour et laisse l'ordinateur jouer."
+              )}
             >
               Passer
             </button>
             <button
-              className="secondary-button"
+              className={`secondary-button${isExchangeMode ? " active-action" : ""}`}
+              type="button"
+              onClick={handleExchange}
+              disabled={!canUseExchangeMode || (isExchangeMode && selectedExchangeTileIds.length === 0)}
+              aria-pressed={isExchangeMode}
+              {...getButtonHintProps(exchangeButtonHint)}
+            >
+              {exchangeButtonLabel}
+            </button>
+            {isExchangeMode ? (
+              <button
+                className="secondary-button"
+                type="button"
+                onClick={handleCancelExchange}
+                {...getButtonHintProps("Annule la sélection des lettres à échanger.")}
+              >
+                Annuler
+              </button>
+            ) : null}
+            <button
+              className="secondary-button compact-action-button"
               type="button"
               onClick={handleRecallPlacedTurnTiles}
               disabled={isFinished || !pendingTurnWord}
@@ -1498,7 +1697,7 @@ export function GameScreen({
               <ScoreDetailsDisclosure details={pendingScoreDetails} />
             </div>
           ) : null}
-          <p>
+          <p className="preparation-guidance">
             {isHintSearching
               ? "Recherche d'un indice possible..."
               : hint
@@ -1513,7 +1712,7 @@ export function GameScreen({
           </p>
         </section>
 
-        <div className={`message message-${game.message.tone}`}>
+        <div className={`message game-message message-${game.message.tone}`}>
           <div className={game.turn.player === "computer" ? "computer-thinking" : undefined} role="status" aria-live="polite">
             {game.turn.player === "computer" ? (
               <>
@@ -1538,12 +1737,13 @@ export function GameScreen({
 
         <details className="help-panel">
           <summary>Aide</summary>
-          <p>
-            Touchez une case vide puis une lettre pour poser lettre par lettre, ou préparez plusieurs
-            lettres dans le chevalet puis touchez une case compatible pour poser le mot. Le premier
-            mot doit passer par la case centrale. Le dictionnaire actuel est {DICTIONARY_LABEL} avec{" "}
-            {dictionaryWordCount} mots.
-          </p>
+          <h3>{contextualHelp.title}</h3>
+          <ul>
+            {contextualHelp.items.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          {contextualHelp.note ? <p>{contextualHelp.note}</p> : null}
         </details>
         {import.meta.env.DEV && developerMode && searchDiagnostic ? (
           <section className="developer-diagnostic" aria-label="Diagnostic de recherche">
@@ -1589,8 +1789,12 @@ export function GameScreen({
       >
         Plateau
       </button>
-      {finalStatus ? (
-        <GameOverDialog status={finalStatus} onNewGameRequest={onNewGameRequest} />
+      {finalStatus && dismissedGameOverId !== game.gameId ? (
+        <GameOverDialog
+          status={finalStatus}
+          onClose={() => setDismissedGameOverId(game.gameId)}
+          onNewGameRequest={onNewGameRequest}
+        />
       ) : null}
     </main>
   );
@@ -1598,9 +1802,11 @@ export function GameScreen({
 
 function GameOverDialog({
   status,
+  onClose,
   onNewGameRequest
 }: {
   status: NonNullable<GameState["status"]> & { state: "finished" };
+  onClose: () => void;
   onNewGameRequest: () => void;
 }) {
   const title =
@@ -1611,7 +1817,9 @@ function GameOverDialog({
         : "L'ordinateur gagne";
   const detail =
     status.reason === "rack-empty"
-      ? "La pioche est vide et un chevalet est terminé."
+      ? "La pioche est vide et un joueur n'a plus de lettres."
+      : status.reason === "no-moves"
+      ? "Aucun nouveau mot ne peut être créé par les deux joueurs."
       : "Plus aucun joueur n'a posé de mot après plusieurs tours.";
   const loser =
     status.winner === "draw"
@@ -1619,9 +1827,11 @@ function GameOverDialog({
       : status.winner === "human"
         ? "Perdant : ordinateur"
         : "Perdant : vous";
+  const stats = getFinalGameStats(status);
 
   return (
     <div className="game-over-backdrop" role="presentation">
+      <GameOverAnimation winner={status.winner} />
       <section className="game-over-dialog" role="dialog" aria-modal="true" aria-labelledby="game-over-title">
         <span className="game-over-kicker">Fin de partie</span>
         <h2 id="game-over-title">{title}</h2>
@@ -1637,11 +1847,281 @@ function GameOverDialog({
           </div>
         </div>
         <p className="game-over-loser">{loser}</p>
-        <button type="button" onClick={onNewGameRequest}>
-          Nouvelle partie
-        </button>
+        <div className="game-over-stats" aria-label="Statistiques de la partie">
+          <span>Vos coups : {stats.humanTurns}</span>
+          <span>Ordinateur : {stats.computerTurns}</span>
+          <span>Passes : {stats.passes}</span>
+          <span>Échanges : {stats.exchanges}</span>
+          <span>Indices partiels : {stats.hints.partial}</span>
+          <span>Indices complets : {stats.hints.complete}</span>
+        </div>
+        <div className="game-over-actions">
+          <button type="button" onClick={onClose}>
+            Voir la partie
+          </button>
+          <button className="secondary-button" type="button" onClick={onNewGameRequest}>
+            Nouvelle partie
+          </button>
+        </div>
       </section>
     </div>
+  );
+}
+
+function getFinalGameStats(status: NonNullable<GameState["status"]> & { state: "finished" }) {
+  return (
+    status.stats ?? {
+      humanTurns: 0,
+      computerTurns: 0,
+      passes: 0,
+      exchanges: 0,
+      hints: {
+        partial: 0,
+        complete: 0
+      }
+    }
+  );
+}
+
+function getContextualHelp({
+  canValidate,
+  dictionaryWordCount,
+  displayedPreparedWord,
+  game,
+  hintLevel,
+  isExchangeMode,
+  isFinished,
+  isHintSearching,
+  pendingScoreDetails,
+  pendingTurnWord,
+  selectedBoardCell,
+  selectedExchangeTileIds,
+  selectedPreparedSlotIndex,
+  selectedTile,
+  usesProgressiveHints
+}: ContextualHelpParams): ContextualHelp {
+  if (isFinished) {
+    return {
+      title: "La partie est terminée",
+      items: [
+        "Vous pouvez regarder le plateau avec le bouton Voir la partie.",
+        "Nouvelle partie relance une grille complète.",
+        "Les scores et les statistiques sont résumés dans la fenêtre de fin."
+      ]
+    };
+  }
+
+  if (game.turn.player === "computer") {
+    return {
+      title: "L'ordinateur joue",
+      items: [
+        "Attendez la fin de son tour.",
+        "Les dernières lettres jouées seront mises en évidence sur le plateau.",
+        "Vous pourrez reprendre la main dès que le message indique À vous de jouer."
+      ]
+    };
+  }
+
+  if (isExchangeMode) {
+    return {
+      title: "Échanger des lettres",
+      items: [
+        "Touchez les lettres à remplacer dans Vos lettres.",
+        selectedExchangeTileIds.length > 0
+          ? "Appuyez sur Échanger pour remplacer les lettres choisies et passer votre tour."
+          : "Choisissez au moins une lettre pour activer l'échange.",
+        "Annuler revient à la préparation normale sans passer le tour."
+      ]
+    };
+  }
+
+  if (isHintSearching) {
+    return {
+      title: "Recherche d'indice",
+      items: [
+        "L'application cherche un coup possible avec vos lettres.",
+        "Vous pouvez attendre quelques instants.",
+        "Le plateau et le chevalet seront mis à jour quand l'indice sera prêt."
+      ]
+    };
+  }
+
+  if (hintLevel > 0) {
+    return {
+      title: usesProgressiveHints ? `Indice ${hintLevel}/6` : "Indice complet",
+      items:
+        hintLevel >= MAX_HINT_LEVEL || !usesProgressiveHints
+          ? [
+              "Le mot trouvé est visible dans le chevalet et sur le plateau.",
+              "Appuyez sur Valider pour jouer ce mot.",
+              "Appuyez à nouveau sur Indice pour retirer la proposition."
+            ]
+          : [
+              "L'indice révèle progressivement des informations sur un mot possible.",
+              "Appuyez encore sur Indice pour obtenir l'étape suivante.",
+              "Vous pouvez aussi continuer à chercher par vous-même."
+            ]
+    };
+  }
+
+  if (pendingScoreDetails && canValidate) {
+    return {
+      title: "Mot prêt à valider",
+      items: [
+        "Le coup posé forme un mot reconnu.",
+        "Appuyez sur Valider pour le jouer.",
+        "Reprendre retire les lettres posées ce tour si vous voulez corriger."
+      ]
+    };
+  }
+
+  if (pendingTurnWord) {
+    return {
+      title: "Mot posé sur le plateau",
+      items: [
+        "Vous pouvez le valider si le coup est correct.",
+        "Glissez une lettre du mot pour déplacer l'ensemble du mot.",
+        "Reprendre remet les lettres du tour dans Vos lettres."
+      ]
+    };
+  }
+
+  if (displayedPreparedWord) {
+    return {
+      title: "Mot dans le chevalet",
+      items: [
+        "Touchez une case compatible du plateau pour poser le mot.",
+        "Vous pouvez déplacer les lettres dans le chevalet avant de poser.",
+        "Effacer vide le chevalet et remet les lettres dans Vos lettres."
+      ],
+      note: `Dictionnaire actuel : ${DICTIONARY_LABEL}, ${dictionaryWordCount} mots.`
+    };
+  }
+
+  if (selectedTile && selectedBoardCell) {
+    return {
+      title: "Lettre et case choisies",
+      items: [
+        `Touchez une lettre de Vos lettres pour la poser sur la case sélectionnée.`,
+        `La lettre ${selectedTile.letter} peut aussi être placée dans le chevalet.`,
+        "Touchez une autre case vide pour changer la destination."
+      ]
+    };
+  }
+
+  if (selectedTile) {
+    return {
+      title: `Lettre ${selectedTile.letter} choisie`,
+      items: [
+        "Touchez une case vide du plateau pour poser cette lettre.",
+        "Touchez une case du chevalet pour préparer un mot.",
+        "Vous pouvez aussi glisser la lettre vers le plateau ou le chevalet."
+      ]
+    };
+  }
+
+  if (selectedBoardCell) {
+    return {
+      title: "Case du plateau choisie",
+      items: [
+        "Touchez une lettre de Vos lettres pour la poser sur cette case.",
+        "Touchez une lettre déjà posée ce tour pour la déplacer ici.",
+        "Touchez une autre case vide pour changer la sélection."
+      ]
+    };
+  }
+
+  if (selectedPreparedSlotIndex !== null) {
+    return {
+      title: "Case du chevalet choisie",
+      items: [
+        "Touchez une lettre de Vos lettres pour la placer dans cette case.",
+        "Touchez une lettre déjà dans le chevalet pour la déplacer ici.",
+        "Touchez la même case pour annuler la sélection."
+      ]
+    };
+  }
+
+  if (game.message.tone === "notice") {
+    return {
+      title: "Corriger le coup",
+      items: [
+        "Le dernier coup demande une correction.",
+        "Modifiez les lettres sur le plateau ou reprenez votre coup.",
+        "Vous pouvez demander un indice si vous êtes bloqué."
+      ]
+    };
+  }
+
+  return {
+    title: "Commencer votre tour",
+    items: [
+      "Touchez une lettre, puis une case vide du plateau pour la poser.",
+      "Ou préparez un mot dans le chevalet avant de le poser.",
+      "Le premier mot doit passer par la case centrale."
+    ],
+    note: `Dictionnaire actuel : ${DICTIONARY_LABEL}, ${dictionaryWordCount} mots.`
+  };
+}
+
+function GameOverAnimation({ winner }: { winner: PlayerId | "draw" }) {
+  if (winner === "human") {
+    return <WinButterfliesAnimation />;
+  }
+
+  if (winner === "computer") {
+    return <LoseLeavesAnimation />;
+  }
+
+  return null;
+}
+
+function WinButterfliesAnimation() {
+  return (
+    <svg className="game-over-animation game-over-butterflies" viewBox="0 0 1080 640" aria-hidden="true">
+      {["b1", "b2", "b3", "b4", "b5"].map((className) => (
+        <g className={`game-over-butterfly ${className}`} key={className}>
+          <ButterflyShape />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function ButterflyShape() {
+  return (
+    <g className="game-over-butterfly-inner">
+      <path className="wing wing-left-upper" d="M0 0 C-34 -42 -88 -36 -75 12 C-62 60 -20 38 0 8Z" />
+      <path className="wing wing-left-lower" d="M0 7 C-34 15 -56 52 -28 70 C-3 84 7 34 4 12Z" />
+      <path className="wing wing-right-upper" d="M0 0 C34 -42 88 -36 75 12 C62 60 20 38 0 8Z" />
+      <path className="wing wing-right-lower" d="M0 7 C34 15 56 52 28 70 C3 84 -7 34 -4 12Z" />
+      <path d="M-4 -18 C0 -6 0 20 4 42" className="butterfly-body" />
+      <path d="M-2 -17 C-14 -30 -23 -35 -31 -39" className="butterfly-antenna" />
+      <path d="M2 -17 C14 -30 23 -35 31 -39" className="butterfly-antenna" />
+    </g>
+  );
+}
+
+function LoseLeavesAnimation() {
+  return (
+    <svg className="game-over-animation game-over-leaves" viewBox="0 0 1080 640" aria-hidden="true">
+      <defs>
+        <g id="game-over-leaf">
+          <g className="game-over-leaf-inner">
+            <path className="leaf-shape" d="M0 -42 C34 -30 50 6 26 38 C11 58 -11 58 -27 39 C-54 7 -34 -30 0 -42Z" />
+            <path className="leaf-vein-main" d="M0 -34 C1 -12 -2 11 -16 35" />
+            <path className="leaf-vein-side" d="M-1 -10 C-14 -13 -24 -19 -32 -27" />
+            <path className="leaf-vein-side" d="M-3 10 C9 4 20 -4 30 -15" />
+          </g>
+        </g>
+      </defs>
+      <use className="game-over-leaf l1" href="#game-over-leaf" />
+      <use className="game-over-leaf l2" href="#game-over-leaf" />
+      <use className="game-over-leaf l3" href="#game-over-leaf" />
+      <use className="game-over-leaf l4" href="#game-over-leaf" />
+      <use className="game-over-leaf l5" href="#game-over-leaf" />
+      <use className="game-over-leaf l6" href="#game-over-leaf" />
+    </svg>
   );
 }
 
@@ -1950,8 +2430,7 @@ function ScoreWordExplanations({ details }: { details: ScoreDetails }) {
   }
 
   return (
-    <section className="score-word-explanations" aria-label="Pourquoi ce mot est accepté">
-      <h3>Pourquoi ce mot est accepté ?</h3>
+    <section className="score-word-explanations" aria-label="Explication du mot accepté">
       {explanations.map(({ word, explanation }) => (
         <WordExplanationCallout explanation={explanation} key={word} word={word} />
       ))}
@@ -1971,7 +2450,6 @@ function WordExplanationCallout({ word, explanation }: { word: string; explanati
 
   return (
     <article className="score-word-explanation-card">
-      <strong>{word}</strong>
       <p>
         {explanation.partOfSpeech} : {formatWordExplanationDefinition(explanation)}
       </p>
@@ -2122,7 +2600,7 @@ function getHintMessage(
   const secondLetter = hint.word[1] ?? "";
 
   if (!usesProgressiveHints) {
-    return `"${hint.word}" ${directionLabel}, départ ligne ${hint.row + 1}, colonne ${hint.col + 1}, pour ${scoreLabel}. Appuyez sur Valider pour le jouer.`;
+    return `Valider pour jouer le mot trouvé : ${hint.word}.`;
   }
 
   if (level === 1) {
@@ -2147,7 +2625,7 @@ function getHintMessage(
     return `Indice 5/${MAX_HINT_LEVEL} : ${getHintExplanationText(hint.word)}`;
   }
 
-  return `Indice 6/${MAX_HINT_LEVEL} : "${hint.word}" ${directionLabel}, départ ligne ${hint.row + 1}, colonne ${hint.col + 1}, pour ${scoreLabel}. Appuyez sur Valider pour le jouer.`;
+  return `Indice 6/${MAX_HINT_LEVEL} : valider pour jouer le mot trouvé : ${hint.word}.`;
 }
 
 function getHintInstruction(level: HintLevel, usesProgressiveHints: boolean): string {

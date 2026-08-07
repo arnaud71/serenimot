@@ -5,9 +5,12 @@ import { Rack } from "../../domain/tiles/types";
 type RackViewProps = {
   rack: Rack;
   preparedTileIds: string[];
+  exchangeTileIds: string[];
+  isExchangeMode: boolean;
   selectedBoardCell: { row: number; col: number } | null;
   selectedPreparedSlotIndex: number | null;
   onAddTile: (tileId: string) => void;
+  onToggleExchangeTile: (tileId: string) => void;
   onBoardDrop: (tileId: string, row: number, col: number) => void;
   onPreparedDrop: (tileId: string, targetIndex: number | null) => void;
   onDropTile: (tileId: string) => void;
@@ -32,19 +35,27 @@ const TOUCH_DRAG_THRESHOLD_PX = 8;
 export function RackView({
   rack,
   preparedTileIds,
+  exchangeTileIds,
+  isExchangeMode,
   selectedBoardCell,
   selectedPreparedSlotIndex,
   onAddTile,
+  onToggleExchangeTile,
   onBoardDrop,
   onPreparedDrop,
   onDropTile
 }: RackViewProps) {
   const availableTiles = rack.filter((tile) => !preparedTileIds.includes(tile.id));
+  const exchangeTileIdSet = new Set(exchangeTileIds);
   const [touchDrag, setTouchDrag] = useState<TouchDragState | null>(null);
   const touchDragRef = useRef<TouchDragState | null>(null);
   const ignoreNextClickRef = useRef(false);
 
   function handleTilePointerDown(event: PointerEvent<HTMLButtonElement>, tileId: string, letter: string, value: number) {
+    if (isExchangeMode) {
+      return;
+    }
+
     if (event.pointerType === "mouse") {
       return;
     }
@@ -140,7 +151,7 @@ export function RackView({
       <div
         className="rack"
         role="list"
-        aria-label="Chevalet"
+        aria-label={isExchangeMode ? "Lettres à choisir pour échange" : "Chevalet"}
         onDragOver={(event) => event.preventDefault()}
         onDrop={(event) => {
           event.preventDefault();
@@ -152,48 +163,71 @@ export function RackView({
         }}
       >
         {availableTiles.length > 0 ? (
-          availableTiles.map((tile) => (
-            <button
-              className="rack-tile"
-              draggable
-              key={tile.id}
-              type="button"
-              aria-label={
-                selectedBoardCell
-                  ? `Poser la lettre ${tile.letter}, valeur ${tile.value}, ligne ${selectedBoardCell.row + 1}, colonne ${selectedBoardCell.col + 1}`
-                  : selectedPreparedSlotIndex === null
-                    ? `Ajouter la lettre ${tile.letter}, valeur ${tile.value}`
-                    : `Placer la lettre ${tile.letter}, valeur ${tile.value}, dans l'emplacement ${selectedPreparedSlotIndex + 1}`
-              }
-              onClick={() => {
-                if (ignoreNextClickRef.current) {
-                  ignoreNextClickRef.current = false;
-                  return;
-                }
+          availableTiles.map((tile) => {
+            const isExchangeSelected = exchangeTileIdSet.has(tile.id);
 
-                onAddTile(tile.id);
-              }}
-              onDragStart={(event) => {
-                event.dataTransfer.setData(TILE_DRAG_MIME, tile.id);
-                event.dataTransfer.setData("text/plain", tile.id);
-                event.dataTransfer.effectAllowed = "move";
-              }}
-              onPointerDown={(event) => handleTilePointerDown(event, tile.id, tile.letter, tile.value)}
-              onPointerMove={handleTilePointerMove}
-              onPointerCancel={() => {
-                touchDragRef.current = null;
-                setTouchDrag(null);
-              }}
-              onPointerUp={handleTilePointerUp}
-            >
-              <span>{tile.letter}</span>
-              <small>{tile.value}</small>
-            </button>
-          ))
+            return (
+              <button
+                className={`rack-tile${isExchangeSelected ? " exchange-selected" : ""}`}
+                draggable={!isExchangeMode}
+                key={tile.id}
+                type="button"
+                aria-pressed={isExchangeMode ? isExchangeSelected : undefined}
+                aria-label={
+                  isExchangeMode
+                    ? `${isExchangeSelected ? "Retirer" : "Choisir"} la lettre ${tile.letter}, valeur ${tile.value}, pour l'échange`
+                    : selectedBoardCell
+                      ? `Poser la lettre ${tile.letter}, valeur ${tile.value}, ligne ${selectedBoardCell.row + 1}, colonne ${selectedBoardCell.col + 1}`
+                      : selectedPreparedSlotIndex === null
+                        ? `Ajouter la lettre ${tile.letter}, valeur ${tile.value}`
+                        : `Placer la lettre ${tile.letter}, valeur ${tile.value}, dans l'emplacement ${selectedPreparedSlotIndex + 1}`
+                }
+                onClick={() => {
+                  if (ignoreNextClickRef.current) {
+                    ignoreNextClickRef.current = false;
+                    return;
+                  }
+
+                  if (isExchangeMode) {
+                    onToggleExchangeTile(tile.id);
+                    return;
+                  }
+
+                  onAddTile(tile.id);
+                }}
+                onDragStart={(event) => {
+                  if (isExchangeMode) {
+                    event.preventDefault();
+                    return;
+                  }
+
+                  event.dataTransfer.setData(TILE_DRAG_MIME, tile.id);
+                  event.dataTransfer.setData("text/plain", tile.id);
+                  event.dataTransfer.effectAllowed = "move";
+                }}
+                onPointerDown={(event) => handleTilePointerDown(event, tile.id, tile.letter, tile.value)}
+                onPointerMove={handleTilePointerMove}
+                onPointerCancel={() => {
+                  touchDragRef.current = null;
+                  setTouchDrag(null);
+                }}
+                onPointerUp={handleTilePointerUp}
+              >
+                <span>{tile.letter}</span>
+                <small>{tile.value}</small>
+              </button>
+            );
+          })
         ) : (
           <p className="rack-empty">Toutes vos lettres sont dans le chevalet.</p>
         )}
       </div>
+      {isExchangeMode ? (
+        <div className="exchange-help" role="status" aria-live="polite">
+          <strong>Touchez les lettres à remplacer, puis appuyez sur Échanger.</strong>
+          <span>Échanger passe votre tour. Vous pouvez encore annuler avant de confirmer.</span>
+        </div>
+      ) : null}
       {touchDrag?.active ? (
         <span
           className="touch-drag-tile"

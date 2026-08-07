@@ -16,8 +16,9 @@ test("termine une partie sauvegardee avec une pioche vide", async ({ page }) => 
 
   const gameOverDialog = page.getByRole("dialog");
   await expect(gameOverDialog).toBeVisible();
+  await expect(page.locator(".game-over-butterflies")).toBeVisible();
   await expect(gameOverDialog.getByRole("heading", { name: "Vous gagnez" })).toBeVisible();
-  await expect(gameOverDialog).toContainText("La pioche est vide et un chevalet est terminé.");
+  await expect(gameOverDialog).toContainText("La pioche est vide et un joueur n'a plus de lettres.");
   await expect(gameOverDialog).toContainText("Perdant : ordinateur");
   await expect(gameOverDialog).toContainText(String(almostFinishedGame.scores.human));
   await expect(gameOverDialog).toContainText(String(almostFinishedGame.scores.computer));
@@ -48,6 +49,24 @@ test("relance une nouvelle partie depuis la fenetre de fin", async ({ page }) =>
   expect(browserErrors()).toEqual([]);
 });
 
+test("peut fermer la fenetre de fin pour revoir la partie", async ({ page }) => {
+  const browserErrors = collectBrowserErrors(page);
+  const almostFinishedGame = createAlmostFinishedGame();
+
+  await resumeSavedGame(page, almostFinishedGame);
+  const gameOverDialog = await finishByEmptyBag(page);
+
+  await gameOverDialog.getByRole("button", { name: "Voir la partie" }).click();
+
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await expect(page.getByRole("grid")).toBeVisible();
+  await expect(getHumanScore(page)).toHaveText(String(almostFinishedGame.scores.human));
+  await expect(getComputerScore(page)).toHaveText(String(almostFinishedGame.scores.computer));
+  await expect(page.getByText("Score final")).toBeVisible();
+
+  expect(browserErrors()).toEqual([]);
+});
+
 test("termine une partie sauvegardee apres plusieurs tours passes", async ({ page }) => {
   const browserErrors = collectBrowserErrors(page);
   const almostFinishedGame = createAlmostPassedGame();
@@ -60,6 +79,7 @@ test("termine une partie sauvegardee apres plusieurs tours passes", async ({ pag
 
   const gameOverDialog = page.getByRole("dialog");
   await expect(gameOverDialog).toBeVisible();
+  await expect(page.locator(".game-over-leaves")).toBeVisible();
   await expect(gameOverDialog.getByRole("heading", { name: "L'ordinateur gagne" })).toBeVisible();
   await expect(gameOverDialog).toContainText("Plus aucun joueur n'a posé de mot après plusieurs tours.");
   await expect(gameOverDialog).toContainText("Perdant : vous");

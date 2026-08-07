@@ -79,6 +79,19 @@ Le chevalet accepte deux modes complémentaires :
 
 Ces deux modes permettent d'organiser le mot sans dépendre d'un geste précis.
 
+## Échanger des lettres
+
+Le bouton `Échanger` permet de remplacer des lettres au lieu de poser un mot.
+
+1. appuyer sur `Échanger` ;
+2. si des lettres sont déjà posées pendant le tour ou préparées dans le chevalet, elles reviennent dans `Vos lettres` ;
+3. toucher les lettres à remplacer dans `Vos lettres` ;
+4. appuyer à nouveau sur `Échanger`.
+
+Les lettres choisies retournent dans la pioche, le joueur reçoit le même nombre de nouvelles lettres et le tour est passé. Pendant la sélection, `Indice` et `Passer` restent visibles mais ne sont pas cliquables. Le bouton `Annuler` permet de quitter le mode échange avant confirmation.
+
+Après l'échange, le jeu applique la même vérification qu'après `Passer` : si aucun nouveau mot ne peut être créé par les deux joueurs, la partie se termine. Si la pioche ne contient pas assez de lettres pour l'échange demandé, le joueur doit poser un mot ou passer son tour.
+
 ## Actions rapides mobiles
 
 Sur smartphone, les actions principales sont regroupées dans une barre rapide :
@@ -86,6 +99,7 @@ Sur smartphone, les actions principales sont regroupées dans une barre rapide :
 - Valider ;
 - Indice ;
 - Passer ;
+- Échanger ;
 - Reprendre ;
 - Effacer.
 
@@ -107,11 +121,16 @@ La zone de préparation mobile conserve les mêmes fonctions que sur ordinateur,
 | Lettre déjà posée sur le plateau | Glisser vers une case vide | La lettre est déplacée vers cette case. |
 | Emplacement vide du chevalet | Cliquer ou toucher | L'emplacement devient la destination sélectionnée. |
 | Emplacement du chevalet sélectionné + lettre | Cliquer ou toucher la lettre | La lettre se déplace vers l'emplacement sélectionné. |
+| Bouton Échanger | Cliquer ou toucher | Les lettres du coup en cours reviennent dans Vos lettres, puis la sélection d'échange s'active. |
+| Mode échange + lettres dans Vos lettres | Cliquer ou toucher les lettres | Les lettres sont sélectionnées ou retirées de la sélection d'échange. |
+| Mode échange + bouton Échanger | Cliquer ou toucher | Les lettres choisies sont remplacées et le tour est passé. |
+| Mode échange + bouton Annuler | Cliquer ou toucher | La sélection d'échange est abandonnée sans remplacer de lettre. |
 
 ## Points de cohérence à préserver
 
 - Le glisser-déposer ne doit jamais être la seule méthode disponible.
 - Un clic sur une lettre posée ne doit jamais retirer tout le mot.
 - La sélection d'une destination doit être visible.
+- Le mode échange doit toujours annoncer qu'il passe le tour et qu'il peut être annulé avant confirmation.
 - Les actions mobiles ne doivent pas créer de doublons accessibles avec les actions ordinateur.
 - Les règles de placement doivent rester identiques entre ordinateur, tablette et smartphone.

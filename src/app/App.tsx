@@ -29,6 +29,8 @@ type VisualHintProps = {
   "data-tooltip"?: string;
 };
 
+const DEV_REMAINING_BAG_SIZE = 20;
+
 const OPPONENT_LEVEL_OPTIONS: { value: OpponentLevel; label: string }[] = [
   { value: "very-easy", label: "Très facile" },
   { value: "easy", label: "Facile" },
@@ -121,6 +123,10 @@ const SHARE_LINKS = [
   {
     label: "WhatsApp",
     href: `https://wa.me/?text=${encodeURIComponent(`${SHARE_TEXT} ${PROMO_URL}`)}`
+  },
+  {
+    label: "Telegram",
+    href: `https://t.me/share/url?url=${encodeURIComponent(PROMO_URL)}&text=${encodeURIComponent(SHARE_TEXT)}`
   },
   {
     label: "Facebook",
@@ -226,6 +232,7 @@ function PromoHome({
   return (
     <main className="promo-layout">
       <section className="promo-hero" aria-labelledby="home-title">
+        <PromoFlyingTiles />
         <div className="promo-copy">
           <p className="eyebrow">Les mots, à votre rythme.</p>
           <h1 id="home-title">Sérénimot</h1>
@@ -272,12 +279,7 @@ function PromoHome({
             </p>
           ) : null}
         </div>
-        <div className="promo-board" aria-hidden="true">
-          <img className="promo-app-icon" src={APP_ICON_URL} alt="" />
-          {["S", "É", "R", "É", "N", "I", "M", "O", "T"].map((letter, index) => (
-            <span key={`${letter}-${index}`}>{letter}</span>
-          ))}
-        </div>
+        <PromoTileBoard />
       </section>
 
       <section className="promo-section" aria-labelledby="promo-for-title">
@@ -382,13 +384,27 @@ function PromoHome({
         </div>
         <div className="promo-share-links">
           {canUseDeviceShare ? (
-            <button className="secondary-button" type="button" onClick={() => void shareWithDevice()}>
+            <button
+              className="secondary-button promo-device-share-button"
+              type="button"
+              onClick={() => void shareWithDevice()}
+              data-share-tooltip="Ouvre le menu de partage de votre appareil."
+            >
               Partage appareil
             </button>
           ) : null}
           {SHARE_LINKS.map((link) => (
-            <a className="promo-share-link" href={link.href} target="_blank" rel="noreferrer" key={link.label}>
-              {link.label}
+            <a
+              className="promo-share-link promo-share-icon-link"
+              href={link.href}
+              target="_blank"
+              rel="noreferrer"
+              key={link.label}
+              aria-label={`Partager sur ${link.label}`}
+              data-share-tooltip={link.label}
+              title={link.label}
+            >
+              <ShareIcon label={link.label} />
             </a>
           ))}
         </div>
@@ -421,6 +437,106 @@ function PromoHome({
         </button>
       </nav>
     </main>
+  );
+}
+
+const PROMO_BOARD_LETTERS = ["S", "É", "R", "É", "N", "I", "M", "O", "T"];
+const PROMO_FLYING_TILES = [
+  { letter: "M", className: "tile-a" },
+  { letter: "O", className: "tile-b" },
+  { letter: "T", className: "tile-c" },
+  { letter: "S", className: "tile-d" },
+  { letter: "A", className: "tile-e" }
+];
+
+function PromoTileBoard() {
+  return (
+    <div className="promo-board" aria-hidden="true">
+      <img className="promo-app-icon" src={APP_ICON_URL} alt="" />
+      {PROMO_BOARD_LETTERS.map((letter, index) => (
+        <span className="promo-board-tile" key={`${letter}-${index}`}>
+          {letter}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function PromoFlyingTiles() {
+  return (
+    <div className="promo-flying-tiles-layer" aria-hidden="true">
+      {PROMO_FLYING_TILES.map(({ letter, className }) => (
+        <span className={`promo-flying-tile ${className}`} key={`${className}-${letter}`}>
+          {letter}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function ShareIcon({ label }: { label: string }) {
+  if (label === "WhatsApp") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path fill="#25D366" d="M12 2.4a9.6 9.6 0 0 0-8.14 14.68L2.8 21.2l4.22-1.06A9.6 9.6 0 1 0 12 2.4Z" />
+        <path
+          fill="#fff"
+          d="M16.62 13.76c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.19-.46-.39-.4-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.1.15 1.52.09.46-.07 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28Z"
+        />
+      </svg>
+    );
+  }
+
+  if (label === "Telegram") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="10" fill="#229ED9" />
+        <path
+          fill="#fff"
+          d="M17.9 7.1c.18-.08.38.08.33.28l-2.1 9.9c-.05.25-.37.34-.55.15l-3.04-3.1-1.57 1.52c-.17.17-.46.08-.5-.16l-.42-2.64-2.82-.92c-.27-.09-.29-.46-.03-.58L17.9 7.1Zm-7.18 5.53.32 2.07.7-1.34 4.74-4.28-5.76 3.55Z"
+        />
+      </svg>
+    );
+  }
+
+  if (label === "Facebook") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="10" fill="#1877F2" />
+        <path
+          fill="#fff"
+          d="M13.55 21v-7.02h2.35l.36-2.73h-2.71V9.52c0-.79.22-1.33 1.35-1.33h1.44V5.75c-.25-.03-1.1-.1-2.1-.1-2.07 0-3.49 1.26-3.49 3.58v2.02H8.4v2.73h2.35V21h2.8Z"
+        />
+      </svg>
+    );
+  }
+
+  if (label === "LinkedIn") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <rect width="20" height="20" x="2" y="2" fill="#0A66C2" rx="3" />
+        <path
+          fill="#fff"
+          d="M7.52 9.85h2.54V18H7.52V9.85Zm1.28-3.94a1.47 1.47 0 1 1 0 2.94 1.47 1.47 0 0 1 0-2.94ZM11.65 9.85h2.44v1.11h.04c.34-.64 1.17-1.32 2.41-1.32 2.58 0 3.06 1.7 3.06 3.9V18h-2.54v-3.95c0-.94-.02-2.15-1.31-2.15-1.31 0-1.51 1.02-1.51 2.08V18h-2.59V9.85Z"
+        />
+      </svg>
+    );
+  }
+
+  if (label === "X") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <rect width="20" height="20" x="2" y="2" fill="#000" rx="3" />
+        <path fill="#fff" d="M14.14 10.55 19.18 5h-1.2l-4.38 4.82L10.1 5H6.08l5.29 7.27L6.08 18.1h1.2l4.62-5.1 3.7 5.1h4.02l-5.48-7.55Zm-1.64 1.8-.53-.72-4.27-5.7h1.83l3.44 4.6.53.72 4.48 5.98h-1.83l-3.65-4.88Z" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <rect width="20" height="16" x="2" y="4" fill="#6b746f" rx="3" />
+      <path fill="#fffaf1" d="M4.3 7.1 12 12.7l7.7-5.6v2.1L12 14.8 4.3 9.2V7.1Z" />
+    </svg>
   );
 }
 
@@ -666,7 +782,10 @@ export function App() {
       return;
     }
 
-    const newGame = createNewGame({ boardSize: preferences.boardSize });
+    const newGame = createNewGame({
+      boardSize: preferences.boardSize,
+      remainingBagSize: preferences.developerMode ? DEV_REMAINING_BAG_SIZE : undefined
+    });
     ensureGameWordExplanationsLoaded();
     setGame(newGame);
     setHasSave(true);
@@ -693,7 +812,12 @@ export function App() {
     const nextPreferences = { ...preferences, boardSize: nextBoardSize };
     setPreferences(nextPreferences);
     ensureGameWordExplanationsLoaded();
-    setGame(createNewGame({ boardSize: nextBoardSize }));
+    setGame(
+      createNewGame({
+        boardSize: nextBoardSize,
+        remainingBagSize: nextPreferences.developerMode ? DEV_REMAINING_BAG_SIZE : undefined
+      })
+    );
     setHasSave(true);
     setScreen("game");
   }
@@ -852,7 +976,7 @@ export function App() {
                 />
               </label>
               <p className="setting-help">
-                Affiche les diagnostics de recherche, dont les temps du worker et du dictionnaire.
+                Affiche les diagnostics de recherche et limite les nouvelles parties à une pioche de 20 lettres.
               </p>
             </>
           ) : null}
