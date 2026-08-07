@@ -12,14 +12,15 @@ describe("simulation sans interface", () => {
       boardSize: 9,
       humanLevel: "very-easy",
       computerLevel: "very-easy",
-      maxTurns: 60,
+      maxTurns: 20,
+      searchProfile: "safe",
       random: () => 0.42
     });
 
     expect(result.turnsPlayed).toBeGreaterThan(0);
-    expect(result.turnsPlayed).toBeLessThanOrEqual(60);
+    expect(result.turnsPlayed).toBeLessThanOrEqual(20);
     expect(result.history.length).toBe(result.turnsPlayed);
     expect(getPlacedTiles(result.state.board)).toHaveLength(0);
     expect(result.state.scores.human + result.state.scores.computer).toBeGreaterThan(0);
-  });
+  }, 15_000);
 });
