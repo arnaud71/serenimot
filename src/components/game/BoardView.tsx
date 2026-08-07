@@ -6,7 +6,6 @@ import type { BestMoveHint } from "../../domain/turns/hints";
 
 type BoardViewProps = {
   board: Board;
-  selectedTileId: string | null;
   selectedBoardCellKey: string | null;
   hint: BestMoveHint | null;
   hintAreaCellKeys: string[];
@@ -104,7 +103,6 @@ type BoardTouchDragState = {
 
 export function BoardView({
   board,
-  selectedTileId,
   selectedBoardCellKey,
   hint,
   hintAreaCellKeys,

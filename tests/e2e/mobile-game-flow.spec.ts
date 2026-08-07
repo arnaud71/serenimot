@@ -42,16 +42,6 @@ test("joue un premier tour complet sur téléphone", async ({ page }, testInfo) 
   await placeFirstWordAtCenterFromRack(page, selectedWord);
   await expect(page.getByRole("button", { name: "Valider" })).toBeEnabled();
 
-  const boardSize = await page.getByRole("grid").evaluate((grid) => Number(grid.getAttribute("aria-rowcount")));
-  const center = Math.floor(boardSize / 2);
-  const pivotIndex = Math.floor(selectedWord.length / 2);
-  await page
-    .getByRole("gridcell", {
-      name: new RegExp(`Ligne ${center + 1}, colonne ${center + 1}, lettre ${selectedWord[pivotIndex]}`, "u")
-    })
-    .click();
-
-  await expect(page.getByRole("button", { name: "Valider" })).toBeEnabled();
   await page.getByRole("button", { name: "Valider" }).click();
 
   await expect(getHumanScore(page)).not.toHaveText("0");

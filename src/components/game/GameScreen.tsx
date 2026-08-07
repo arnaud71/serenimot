@@ -497,6 +497,32 @@ export function GameScreen({
     const cellTile = game.board[row][col].tile;
     const hasPendingTiles = getPlacedTiles(game.board).length > 0;
     if (cellTile && !cellTile.committed && cellTile.owner === "human" && pendingTurnWord) {
+      if (selectedBoardCell) {
+        clearHint();
+        const result = placeTile(game, cellTile.id, selectedBoardCell.row, selectedBoardCell.col);
+
+        pushUndoPoint();
+        onGameChange(
+          result.ok
+            ? result.state
+            : {
+                ...result.state,
+                message: {
+                  tone: "notice",
+                  text: result.reason
+                }
+              }
+        );
+        if (result.ok) {
+          setPreparedTileIds(getPendingTurnTileIds(result.state));
+          setIsPendingWordSelected(false);
+        }
+        setSelectedTileId(null);
+        setSelectedBoardCell(null);
+        setSelectedPreparedSlotIndex(null);
+        return;
+      }
+
       clearHint();
       const removedTile = removeHumanTurnTile(game, cellTile.id);
 
@@ -559,7 +585,7 @@ export function GameScreen({
       }
     }
 
-    if (!selectedTileId && !cellTile) {
+    if (!selectedTileId && !cellTile && (preparedTileIds.length <= 1 || (hasPendingTiles && !isPendingWordSelected))) {
       setSelectedBoardCell((currentCell) =>
         currentCell?.row === row && currentCell.col === col ? null : { row, col }
       );
@@ -568,7 +594,7 @@ export function GameScreen({
         ...game,
         message: {
           tone: "info",
-          text: "Case choisie. Touchez une lettre dans vos lettres pour la poser ici."
+          text: "Case choisie. Touchez une lettre dans vos lettres ou sur le plateau pour la poser ici."
         }
       });
       return;
@@ -620,21 +646,6 @@ export function GameScreen({
     }
 
     if (!selectedTileId) {
-      if (!cellTile) {
-        setSelectedBoardCell((currentCell) =>
-          currentCell?.row === row && currentCell.col === col ? null : { row, col }
-        );
-        setSelectedPreparedSlotIndex(null);
-        onGameChange({
-          ...game,
-          message: {
-            tone: "info",
-            text: "Case choisie. Touchez une lettre dans vos lettres pour la poser ici."
-          }
-        });
-        return;
-      }
-
       onGameChange({
         ...game,
         message: {
@@ -1071,7 +1082,6 @@ export function GameScreen({
     setSelectedPreparedSlotIndex(null);
     clearHint();
     setIsPendingWordSelected(false);
-    setSelectedBoardCell(null);
     clearErrorHighlights();
     setPreparedTileSlots((currentSlots) => placeTileIdInPreparedSlot(currentSlots, tileId, targetIndex, game));
   }
@@ -1283,7 +1293,6 @@ export function GameScreen({
       <section ref={boardSectionRef} className="game-main" aria-label="Partie en cours">
         <BoardView
           board={game.board}
-          selectedTileId={selectedTileId ?? (preparedTileIds.length > 0 ? "prepared-word" : null)}
           selectedBoardCellKey={selectedBoardCell ? `${selectedBoardCell.row}:${selectedBoardCell.col}` : null}
           hint={isCompleteHintVisible ? hint : null}
           hintAreaCellKeys={hintAreaCellKeys}
@@ -1406,6 +1415,24 @@ export function GameScreen({
               {...getButtonHintProps("Passe votre tour et laisse l'ordinateur jouer.")}
             >
               Passer
+            </button>
+            <button
+              className="secondary-button"
+              type="button"
+              onClick={handleRecallPlacedTurnTiles}
+              disabled={isFinished || !pendingTurnWord}
+              {...getButtonHintProps("Reprend du plateau les lettres posées ce tour. Le chevalet reste en place ; les lettres déjà présentes sur le plateau en sont retirées.")}
+            >
+              Reprendre
+            </button>
+            <button
+              className="secondary-button"
+              type="button"
+              onClick={handleClearPreparedWord}
+              disabled={isFinished || (preparedTileIds.length === 0 && !pendingTurnWord)}
+              {...getButtonHintProps("Vide le chevalet. Si des lettres sont posées ce tour, elles reviennent dans vos lettres.")}
+            >
+              Effacer
             </button>
           </div>
           <div className="builder-actions">

@@ -2599,23 +2599,8 @@ p {
     font-size: 0.82rem;
   }
 
-  .builder-actions {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.26rem;
-  }
-
-  .preparation-zone .builder-actions button:nth-child(-n + 3) {
+  .preparation-zone .builder-actions {
     display: none;
-  }
-
-  .preparation-zone .builder-actions button:disabled {
-    display: none;
-  }
-
-  .builder-actions button {
-    min-height: 42px;
-    padding: 0.36rem 0.28rem;
-    font-size: 0.8rem;
   }
 
   .mobile-action-bar {

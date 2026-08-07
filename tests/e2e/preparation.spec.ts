@@ -132,7 +132,7 @@ test("efface un mot posé et remet les lettres dans vos lettres", async ({ page 
   await expect(getBoardTileCells(page)).toHaveCount(0);
 });
 
-test("fait pivoter le premier mot en restant centré", async ({ page }) => {
+test("retire une seule lettre d'un mot posé par clic", async ({ page }) => {
   await startSeededGame(page, 44);
 
   const rackLetters = await getAvailableRackLetters(page);
@@ -147,17 +147,18 @@ test("fait pivoter le premier mot en restant centré", async ({ page }) => {
   const center = Math.floor(boardSize / 2);
   const pivotIndex = Math.floor(selectedWord.length / 2);
   const startCol = Math.max(0, Math.min(boardSize - selectedWord.length, center - pivotIndex));
+  const clickedCell = page.getByRole("gridcell", {
+    name: new RegExp(`Ligne ${center + 1}, colonne ${center + 1}, lettre ${selectedWord[pivotIndex]}`)
+  });
 
   await expect(page.getByRole("gridcell", { name: new RegExp(`Ligne ${center + 1}, colonne ${startCol + 1}, lettre`) })).toBeVisible();
-  await page
-    .getByRole("gridcell", { name: new RegExp(`Ligne ${center + 1}, colonne ${center + 1}, lettre ${selectedWord[pivotIndex]}`) })
-    .click();
+  await clickedCell.click();
 
-  await expect(page.getByRole("gridcell", { name: new RegExp(`Ligne ${center - pivotIndex + 1}, colonne ${center + 1}, lettre`) })).toBeVisible();
-  await expect(getBuilderAction(page, "Valider")).toBeEnabled();
+  await expect(clickedCell.locator(".board-tile-letter")).toHaveCount(0);
+  await expect(getBoardTileCells(page)).toHaveCount(selectedWord.length - 1);
 });
 
-test("déplace un mot en glissant n'importe quelle lettre du mot", async ({ page }) => {
+test("déplace une lettre déjà posée sur le plateau", async ({ page }) => {
   await startSeededGame(page, 46);
 
   const rackLetters = await getAvailableRackLetters(page);
@@ -172,26 +173,23 @@ test("déplace un mot en glissant n'importe quelle lettre du mot", async ({ page
   const boardSize = await getBoardSize(page);
   const center = Math.floor(boardSize / 2);
   const startCol = Math.max(0, Math.min(boardSize - selectedWord.length, center - Math.floor(selectedWord.length / 2)));
+  const targetRow = center + 1;
+  const targetCol = startCol + 1;
   const sourceCell = page.getByRole("gridcell", {
     name: new RegExp(`^Ligne ${center + 1}, colonne ${startCol + 2}, lettre ${selectedWord[1]}`, "u")
   });
   const targetCell = page.getByRole("gridcell", {
-    name: new RegExp(`^Ligne ${center + 1}, colonne ${startCol + 3},`, "u")
+    name: new RegExp(`^Ligne ${targetRow + 1}, colonne ${targetCol + 1},`, "u")
   });
 
   await sourceCell.dragTo(targetCell);
 
+  await expect(sourceCell.locator(".board-tile-letter")).toHaveCount(0);
   await expect(
     page.getByRole("gridcell", {
-      name: new RegExp(`^Ligne ${center + 1}, colonne ${startCol + 2}, lettre ${selectedWord[0]}`, "u")
+      name: new RegExp(`^Ligne ${targetRow + 1}, colonne ${targetCol + 1}, lettre ${selectedWord[1]}`, "u")
     })
   ).toBeVisible();
-  await expect(
-    page.getByRole("gridcell", {
-      name: new RegExp(`^Ligne ${center + 1}, colonne ${startCol + 3}, lettre ${selectedWord[1]}`, "u")
-    })
-  ).toBeVisible();
-  await expect(getBuilderAction(page, "Valider")).toBeEnabled();
 });
 
 test("défait et refait un état d'erreur visible", async ({ page }) => {
@@ -240,7 +238,7 @@ async function placePreparedWordOnCenter(page: Page, word: string) {
 }
 
 function getBuilderAction(page: Page, label: string) {
-  return page.locator(".builder-actions").getByRole("button", { name: new RegExp(`^${label}`) });
+  return page.getByRole("button", { name: new RegExp(`^${label}`) });
 }
 
 function getBoardTileCells(page: Page) {

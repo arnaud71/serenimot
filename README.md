@@ -15,6 +15,8 @@ npm run dev
 
 Pour l'installation sur iPhone, iPad, Android, Mac ou Windows, voir [docs/installation.md](docs/installation.md).
 
+Pour les gestes de jeu et les captures d'écran des interactions, voir [docs/interactions.md](docs/interactions.md).
+
 ## Commandes
 
 ```bash

@@ -55,7 +55,10 @@ test("compose, pose et valide un premier mot", async ({ page }) => {
 });
 
 test("glisse des lettres dans le chevalet sur écran tactile", async ({ page, browserName }) => {
-  test.skip(browserName !== "chromium", "La simulation tactile fine utilise le protocole DevTools Chromium.");
+  test.skip(
+    browserName !== "chromium" || !["mobile-chrome", "tablet-android"].includes(test.info().project.name),
+    "La simulation tactile fine utilise un contexte Chromium tactile."
+  );
 
   await installSeededRandom(page, 9);
   await page.goto("/");
@@ -79,7 +82,10 @@ test("glisse des lettres dans le chevalet sur écran tactile", async ({ page, br
 });
 
 test("glisse une lettre déjà posée sur le plateau", async ({ page, browserName }) => {
-  test.skip(browserName !== "chromium", "La simulation tactile fine utilise le protocole DevTools Chromium.");
+  test.skip(
+    browserName !== "chromium" || !["mobile-chrome", "tablet-android"].includes(test.info().project.name),
+    "La simulation tactile fine utilise un contexte Chromium tactile."
+  );
 
   await installSeededRandom(page, 14);
   await page.goto("/");
@@ -100,7 +106,10 @@ test("glisse une lettre déjà posée sur le plateau", async ({ page, browserNam
 });
 
 test("glisse une lettre du chevalet vers le plateau", async ({ page, browserName }) => {
-  test.skip(browserName !== "chromium", "La simulation tactile fine utilise le protocole DevTools Chromium.");
+  test.skip(
+    browserName !== "chromium" || !["mobile-chrome", "tablet-android"].includes(test.info().project.name),
+    "La simulation tactile fine utilise un contexte Chromium tactile."
+  );
 
   await installSeededRandom(page, 15);
   await page.goto("/");
@@ -212,6 +221,31 @@ test("retire seulement la lettre du plateau cliquée", async ({ page }) => {
   await firstCell.click();
 
   await expect(firstCell.locator(".board-tile-letter")).toHaveCount(0);
+  await expect(secondCell.locator(".board-tile-letter")).toHaveText(secondLetter ?? "");
+});
+
+test("déplace une lettre du plateau vers la case choisie", async ({ page }) => {
+  await installSeededRandom(page, 17);
+  await page.goto("/");
+  await startNewGame(page);
+
+  const firstCell = page.locator(".board-cell[data-row='6'][data-col='6']");
+  const secondCell = page.locator(".board-cell[data-row='6'][data-col='7']");
+  const targetCell = page.locator(".board-cell[data-row='7'][data-col='6']");
+  const firstLetter = await page.locator(".rack-tile").first().locator("span").textContent();
+  const secondLetter = await page.locator(".rack-tile").nth(1).locator("span").textContent();
+
+  await firstCell.click();
+  await page.locator(".rack-tile").first().click();
+  await secondCell.click();
+  await page.locator(".rack-tile").first().click();
+
+  await targetCell.click();
+  await expect(targetCell).toHaveAttribute("aria-pressed", "true");
+  await firstCell.click();
+
+  await expect(firstCell.locator(".board-tile-letter")).toHaveCount(0);
+  await expect(targetCell.locator(".board-tile-letter")).toHaveText(firstLetter ?? "");
   await expect(secondCell.locator(".board-tile-letter")).toHaveText(secondLetter ?? "");
 });
 
