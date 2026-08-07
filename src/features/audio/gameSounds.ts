@@ -23,7 +23,7 @@ function getSoundKind(message: GameMessage): SoundKind | null {
     return "win";
   }
 
-  if (message.text.startsWith("La partie est terminée. L'ordinateur gagne.")) {
+  if (message.text.startsWith("La partie est terminée. Le robot gagne.")) {
     return "lose";
   }
 
@@ -35,7 +35,7 @@ function getSoundKind(message: GameMessage): SoundKind | null {
     return "success";
   }
 
-  if (message.text.startsWith("L'ordinateur pose")) {
+  if (message.text.startsWith("Le robot pose")) {
     return "computer";
   }
 

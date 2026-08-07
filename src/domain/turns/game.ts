@@ -551,7 +551,7 @@ export function passHumanTurn(state: GameState): GameState {
     },
     message: {
       tone: "info",
-      text: "Vous passez votre tour. L'ordinateur va jouer calmement."
+      text: "Vous passez votre tour. Le robot va jouer calmement."
     }
   });
 }
@@ -619,7 +619,7 @@ export function exchangeHumanTiles(
       },
       message: {
         tone: "info",
-        text: `Vous échangez ${count} lettre${count > 1 ? "s" : ""}. L'ordinateur va jouer calmement.`
+        text: `Vous échangez ${count} lettre${count > 1 ? "s" : ""}. Le robot va jouer calmement.`
       }
     })
   };
@@ -662,7 +662,7 @@ export function playAutomatedTurn(
         tone: "info",
         text:
           player === "computer"
-            ? "L'ordinateur passe son tour. À vous de jouer."
+            ? "Le robot passe son tour. À vous de jouer."
             : "Le joueur automatique passe son tour."
       }
     });
@@ -699,7 +699,7 @@ export function playAutomatedTurn(
       tone: "info",
       text:
         player === "computer"
-          ? `L'ordinateur pose "${move.word}" et marque ${score} point${score > 1 ? "s" : ""}. À vous de jouer.`
+          ? `Le robot pose "${move.word}" et marque ${score} point${score > 1 ? "s" : ""}. À vous de jouer.`
           : `Le joueur automatique pose "${move.word}" et marque ${score} point${score > 1 ? "s" : ""}.`,
       scoreDetails
     }
@@ -730,7 +730,7 @@ function finishGameIfNeeded(state: GameState): GameState {
       ? "La partie est terminée sur une égalité."
       : winner === "human"
         ? "La partie est terminée. Vous gagnez."
-        : "La partie est terminée. L'ordinateur gagne.";
+        : "La partie est terminée. Le robot gagne.";
 
   return {
     ...state,
@@ -748,7 +748,7 @@ function finishGameIfNeeded(state: GameState): GameState {
     message: {
       ...state.message,
       tone: winner === "human" ? "success" : "notice",
-      text: `${resultText} Score final : vous ${state.scores.human}, ordinateur ${state.scores.computer}.`
+      text: `${resultText} Score final : vous ${state.scores.human}, robot ${state.scores.computer}.`
     }
   };
 }

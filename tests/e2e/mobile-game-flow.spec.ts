@@ -46,8 +46,8 @@ test("joue un premier tour complet sur téléphone", async ({ page }, testInfo) 
 
   await expect(getHumanScore(page)).not.toHaveText("0");
   await expect.poll(() => getOccupiedCellCount(page)).toBeGreaterThanOrEqual(selectedWord.length);
-  await expect(page.getByText("L'ordinateur réfléchit")).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByText(/L'ordinateur (pose|passe)/)).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByText("Le robot réfléchit")).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText(/Le robot (pose|passe)/)).toBeVisible({ timeout: 20_000 });
   await expect(page.getByText("À vous de jouer.")).toBeVisible({ timeout: 20_000 });
   await expect(page.getByRole("button", { name: "Indice" })).toBeEnabled();
 

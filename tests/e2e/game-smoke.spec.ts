@@ -23,7 +23,7 @@ test("démarre une partie et vérifie les réglages principaux", async ({ page }
   await page.getByRole("button", { name: "Options" }).click();
 
   await expect(page.getByRole("heading", { name: "Sérénimot" })).toBeVisible();
-  await expect(page.getByLabel("Performance ordinateur")).toHaveValue("auto");
+  await expect(page.getByLabel("Performance du robot")).toHaveValue("auto");
   await expect(page.getByLabel("Indice")).toBeVisible();
   await expect(page.getByLabel("Mode dev")).toBeVisible();
   await expect(page.getByLabel("Taille du plateau")).toBeVisible();
@@ -259,7 +259,7 @@ test("cherche un indice sans bloquer l'interface", async ({ page }) => {
 
   await page.getByRole("button", { name: "Indice" }).click();
 
-  await expect(page.getByText("L'ordinateur cherche un indice possible.")).toBeVisible();
+  await expect(page.getByText("Le robot cherche un indice possible.")).toBeVisible();
   await expect(page.getByRole("status").filter({ hasText: /^Indice 1\/6 :/ })).toBeVisible({ timeout: 15_000 });
   await expect(page.getByRole("button", { name: /Indice 1\/6/ })).toBeVisible();
   expect(browserErrors()).toEqual([]);
@@ -306,7 +306,7 @@ test("affiche l'indice complet sans numérotation progressive", async ({ page })
   expect(browserErrors()).toEqual([]);
 });
 
-test("laisse l'ordinateur jouer sans crash après un tour passé", async ({ page }) => {
+test("laisse le robot jouer sans crash après un tour passé", async ({ page }) => {
   const browserErrors = collectBrowserErrors(page);
 
   await installSeededRandom(page, 3);
@@ -315,8 +315,8 @@ test("laisse l'ordinateur jouer sans crash après un tour passé", async ({ page
   await startNewGame(page);
   await page.getByRole("button", { name: "Passer" }).click();
 
-  await expect(page.getByText("L'ordinateur réfléchit")).toBeVisible();
-  await expect(page.getByText(/L'ordinateur (pose|passe)/)).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByText("Le robot réfléchit")).toBeVisible();
+  await expect(page.getByText(/Le robot (pose|passe)/)).toBeVisible({ timeout: 15_000 });
   await expect(page.getByText("À vous de jouer.")).toBeVisible();
   expect(browserErrors()).toEqual([]);
 });

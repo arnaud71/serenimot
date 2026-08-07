@@ -63,7 +63,7 @@ test("garde une partie mobile stable sur plusieurs tours", async ({ page }, test
 });
 
 async function waitForComputerThenHuman(page: Page) {
-  await expect(page.getByText("L'ordinateur réfléchit")).toBeVisible({ timeout: 12_000 });
-  await expect(page.getByText(/L'ordinateur (pose|passe)/u)).toBeVisible({ timeout: 25_000 });
+  await expect(page.getByText("Le robot réfléchit")).toBeVisible({ timeout: 12_000 });
+  await expect(page.getByText(/Le robot (pose|passe)/u)).toBeVisible({ timeout: 25_000 });
   await expect(page.getByText("À vous de jouer.")).toBeVisible({ timeout: 25_000 });
 }

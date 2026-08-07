@@ -19,7 +19,7 @@ test("termine une partie sauvegardee avec une pioche vide", async ({ page }) => 
   await expect(page.locator(".game-over-butterflies")).toBeVisible();
   await expect(gameOverDialog.getByRole("heading", { name: "Vous gagnez" })).toBeVisible();
   await expect(gameOverDialog).toContainText("La pioche est vide et un joueur n'a plus de lettres.");
-  await expect(gameOverDialog).toContainText("Perdant : ordinateur");
+  await expect(gameOverDialog).toContainText("Perdant : robot");
   await expect(gameOverDialog).toContainText(String(almostFinishedGame.scores.human));
   await expect(gameOverDialog).toContainText(String(almostFinishedGame.scores.computer));
 
@@ -80,7 +80,7 @@ test("termine une partie sauvegardee apres plusieurs tours passes", async ({ pag
   const gameOverDialog = page.getByRole("dialog");
   await expect(gameOverDialog).toBeVisible();
   await expect(page.locator(".game-over-leaves")).toBeVisible();
-  await expect(gameOverDialog.getByRole("heading", { name: "L'ordinateur gagne" })).toBeVisible();
+  await expect(gameOverDialog.getByRole("heading", { name: "Le robot gagne" })).toBeVisible();
   await expect(gameOverDialog).toContainText("Plus aucun joueur n'a posé de mot après plusieurs tours.");
   await expect(gameOverDialog).toContainText("Perdant : vous");
   await expect(gameOverDialog).toContainText(String(almostFinishedGame.scores.human));

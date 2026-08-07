@@ -470,7 +470,7 @@ export function GameScreen({
   }, [onExplanationInitialRequested, scoreWordInitials]);
 
   useEffect(() => {
-    if (!game.message.scoreDetails || !game.message.text.startsWith("L'ordinateur pose")) {
+    if (!game.message.scoreDetails || !game.message.text.startsWith("Le robot pose")) {
       return;
     }
 
@@ -528,7 +528,7 @@ export function GameScreen({
           const metrics = getLastSearchWorkerMetrics();
           if (metrics) {
             setSearchDiagnostic({
-              label: "Ordinateur",
+              label: "Robot",
               profile: effectiveProfile,
               metrics
             });
@@ -553,7 +553,7 @@ export function GameScreen({
             },
             message: {
               tone: "notice",
-              text: "L'ordinateur n'a pas réussi à jouer. À vous de reprendre la main."
+              text: "Le robot n'a pas réussi à jouer. À vous de reprendre la main."
             }
           });
         });
@@ -1153,7 +1153,7 @@ export function GameScreen({
       ...game,
       message: {
         tone: "info",
-        text: "L'ordinateur cherche un indice possible."
+        text: "Le robot cherche un indice possible."
       }
     });
 
@@ -1543,7 +1543,7 @@ export function GameScreen({
               {...getButtonHintProps(
                 isExchangeMode
                   ? "Terminez ou annulez l'échange avant de passer votre tour."
-                  : "Passe votre tour et laisse l'ordinateur jouer."
+                  : "Passe votre tour et laisse le robot jouer."
               )}
             >
               Passer
@@ -1648,7 +1648,7 @@ export function GameScreen({
               {...getButtonHintProps(
                 isExchangeMode
                   ? "Terminez ou annulez l'échange avant de passer votre tour."
-                  : "Passe votre tour et laisse l'ordinateur jouer."
+                  : "Passe votre tour et laisse le robot jouer."
               )}
             >
               Passer
@@ -1757,7 +1757,7 @@ export function GameScreen({
           <div className={game.turn.player === "computer" ? "computer-thinking" : undefined} role="status" aria-live="polite">
             {game.turn.player === "computer" ? (
               <>
-                <span>L'ordinateur réfléchit</span>
+                <span>Le robot réfléchit</span>
                 <span className="searching-dots" aria-hidden="true">
                   <span />
                   <span />
@@ -1855,7 +1855,7 @@ function GameOverDialog({
       ? "Partie terminée"
       : status.winner === "human"
         ? "Vous gagnez"
-        : "L'ordinateur gagne";
+        : "Le robot gagne";
   const detail =
     status.reason === "rack-empty"
       ? "La pioche est vide et un joueur n'a plus de lettres."
@@ -1866,7 +1866,7 @@ function GameOverDialog({
     status.winner === "draw"
       ? "Égalité"
       : status.winner === "human"
-        ? "Perdant : ordinateur"
+        ? "Perdant : robot"
         : "Perdant : vous";
   const stats = getFinalGameStats(status);
 
@@ -1883,14 +1883,14 @@ function GameOverDialog({
             <strong>{status.finalScores.human}</strong>
           </div>
           <div className={status.winner === "computer" ? "game-over-winner" : undefined}>
-            <span>Ordinateur</span>
+            <span>Robot</span>
             <strong>{status.finalScores.computer}</strong>
           </div>
         </div>
         <p className="game-over-loser">{loser}</p>
         <div className="game-over-stats" aria-label="Statistiques de la partie">
           <span>Vos coups : {stats.humanTurns}</span>
-          <span>Ordinateur : {stats.computerTurns}</span>
+          <span>Robot : {stats.computerTurns}</span>
           <span>Passes : {stats.passes}</span>
           <span>Échanges : {stats.exchanges}</span>
           <span>Indices partiels : {stats.hints.partial}</span>
@@ -1954,7 +1954,7 @@ function getContextualHelp({
 
   if (game.turn.player === "computer") {
     return {
-      title: "L'ordinateur joue",
+      title: "Le robot joue",
       items: [
         "Attendez la fin de son tour.",
         "Les dernières lettres jouées seront mises en évidence sur le plateau.",
@@ -2891,7 +2891,7 @@ function getLastMoveCellKeys(details: ScoreDetails | null, messageText: string):
 }
 
 function isPlayedMoveMessage(messageText: string): boolean {
-  return messageText.startsWith("Mot accepté") || messageText.startsWith("Mots acceptés") || messageText.startsWith("L'ordinateur pose");
+  return messageText.startsWith("Mot accepté") || messageText.startsWith("Mots acceptés") || messageText.startsWith("Le robot pose");
 }
 
 function getBonusAnimationCells(details: ScoreDetails): BoardBonusAnimationCell[] {

@@ -339,7 +339,7 @@ export function BoardView({
                 (animationCell) => animationCell.row === cell.row && animationCell.col === cell.col
               );
               const label = tile
-                ? `Ligne ${cell.row + 1}, colonne ${cell.col + 1}, lettre ${tile.letter}${cell.bonus !== "plain" ? `, ${bonusName}` : ""}${isPreparedBoardTile ? ", choisie dans le mot préparé" : ""}${isNewWordCell ? ", dans un mot créé par ce coup" : ""}${isLastMoveCell ? ", lettre du dernier coup joué" : ""}${isAnimatedCell ? ", lettre jouée par l'ordinateur" : ""}${bonusAnimation ? `, bonus ${BONUS_NAMES[bonusAnimation.bonus]} appliqué` : ""}${isInvalidCell ? ", à vérifier" : ""}`
+                ? `Ligne ${cell.row + 1}, colonne ${cell.col + 1}, lettre ${tile.letter}${cell.bonus !== "plain" ? `, ${bonusName}` : ""}${isPreparedBoardTile ? ", choisie dans le mot préparé" : ""}${isNewWordCell ? ", dans un mot créé par ce coup" : ""}${isLastMoveCell ? ", lettre du dernier coup joué" : ""}${isAnimatedCell ? ", lettre jouée par le robot" : ""}${bonusAnimation ? `, bonus ${BONUS_NAMES[bonusAnimation.bonus]} appliqué` : ""}${isInvalidCell ? ", à vérifier" : ""}`
                 : previewLetter
                   ? `Ligne ${cell.row + 1}, colonne ${cell.col + 1}, aperçu lettre ${previewLetter}${hintPreviewLetter ? ", lettre révélée par l'indice" : ""}${errorPreviewLetter ? ", pose refusée" : ""}`
                   : isHintPositionCell

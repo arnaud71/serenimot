@@ -76,7 +76,7 @@ const COMPUTER_SEARCH_PROFILE_OPTIONS: { value: ComputerSearchPreference; label:
   {
     value: "balanced",
     label: "Équilibré",
-    description: "Garde le comportement standard de l'ordinateur."
+    description: "Garde le comportement standard du robot."
   },
   {
     value: "quality",
@@ -234,13 +234,7 @@ function PromoHome({
             <button type="button" onClick={onNewGame} disabled={!canPlay}>
               Jouer maintenant
             </button>
-            <a className="promo-action-link" href="#installation">
-              Installer sur mon téléphone
-            </a>
-            <button className="secondary-button" type="button" onClick={onPwaInfoRequest}>
-              C'est quoi une PWA ?
-            </button>
-            <button className="secondary-button" type="button" onClick={onContinue} disabled={!hasSave || !canPlay}>
+            <button type="button" onClick={onContinue} disabled={!hasSave || !canPlay}>
               Continuer
             </button>
             <button className="secondary-button" type="button" onClick={onRulesRequest}>
@@ -249,6 +243,12 @@ function PromoHome({
             <button className="secondary-button" type="button" onClick={onLexiconRequest}>
               Lexique
             </button>
+            <button className="secondary-button" type="button" onClick={onPwaInfoRequest}>
+              C'est quoi une PWA ?
+            </button>
+            <a className="promo-action-link" href="#installation">
+              Installer sur mon téléphone
+            </a>
           </div>
           <p className="dictionary-status">
             {dictionaryStatus === "loading"
@@ -872,9 +872,9 @@ export function App() {
           <h1 id="options-title">Sérénimot</h1>
           <label
             className="setting-row"
-            {...optionHintProps("Règle le niveau de jeu de l'ordinateur pour les prochaines parties.")}
+            {...optionHintProps("Règle le niveau de jeu du robot pour les prochaines parties.")}
           >
-            <span>Niveau de l'ordinateur</span>
+            <span>Niveau du robot</span>
             <select
               value={preferences.opponentLevel}
               onChange={(event) => setPreferences({ ...preferences, opponentLevel: event.target.value as OpponentLevel })}
@@ -889,7 +889,7 @@ export function App() {
           <p className="setting-help">
             {getOpponentLevelLabel(preferences.opponentLevel)} : {getOpponentLevelDescription(preferences.opponentLevel)}
           </p>
-          <div className="opponent-level-legend" aria-label="Code couleur des niveaux de l'ordinateur">
+          <div className="opponent-level-legend" aria-label="Code couleur des niveaux du robot">
             <span className="opponent-level-legend-label">Code couleur</span>
             {OPPONENT_LEVEL_OPTIONS.map((option) => (
               <span
@@ -906,7 +906,7 @@ export function App() {
             className="setting-row"
             {...optionHintProps("Ajuste l'effort de recherche pour préserver la fluidité sur cet appareil.")}
           >
-            <span>Performance ordinateur</span>
+            <span>Performance du robot</span>
             <select
               value={preferences.computerSearchProfile}
               onChange={(event) =>
@@ -1089,7 +1089,7 @@ export function App() {
               />
             </span>
           </label>
-          <p className="setting-help">Ajoute de petits sons pour les coups acceptés, les alertes et le tour de l'ordinateur.</p>
+          <p className="setting-help">Ajoute de petits sons pour les coups acceptés, les alertes et le tour du robot.</p>
           {preferences.soundEnabled ? (
             <label
               className="setting-row range-setting"

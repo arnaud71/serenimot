@@ -91,7 +91,7 @@ export function getHumanScore(page: Page) {
 }
 
 export function getComputerScore(page: Page) {
-  return page.locator(".game-status-panel > div").filter({ hasText: /Robot|Ordinateur/u }).locator("strong");
+  return page.locator(".game-status-panel > div").filter({ hasText: /Robot|Robot/u }).locator("strong");
 }
 
 export function getBagCount(page: Page) {

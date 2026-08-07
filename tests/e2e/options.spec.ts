@@ -36,8 +36,8 @@ test("conserve les options entre les parties et après rechargement", async ({ p
 
   await waitForAppReady(page);
   await page.getByRole("button", { name: "Options" }).click();
-  await page.getByLabel("Niveau de l'ordinateur").selectOption("expert");
-  await page.getByLabel("Performance ordinateur").selectOption("quality");
+  await page.getByLabel("Niveau du robot").selectOption("expert");
+  await page.getByLabel("Performance du robot").selectOption("quality");
   await page.getByLabel("Indice").selectOption("none");
   await page.getByLabel("Annuler / refaire").uncheck();
   await page.getByLabel("Bulles d'aide").uncheck();
@@ -55,8 +55,8 @@ test("conserve les options entre les parties et après rechargement", async ({ p
   await page.reload();
   await waitForAppReady(page);
   await page.getByRole("button", { name: "Options" }).click();
-  await expect(page.getByLabel("Niveau de l'ordinateur")).toHaveValue("expert");
-  await expect(page.getByLabel("Performance ordinateur")).toHaveValue("quality");
+  await expect(page.getByLabel("Niveau du robot")).toHaveValue("expert");
+  await expect(page.getByLabel("Performance du robot")).toHaveValue("quality");
   await expect(page.getByLabel("Indice")).toHaveValue("none");
   await expect(page.getByLabel("Annuler / refaire")).not.toBeChecked();
   await expect(page.getByLabel("Bulles d'aide")).not.toBeChecked();
@@ -68,7 +68,7 @@ test("peut masquer les bulles de hints visuelles", async ({ page }) => {
 
   await waitForAppReady(page);
   await page.getByRole("button", { name: "Options" }).click();
-  const opponentLevelRow = page.locator("label.setting-row", { hasText: "Niveau de l'ordinateur" });
+  const opponentLevelRow = page.locator("label.setting-row", { hasText: "Niveau du robot" });
   await expect(opponentLevelRow).toHaveAttribute("data-tooltip", /niveau de jeu/);
   await page.getByLabel("Bulles d'aide").uncheck();
   await expect(opponentLevelRow).not.toHaveAttribute("data-tooltip", /./);

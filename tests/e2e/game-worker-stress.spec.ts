@@ -25,10 +25,10 @@ test("enchaîne indices et coups ordinateur sans erreur navigateur", async ({ pa
 
     await page.getByRole("button", { name: "Passer" }).click();
 
-    await expect(page.getByText("L'ordinateur réfléchit")).toBeVisible({ timeout: 10_000 });
-    await expect(page.getByText(/L'ordinateur (pose|passe)/)).toBeVisible({ timeout: 20_000 });
+    await expect(page.getByText("Le robot réfléchit")).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText(/Le robot (pose|passe)/)).toBeVisible({ timeout: 20_000 });
     await expect(page.getByText("À vous de jouer.")).toBeVisible({ timeout: 20_000 });
-    await expect(page.getByLabel("Diagnostic de recherche")).toContainText("Ordinateur", { timeout: 5_000 });
+    await expect(page.getByLabel("Diagnostic de recherche")).toContainText("Robot", { timeout: 5_000 });
   }
 
   expect(browserErrors()).toEqual([]);

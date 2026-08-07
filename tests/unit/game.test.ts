@@ -348,7 +348,7 @@ describe("plateau", () => {
 });
 
 describe("tour du joueur", () => {
-  it("donne plus de temps de réflexion aux niveaux forts de l'ordinateur", () => {
+  it("donne plus de temps de réflexion aux niveaux forts de le robot", () => {
     expect(getComputerSearchBudgetMs("expert")).toBeGreaterThan(getComputerSearchBudgetMs("hard"));
     expect(getComputerSearchBudgetMs("hard")).toBeGreaterThan(getComputerSearchBudgetMs("normal"));
     expect(getComputerSearchBudgetMs("normal")).toBeGreaterThan(getComputerSearchBudgetMs("easy"));
@@ -802,7 +802,7 @@ describe("tour du joueur", () => {
     expect(validated.turn.player).toBe("computer");
   });
 
-  it("fait poser un mot réel à l'ordinateur sur le plateau", () => {
+  it("fait poser un mot réel à le robot sur le plateau", () => {
     const humanTurn = validateHumanTurn(placeOpeningWord());
     const computerTurn = playEasyComputerTurn(humanTurn);
     const computerTiles = computerTurn.board

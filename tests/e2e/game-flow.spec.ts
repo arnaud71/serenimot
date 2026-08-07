@@ -30,8 +30,8 @@ test("joue un tour complet puis reprend la partie après rechargement", async ({
   await page.getByRole("button", { name: "Valider" }).click();
 
   await expect(getHumanScore(page)).not.toHaveText("0");
-  await expect(page.getByText("L'ordinateur réfléchit")).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByText(/L'ordinateur (pose|passe)/)).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByText("Le robot réfléchit")).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText(/Le robot (pose|passe)/)).toBeVisible({ timeout: 20_000 });
   await expect(page.getByText("À vous de jouer.")).toBeVisible({ timeout: 20_000 });
 
   const scoreBeforeReload = await getScoreSummary(page);
