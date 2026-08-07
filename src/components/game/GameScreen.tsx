@@ -1369,6 +1369,7 @@ export function GameScreen({
                 tileIdSlots={preparedTileSlots}
                 selectedSlotIndex={selectedPreparedSlotIndex}
               boardTileKeys={preparedBoardTileKeys}
+              onBoardDrop={handleTileDropOnBoard}
               onInsertTile={handleInsertPreparedTile}
               onMoveTileToEnd={handleMovePreparedTileToEnd}
               onRemoveTile={handleRemovePreparedTile}
@@ -1622,6 +1623,7 @@ function PreparedWordTiles({
   tileIdSlots,
   selectedSlotIndex,
   boardTileKeys,
+  onBoardDrop,
   onInsertTile,
   onMoveTileToEnd,
   onRemoveTile,
@@ -1632,6 +1634,7 @@ function PreparedWordTiles({
   tileIdSlots: (string | null)[];
   selectedSlotIndex: number | null;
   boardTileKeys: string[];
+  onBoardDrop: (tileId: string, row: number, col: number) => void;
   onInsertTile: (tileId: string, targetIndex: number) => void;
   onMoveTileToEnd: (tileId: string) => void;
   onRemoveTile: (tileId: string) => void;
@@ -1720,6 +1723,15 @@ function PreparedWordTiles({
 
     event.preventDefault();
     ignoreNextClickRef.current = true;
+    const boardCell = document.elementFromPoint(event.clientX, event.clientY)?.closest(".board-cell");
+    const row = Number((boardCell as HTMLElement | null)?.dataset.row);
+    const col = Number((boardCell as HTMLElement | null)?.dataset.col);
+
+    if (Number.isInteger(row) && Number.isInteger(col)) {
+      onBoardDrop(currentDrag.tileId, row, col);
+      return;
+    }
+
     const target = document
       .elementFromPoint(event.clientX, event.clientY)
       ?.closest(".prepared-word-slot, .prepared-word-tile, .prepared-word, .rack");

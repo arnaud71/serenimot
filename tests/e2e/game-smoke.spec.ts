@@ -1,11 +1,11 @@
 import { expect, test } from "@playwright/test";
-import type { Locator } from "@playwright/test";
 import { collectBrowserErrors, installSeededRandom, startNewGame, waitForAppReady } from "./helpers";
 import {
   findBestWordForRack,
   getAvailableRackLetters,
   getHumanScore,
-  placeFirstWordAtCenterFromRack
+  placeFirstWordAtCenterFromRack,
+  touchDrag
 } from "./game-test-utils";
 
 test("démarre une partie et vérifie les réglages principaux", async ({ page }) => {
@@ -61,50 +61,15 @@ test("glisse des lettres dans le chevalet sur écran tactile", async ({ page, br
   await page.goto("/");
   await startNewGame(page);
 
-  const client = await page.context().newCDPSession(page);
-
-  async function touchDrag(source: Locator, target: Locator) {
-    await source.scrollIntoViewIfNeeded();
-    const sourceBox = await source.boundingBox();
-    const targetBox = await target.boundingBox();
-
-    expect(sourceBox).not.toBeNull();
-    expect(targetBox).not.toBeNull();
-
-    const startX = sourceBox!.x + sourceBox!.width / 2;
-    const startY = sourceBox!.y + sourceBox!.height / 2;
-    const endX = targetBox!.x + targetBox!.width / 2;
-    const endY = targetBox!.y + targetBox!.height / 2;
-
-    await client.send("Input.dispatchTouchEvent", {
-      type: "touchStart",
-      touchPoints: [{ x: startX, y: startY, id: 1 }]
-    });
-
-    for (let step = 1; step <= 8; step += 1) {
-      await client.send("Input.dispatchTouchEvent", {
-        type: "touchMove",
-        touchPoints: [
-          {
-            x: startX + ((endX - startX) * step) / 8,
-            y: startY + ((endY - startY) * step) / 8,
-            id: 1
-          }
-        ]
-      });
-    }
-
-    await client.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
-  }
-
-  await touchDrag(page.locator(".rack-tile").first(), page.locator(".prepared-word-slot[data-slot-index='0']"));
-  await touchDrag(page.locator(".rack-tile").first(), page.locator(".prepared-word-slot[data-slot-index='1']"));
+  await touchDrag(page, page.locator(".rack-tile").first(), page.locator(".prepared-word-slot[data-slot-index='0']"));
+  await touchDrag(page, page.locator(".rack-tile").first(), page.locator(".prepared-word-slot[data-slot-index='1']"));
 
   await expect(page.locator(".prepared-word-tile")).toHaveCount(2);
   const firstBefore = await page.locator(".prepared-word-tile[data-slot-index='0'] span").textContent();
   const secondBefore = await page.locator(".prepared-word-tile[data-slot-index='1'] span").textContent();
 
   await touchDrag(
+    page,
     page.locator(".prepared-word-tile[data-slot-index='1']"),
     page.locator(".prepared-word-tile[data-slot-index='0']")
   );
@@ -128,40 +93,28 @@ test("glisse une lettre déjà posée sur le plateau", async ({ page, browserNam
   await page.locator(".rack-tile").first().click();
   await expect(sourceCell.locator(".board-tile-letter")).toHaveText(firstRackLetter ?? "");
 
-  const client = await page.context().newCDPSession(page);
-  const sourceBox = await sourceCell.boundingBox();
-  const targetBox = await targetCell.boundingBox();
-
-  expect(sourceBox).not.toBeNull();
-  expect(targetBox).not.toBeNull();
-
-  const startX = sourceBox!.x + sourceBox!.width / 2;
-  const startY = sourceBox!.y + sourceBox!.height / 2;
-  const endX = targetBox!.x + targetBox!.width / 2;
-  const endY = targetBox!.y + targetBox!.height / 2;
-
-  await client.send("Input.dispatchTouchEvent", {
-    type: "touchStart",
-    touchPoints: [{ x: startX, y: startY, id: 1 }]
-  });
-
-  for (let step = 1; step <= 8; step += 1) {
-    await client.send("Input.dispatchTouchEvent", {
-      type: "touchMove",
-      touchPoints: [
-        {
-          x: startX + ((endX - startX) * step) / 8,
-          y: startY + ((endY - startY) * step) / 8,
-          id: 1
-        }
-      ]
-    });
-  }
-
-  await client.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+  await touchDrag(page, sourceCell, targetCell);
 
   await expect(sourceCell.locator(".board-tile-letter")).toHaveCount(0);
   await expect(targetCell.locator(".board-tile-letter")).toHaveText(firstRackLetter ?? "");
+});
+
+test("glisse une lettre du chevalet vers le plateau", async ({ page, browserName }) => {
+  test.skip(browserName !== "chromium", "La simulation tactile fine utilise le protocole DevTools Chromium.");
+
+  await installSeededRandom(page, 15);
+  await page.goto("/");
+  await startNewGame(page);
+
+  const centerCell = page.locator(".board-cell[data-row='6'][data-col='6']");
+  const firstRackLetter = await page.locator(".rack-tile").first().locator("span").textContent();
+
+  await touchDrag(page, page.locator(".rack-tile").first(), page.locator(".prepared-word-slot[data-slot-index='0']"));
+  await expect(page.locator(".prepared-word-tile[data-slot-index='0'] span")).toHaveText(firstRackLetter ?? "");
+
+  await touchDrag(page, page.locator(".prepared-word-tile[data-slot-index='0']"), centerCell);
+
+  await expect(centerCell.locator(".board-tile-letter")).toHaveText(firstRackLetter ?? "");
 });
 
 test("place une lettre dans un emplacement choisi du chevalet", async ({ page }) => {
