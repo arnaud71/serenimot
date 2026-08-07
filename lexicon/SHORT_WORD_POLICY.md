@@ -22,7 +22,7 @@ Sérénimot ne cherche pas a copier strictement ODS, mais il doit eviter un lexi
 3. Les mots deja presents dans le lexique Serenimot courant ne sont pas retires automatiquement.
 4. Une confirmation par deux sources ouvertes augmente la confiance, mais ne remplace pas la decision produit.
 5. Les onomatopees et interjections doivent etre decidees explicitement, car elles changent fortement le ton du jeu.
-6. Une source ODS locale peut servir de garde-fou de compatibilite, sans etre redistribuee ni integree directement.
+6. Une référence ODS non integree et non distribuee peut servir de garde-fou de compatibilite, sans etre redistribuee ni integree directement.
 
 ## Decisions de reference
 
@@ -63,7 +63,7 @@ Garder provisoirement :
 - les mots confirmes par Morphalou et Lefff avec une frequence non nulle ;
 - les mots Morphalou frequents lorsque leur explication est claire.
 
-Ces mots restent absents d'ODS 8 local, donc ils doivent etre visibles dans le rapport de qualite du lexique.
+Ces mots restent absents de la référence ODS 8, donc ils doivent etre visibles dans le rapport de qualite du lexique.
 
 ### Revoir humainement
 
@@ -79,7 +79,7 @@ Revoir avant publication :
 Apres deux vagues candidates :
 
 - 127 exclusions de mots courts ont ete appliquees au candidat bis ;
-- 213 mots courts restent absents d'ODS 8 local ;
+- 213 mots courts restent absents de la référence ODS 8 ;
 - repartition : 10 mots de 2 lettres, 40 mots de 3 lettres, 163 mots de 4 lettres.
 
 Classement de revue :
@@ -101,12 +101,12 @@ Resultat :
 
 - 216 petits mots revus ;
 - 1 mot accepte : `TIPA`, forme courte rattachee par regle au lemme verbal deja accepte `TIPER` ;
-- 187 mots gardes en attente, dont 186 uniquement visibles via la comparaison ODS 8 locale ;
+- 187 mots gardes en attente, dont 186 uniquement visibles via la comparaison avec la référence ODS 8 ;
 - 1 mot ouvert mais non tranche : `DIAM`, present dans Morphalou mais encore sans explication validee ;
 - 28 mots rejetes comme noms propres ou assimiles ;
 - version active obtenue : `4.00.4`, 369 538 mots.
 
-La regle de decision reste volontairement stricte : un petit mot uniquement present dans ODS local ne suffit pas. Il faut une source ouverte redistribuable ou une generation par regle rattachee a un lemme deja accepte.
+La regle de decision reste volontairement stricte : un petit mot uniquement present dans la référence ODS 8 ne suffit pas. Il faut une source ouverte redistribuable ou une generation par regle rattachee a un lemme deja accepte.
 
 ## Revue manuelle GO B
 
@@ -127,7 +127,7 @@ Justification :
 - `DIAM` est present dans Lexique 4.00 comme nom masculin singulier, rattache morphologiquement a `diamant` ;
 - `DIAM` est present dans Morphalou ;
 - `DIAMS` etait deja actif dans Serenimot, donc accepter le pluriel sans le singulier etait incoherent ;
-- ODS 8 local confirme la compatibilite, sans etre integre ni redistribue.
+- La référence ODS 8 confirme la compatibilite, sans etre integree ni redistribuee.
 
 ## Commandes associees
 

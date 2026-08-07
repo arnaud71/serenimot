@@ -129,11 +129,11 @@ Dernier résultat local :
 - mots ajoutés depuis Lexique 4.00 : 10 656 ;
 - mots conservés depuis le dictionnaire courant hors Lexique 4.00 : 222 311 ;
 - retraits 3.83 conservés par la revue : 13 194 ;
-- compatibilité ODS 8 locale : 350 094 mots communs ;
+- compatibilité avec la référence ODS 8 : 350 094 mots communs ;
 - mots du candidat absents d'ODS 8 : 19 982 ;
 - mots ODS 8 absents du candidat : 61 336 ;
-- part du candidat acceptée par ODS 8 local : 94,60 % ;
-- couverture ODS 8 locale par le candidat : 85,09 %.
+- part du candidat acceptée par la référence ODS 8 : 94,60 % ;
+- couverture de la référence ODS 8 par le candidat : 85,09 %.
 
 Revue mots courts après le premier filtre :
 
@@ -151,8 +151,8 @@ Résultat du candidat filtré bis :
 - mots communs avec ODS 8 : 350 094, inchangé ;
 - mots du candidat filtré bis absents d'ODS 8 : 18 862 ;
 - mots ODS 8 absents du candidat filtré bis : 61 336, inchangé ;
-- part du candidat filtré bis acceptée par ODS 8 local : 94,89 % ;
-- couverture ODS 8 locale par le candidat filtré bis : 85,09 % ;
+- part du candidat filtré bis acceptée par la référence ODS 8 : 94,89 % ;
+- couverture de la référence ODS 8 par le candidat filtré bis : 85,09 % ;
 - mots courts hors ODS restants : 10 de 2 lettres, 40 de 3 lettres, 163 de 4 lettres.
 
 Revue lisible des 213 mots courts restants :
@@ -266,8 +266,8 @@ Résultat du candidat filtré :
 - mots communs avec ODS 8 : 350 094, inchangé ;
 - mots du candidat filtré absents d'ODS 8 : 18 989 ;
 - mots ODS 8 absents du candidat filtré : 61 336, inchangé ;
-- part du candidat filtré acceptée par ODS 8 local : 94,86 % ;
-- couverture ODS 8 locale par le candidat filtré : 85,09 % ;
+- part du candidat filtré acceptée par la référence ODS 8 : 94,86 % ;
+- couverture de la référence ODS 8 par le candidat filtré : 85,09 % ;
 - mots courts hors ODS restants après filtrage : 65 de 2 lettres, 102 de 3 lettres, 173 de 4 lettres.
 
 Revue spéciale des 340 mots courts restants hors ODS 8 :
@@ -417,7 +417,7 @@ Dernière analyse locale après activation de `4.00.5` :
 - `review-short-word` : 186 ;
 - `review-open-single-source` : 140.
 
-Décision de méthode : ODS 8 reste un garde-fou local de compatibilité. Les enrichissements doivent venir de règles documentées ou de sources redistribuables, pas d'une insertion directe des mots ODS.
+Décision de méthode : ODS 8 reste une référence de comparaison non intégrée et non distribuée. Les enrichissements doivent venir de règles documentées ou de sources redistribuables, pas d'une insertion directe des mots ODS.
 
 Une commande ODS 9 reste disponible si une source locale compatible est obtenue plus tard :
 
@@ -478,7 +478,7 @@ Les formes dérivées intégrées automatiquement suivent une règle prudente :
 - les familles intégrées sont les pluriels de noms, formes d'adjectifs, participes verbaux et formes verbales indicatives ;
 - les autres formes sont mises en revue, notamment conditionnel, impératif, subjonctif, déterminants et pronoms.
 
-Une deuxième vague peut intégrer les formes de revue confirmées par ODS 8 local :
+Une deuxième vague peut intégrer les formes de revue confirmées par la référence ODS 8 :
 
 - source de travail générée : `lexicon/generated/ods8-derived-accepted-candidates.txt` ;
 - provenance tracée dans les métadonnées : `ods8-confirmed-derived` ;
@@ -486,7 +486,7 @@ Une deuxième vague peut intégrer les formes de revue confirmées par ODS 8 loc
 - familles actuellement concernées : conditionnel présent et subjonctif présent ;
 - le subjonctif imparfait reste refusé par défaut.
 
-Une troisième vague peut intégrer les impératifs confirmés par ODS 8 local :
+Une troisième vague peut intégrer les impératifs confirmés par la référence ODS 8 :
 
 - source de travail générée : `lexicon/generated/ods8-imperative-accepted-candidates.txt` ;
 - provenance tracée dans les métadonnées : `ods8-confirmed-imperative` ;
@@ -512,7 +512,7 @@ La vague GO2 cible uniquement des familles à faible risque :
 La vague GO3 enrichit le dictionnaire à partir des mots ODS 8 encore absents de Sérénimot :
 
 - source intégrable : Morphalou ;
-- filtre local de compatibilité : ODS 8 ;
+- référence de comparaison non intégrée et non distribuée : ODS 8 ;
 - garde-fou : les mots signalés par Lefff comme noms propres ou non lexicaux sont bloqués ;
 - sortie intégrée : `lexicon/generated/ods8-go3-morphalou-confirmed-accepted.txt` ;
 - flag compact : `morphalou-ods8-filtered`.
@@ -577,7 +577,7 @@ Sorties actives :
 - revue qualité : `lexicon/generated/ods8-go5-active-quality-review.tsv` ;
 - candidat augmenté : `lexicon/generated/lexique400-preview-go5-candidate.txt` ;
 - rapport du candidat : `lexicon/generated/lexique400-preview-go5-candidate-report.json` ;
-- rapport ODS 8 local : `lexicon/generated/lexique400-preview-go5-candidate-ods8-compatibility-report.json`.
+- rapport de comparaison ODS 8 : `lexicon/generated/lexique400-preview-go5-candidate-ods8-compatibility-report.json`.
 
 Dernier résultat actif :
 
@@ -587,16 +587,16 @@ Dernier résultat actif :
 - lemmes verbaux détectés : 11 808 ;
 - 368 formes régulières `-ER` générées ;
 - candidat augmenté : 369 324 mots ;
-- mots communs avec ODS 8 local : 350 462 ;
+- mots communs avec la référence ODS 8 : 350 462 ;
 - mots ODS 8 encore absents : 60 968 ;
-- couverture ODS 8 locale : 85,18 %.
+- couverture de la référence ODS 8 : 85,18 %.
 - revue qualité : 292 formes acceptables automatiquement, 76 acceptées avec note, 0 forme à revoir avant activation, 0 blocage automatique.
 
 La vague GO5 est volontairement stricte :
 
 - seules les formes de verbes en `-ER` actuellement modélisées sont générées ;
 - le lemme infinitif doit déjà être accepté par Sérénimot ;
-- ODS 8 sert uniquement de filtre local pour éviter de générer trop large ;
+- ODS 8 sert uniquement de référence de comparaison pour éviter de générer trop large ;
 - les formes non rattachées à un verbe accepté restent en revue.
 
 ## Génération GO6 complémentaire
@@ -606,7 +606,7 @@ GO6 complète GO5 sans activer directement un nouveau lexique :
 - compléments réguliers `-ER` : présent 1re et 2e personnes du pluriel, futur simple 1re/2e/3e personnes du singulier, passé simple 1re/2e/3e personnes du singulier et 1re/2e personnes du pluriel ;
 - formes régulières `-IR` en `-ISS-` : présent 1re/2e personnes du pluriel, imparfait 1re/2e/3e personnes du singulier, participe présent ;
 - garde-fou : le lemme doit déjà être un verbe connu dans le lexique actif ;
-- ODS 8 reste uniquement un filtre local de compatibilité.
+- ODS 8 reste uniquement une référence de comparaison de compatibilité.
 
 Commandes :
 
@@ -625,11 +625,11 @@ Résultat local :
 - forme mise en revue avant activation : `TIPA`, car c'est un mot de 4 lettres ;
 - métadonnées actives après activation GO6 : 369 537 mots couverts sur 369 537 ;
 - candidat GO6 : 369 537 mots ;
-- mots communs avec ODS 8 local : 350 675 ;
+- mots communs avec la référence ODS 8 : 350 675 ;
 - mots ODS 8 encore absents du candidat : 60 755 ;
 - mots du candidat absents d'ODS 8 : 18 862, inchangé ;
-- part du candidat acceptée par ODS 8 local : 94,90 % ;
-- couverture ODS 8 locale : 85,23 %.
+- part du candidat acceptée par la référence ODS 8 : 94,90 % ;
+- couverture de la référence ODS 8 : 85,23 %.
 
 Après activation en `4.00.5`, la nouvelle synthèse des absents ODS 8 est :
 
@@ -660,12 +660,12 @@ Résultat :
 
 - 216 petits mots revus : 188 mots marqués `review-short-word` et 28 mots courts marqués `exclude-proper-noun` ;
 - 1 mot accepté : `TIPA`, forme courte générée par règle depuis le lemme verbal `TIPER` déjà accepté ;
-- 187 mots gardés en attente : 186 mots uniquement vus via la comparaison ODS 8 locale, plus `DIAM` présent dans Morphalou mais encore sans explication validée ;
+- 187 mots gardés en attente : 186 mots uniquement vus via la comparaison avec la référence ODS 8, plus `DIAM` présent dans Morphalou mais encore sans explication validée ;
 - 28 mots rejetés : noms propres ou assimilés détectés par Lefff ;
 - version activée `4.00.4` : 369 538 mots ;
-- compatibilité ODS 8 locale du candidat : 350 676 mots communs, 60 754 mots ODS 8 encore absents, 18 862 mots Sérénimot absents d'ODS 8.
+- compatibilité avec la référence ODS 8 du candidat : 350 676 mots communs, 60 754 mots ODS 8 encore absents, 18 862 mots Sérénimot absents d'ODS 8.
 
-Règle juridique et produit : ODS 8 reste une source locale de comparaison uniquement. Un petit mot n'est pas intégré parce qu'il est dans ODS ; il doit être appuyé par une source redistribuable ou par une règle Sérénimot documentée.
+Règle juridique et produit : ODS 8 reste une référence de comparaison non intégrée et non distribuée uniquement. Un petit mot n'est pas intégré parce qu'il est dans ODS ; il doit être appuyé par une source redistribuable ou par une règle Sérénimot documentée.
 
 État post-activation `4.00.4`, avant revue GO B :
 
@@ -685,12 +685,12 @@ Décision :
 - Lexique 3.83 et Lexique 4.00 contiennent `diam` comme nom masculin singulier ;
 - Lexique 4.00 rattache la morphologie à `diamant` ;
 - Morphalou contient la forme normalisée `DIAM` ;
-- ODS 8 local confirme la compatibilité, sans être intégré ni redistribué.
+- La référence ODS 8 confirme la compatibilité, sans être intégrée ni redistribuée.
 
 Résultat après activation :
 
 - lexique actif : 369 539 mots ;
-- mots communs avec ODS 8 local : 350 677 ;
+- mots communs avec la référence ODS 8 : 350 677 ;
 - mots ODS 8 encore absents : 60 753 ;
 - petits mots encore gardés en attente : 186 ;
 - métadonnées compactes : 369 539 mots couverts sur 369 539.
@@ -872,8 +872,8 @@ npm run lexicon:build:lefff-high-confidence
 
 Lefff n'est pas intégré automatiquement au dictionnaire jouable. Il sert d'abord à classer les formes manquantes :
 
-- `high-confidence-cross-source` : forme absente de Sérénimot, présente dans Lefff, Morphalou et ODS 8 local ;
-- `ods8-confirmed` : forme absente de Sérénimot, présente dans Lefff et ODS 8 local ;
+- `high-confidence-cross-source` : forme absente de Sérénimot, présente dans Lefff, Morphalou et la référence ODS 8 ;
+- `ods8-confirmed` : forme absente de Sérénimot, présente dans Lefff et la référence ODS 8 ;
 - `morphalou-confirmed` : forme absente de Sérénimot, présente dans Lefff et Morphalou ;
 - `short-manual-review` : forme courte à revoir humainement ;
 - `lefff-only-review` : forme attestée seulement par Lefff dans les sources locales disponibles.
@@ -883,9 +883,9 @@ La vague haute confiance utilise uniquement `high-confidence-cross-source`. Une 
 - absente du dictionnaire Sérénimot courant ;
 - présente dans Lefff ;
 - présente dans Morphalou ;
-- présente dans ODS 8 local.
+- présente dans la référence ODS 8.
 
-ODS 8 ne fournit pas les mots à distribuer : il sert seulement de filtre local de compatibilité pour prioriser les formes déjà attestées dans deux ressources ouvertes.
+ODS 8 ne fournit pas les mots à distribuer : il sert seulement de référence de comparaison pour prioriser les formes déjà attestées dans deux ressources ouvertes.
 
 ## Production
 

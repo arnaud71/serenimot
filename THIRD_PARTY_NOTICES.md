@@ -120,9 +120,9 @@ Statut dans Serenimot :
 - Lefff sert aux analyses locales et aux enrichissements de haute confiance ;
 - les formes integrees au lexique jouable doivent rester tracables dans les rapports de generation.
 
-## ODS 8 local
+## Référence ODS 8 non intégrée
 
-Role : reference locale de comparaison de compatibilite.
+Role : reference de comparaison non integree et non distribuee, utilisee comme garde-fou de compatibilite.
 
 Statut dans Serenimot :
 

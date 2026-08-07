@@ -8,7 +8,7 @@ Justification :
 
 - `DIAM` est attesté comme nom masculin singulier dans Lexique 3.83 et Lexique 4.00 ;
 - `DIAM` est présent dans la référence Morphalou normalisée ;
-- `DIAM` est présent dans la comparaison ODS 8 locale, utilisée uniquement comme garde-fou ;
+- `DIAM` est présent dans la comparaison avec la référence ODS 8, utilisée uniquement comme garde-fou ;
 - le pluriel `DIAMS` est déjà actif dans le lexique Sérénimot ;
 - refuser le singulier tout en acceptant le pluriel crée une incohérence de jeu.
 

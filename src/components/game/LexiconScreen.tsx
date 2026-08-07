@@ -47,8 +47,8 @@ const SOURCE_CARDS = [
     text: "Ressource morphologique utilisée pour croiser les formes et repérer notamment les noms propres."
   },
   {
-    title: "ODS 8 local",
-    text: "Référence de comparaison locale. Elle sert de filtre de compatibilité, pas de source distribuée."
+    title: "Référence ODS 8 non intégrée",
+    text: "Référence de comparaison non intégrée et non distribuée. Elle sert de garde-fou de compatibilité, pas de source du lexique."
   }
 ];
 
@@ -180,11 +180,11 @@ export function LexiconScreen({
           </div>
           <div>
             <strong>{previewAcceptedByOds}</strong>
-            <span>compatibles avec ODS 8 local</span>
+            <span>compatibles avec la référence ODS 8 non intégrée</span>
           </div>
           <div>
             <strong>{previewOdsCoverage}</strong>
-            <span>de couverture ODS 8 locale</span>
+            <span>de couverture de la référence ODS 8 non intégrée</span>
           </div>
           <div>
             <strong>{explanationsStatus === "loading" ? "..." : explanationsSize.toLocaleString("fr-CH")}</strong>
@@ -224,11 +224,11 @@ export function LexiconScreen({
             </div>
             <div>
               <strong>{previewAcceptedByOds}</strong>
-              <span>acceptés par ODS 8 local</span>
+              <span>acceptés par la référence ODS 8 non intégrée</span>
             </div>
             <div>
               <strong>{previewOdsCoverage}</strong>
-              <span>couverture ODS 8 locale</span>
+              <span>couverture de la référence ODS 8 non intégrée</span>
             </div>
             <div>
               <strong>{LEXICON_PREVIEW.shortWordExclusionsApplied}</strong>
