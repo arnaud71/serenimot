@@ -263,7 +263,7 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
           <p>
             Sérénimot fonctionne localement dans votre navigateur ou dans l'application installée.
             Aucune inscription n'est demandée, aucune donnée personnelle n'est collectée et aucune
-            publicité n'est affichée.
+            publicité n'est affichée. L'application est gratuite et son code est ouvert.
           </p>
           <p>
             L'application est actuellement hébergée gratuitement avec GitHub Pages. Elle a été

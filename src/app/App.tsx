@@ -99,7 +99,7 @@ const GAME_EXPLANATION_LENGTHS = [2, 3, 4] as const;
 const PROMO_URL = "https://arnaud71.github.io/serenimot/";
 const PROMO_TITLE = "Sérénimot - jeu original de lettres croisées sur grille";
 const PROMO_DESCRIPTION =
-  "Jeu original de lettres croisées sur grille, sans compte, sans publicité, jouable hors ligne et installable comme PWA.";
+  "Jeu original de lettres croisées sur grille, gratuit, en code ouvert, sans compte, sans publicité, jouable hors ligne et installable comme PWA.";
 const SHARE_TEXT = `${PROMO_TITLE}. ${PROMO_DESCRIPTION}`;
 const ASSET_BASE_URL = import.meta.env.BASE_URL;
 const APP_ICON_URL = `${ASSET_BASE_URL}icons/icon.svg`;
@@ -230,8 +230,8 @@ function PromoHome({
           <p className="eyebrow">Les mots, à votre rythme.</p>
           <h1 id="home-title">Sérénimot</h1>
           <p className="promo-lead">
-            Jeu original de lettres croisées sur grille, sans compte, sans publicité, jouable hors
-            ligne et installable comme PWA.
+            Jeu original de lettres croisées sur grille, gratuit, en code ouvert, sans compte, sans
+            publicité, jouable hors ligne et installable comme PWA.
           </p>
           <div className="home-actions promo-actions">
             <button type="button" onClick={onNewGame} disabled={!canPlay}>
@@ -322,7 +322,7 @@ function PromoHome({
           <h2>Indépendant</h2>
           <p>
             Sérénimot utilise son propre plateau, ses propres règles, son propre score et un lexique
-            ouvert documenté.
+            ouvert documenté. Son code est ouvert afin de pouvoir être consulté et amélioré.
           </p>
         </article>
       </section>
