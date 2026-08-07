@@ -5,7 +5,7 @@ import {
   getAvailableRackLetters,
   getHumanScore,
   getOccupiedCellCount,
-  placeFirstWordAtCenter
+  placeFirstWordAtCenterFromRack
 } from "./game-test-utils";
 import { collectBrowserErrors, installSeededRandom, startNewGame } from "./helpers";
 
@@ -36,7 +36,10 @@ test("joue un premier tour complet sur téléphone", async ({ page }, testInfo) 
     .click();
   await expect(page.getByLabel(`Chevalet ${selectedWord}`)).toBeVisible();
 
-  await placeFirstWordAtCenter(page, selectedWord);
+  await page.getByRole("button", { name: "Effacer" }).click();
+  await expect(page.getByLabel("Chevalet vide")).toBeVisible();
+
+  await placeFirstWordAtCenterFromRack(page, selectedWord);
   await expect(page.getByRole("button", { name: "Valider" })).toBeEnabled();
 
   const boardSize = await page.getByRole("grid").evaluate((grid) => Number(grid.getAttribute("aria-rowcount")));

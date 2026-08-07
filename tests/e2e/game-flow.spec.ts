@@ -1,7 +1,6 @@
 import { expect, test } from "@playwright/test";
 import type { Page } from "@playwright/test";
 import {
-  addWordFromRack,
   findBestWordForRack,
   getAvailableRackLetters,
   getBagCount,
@@ -9,7 +8,7 @@ import {
   getHumanScore,
   getOccupiedCellCount,
   getScoreSummary,
-  placeFirstWordAtCenter
+  placeFirstWordAtCenterFromRack
 } from "./game-test-utils";
 import { collectBrowserErrors, installSeededRandom, startNewGame, waitForAppReady } from "./helpers";
 
@@ -25,8 +24,7 @@ test("joue un tour complet puis reprend la partie après rechargement", async ({
   const word = findBestWordForRack(rackLetters);
   expect(word, `Aucun mot testable avec le chevalet ${rackLetters.join("")}`).not.toBeNull();
 
-  await addWordFromRack(page, word ?? "");
-  await placeFirstWordAtCenter(page, word ?? "");
+  await placeFirstWordAtCenterFromRack(page, word ?? "");
 
   await expect(page.getByRole("button", { name: "Valider" })).toBeEnabled();
   await page.getByRole("button", { name: "Valider" }).click();

@@ -574,7 +574,7 @@ export function GameScreen({
       }
     }
 
-    if (!selectedTileId && !cellTile && !hasPendingTiles && preparedTileIds.length <= 1) {
+    if (!selectedTileId && !cellTile) {
       setSelectedBoardCell((currentCell) =>
         currentCell?.row === row && currentCell.col === col ? null : { row, col }
       );

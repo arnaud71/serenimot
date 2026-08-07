@@ -1,10 +1,9 @@
 import { expect, type Page, test } from "@playwright/test";
 import {
-  addWordFromRack,
   findBestWordForRack,
   getAvailableRackLetters,
   getHumanScore,
-  placeFirstWordAtCenter
+  placeFirstWordAtCenterFromRack
 } from "./game-test-utils";
 import { installSeededRandom, startNewGame, waitForAppReady } from "./helpers";
 
@@ -82,8 +81,7 @@ test("joue un coup hors ligne", async ({ browserName, context, page }) => {
     const word = findBestWordForRack(rackLetters);
     expect(word, `Aucun mot testable avec le chevalet ${rackLetters.join("")}`).not.toBeNull();
 
-    await addWordFromRack(page, word ?? "");
-    await placeFirstWordAtCenter(page, word ?? "");
+    await placeFirstWordAtCenterFromRack(page, word ?? "");
 
     await expect(page.getByRole("button", { name: "Valider" })).toBeEnabled();
     await page.getByRole("button", { name: "Valider" }).click();

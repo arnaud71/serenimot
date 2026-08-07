@@ -2,11 +2,10 @@ import { expect, test } from "@playwright/test";
 import type { Locator } from "@playwright/test";
 import { collectBrowserErrors, installSeededRandom, startNewGame, waitForAppReady } from "./helpers";
 import {
-  addWordFromRack,
   findBestWordForRack,
   getAvailableRackLetters,
   getHumanScore,
-  placeFirstWordAtCenter
+  placeFirstWordAtCenterFromRack
 } from "./game-test-utils";
 
 test("démarre une partie et vérifie les réglages principaux", async ({ page }) => {
@@ -44,11 +43,7 @@ test("compose, pose et valide un premier mot", async ({ page }) => {
   const word = findBestWordForRack(rackLetters);
   expect(word, `Aucun mot testable avec le chevalet ${rackLetters.join("")}`).not.toBeNull();
 
-  await addWordFromRack(page, word ?? "");
-
-  await expect(page.getByLabel("Chevalet vide")).not.toBeVisible();
-
-  await placeFirstWordAtCenter(page, word ?? "");
+  await placeFirstWordAtCenterFromRack(page, word ?? "");
 
   await expect(page.getByRole("button", { name: "Valider" })).toBeEnabled();
   await page.getByRole("button", { name: "Valider" }).click();

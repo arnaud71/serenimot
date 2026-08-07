@@ -1,13 +1,12 @@
 import { expect, test } from "@playwright/test";
 import type { Page } from "@playwright/test";
 import {
-  addWordFromRack,
   findBestWordForRack,
   getAvailableRackLetters,
   getBagCount,
   getHumanScore,
   getOccupiedCellCount,
-  placeFirstWordAtCenter
+  placeFirstWordAtCenterFromRack
 } from "./game-test-utils";
 import { collectBrowserErrors, installSeededRandom, startNewGame } from "./helpers";
 
@@ -31,8 +30,7 @@ test("garde une partie mobile stable sur plusieurs tours", async ({ page }, test
   const word = findBestWordForRack(rackLetters);
   expect(word, `Aucun mot testable avec le chevalet ${rackLetters.join("")}`).not.toBeNull();
 
-  await addWordFromRack(page, word ?? "");
-  await placeFirstWordAtCenter(page, word ?? "");
+  await placeFirstWordAtCenterFromRack(page, word ?? "");
   await expect(quickActions.getByRole("button", { name: "Valider" })).toBeEnabled();
   await quickActions.getByRole("button", { name: "Valider" }).click();
 

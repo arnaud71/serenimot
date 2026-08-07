@@ -34,6 +34,17 @@ export async function placeFirstWordAtCenter(page: Page, word: string) {
     .click();
 }
 
+export async function placeFirstWordAtCenterFromRack(page: Page, word: string) {
+  const boardSize = await getBoardSize(page);
+  const center = Math.floor(boardSize / 2);
+  const startCol = Math.max(0, Math.min(boardSize - word.length, center - Math.floor(word.length / 2)));
+
+  for (const [index, letter] of [...word].entries()) {
+    await page.locator(`.board-cell[data-row='${center}'][data-col='${startCol + index}']`).click();
+    await page.getByRole("button", { name: new RegExp(`lettre ${letter}, valeur`) }).first().click();
+  }
+}
+
 export async function getBoardSize(page: Page) {
   return page.getByRole("grid").evaluate((grid) => Number(grid.getAttribute("aria-rowcount")));
 }
