@@ -107,6 +107,7 @@ export function GameScreen({
 }: GameScreenProps) {
   const [selectedTileId, setSelectedTileId] = useState<string | null>(null);
   const [preparedTileSlots, setPreparedTileSlots] = useState<(string | null)[]>(() => createEmptyPreparedSlots());
+  const [selectedPreparedSlotIndex, setSelectedPreparedSlotIndex] = useState<number | null>(null);
   const [hint, setHint] = useState<BestMoveHint | null>(null);
   const [hintLevel, setHintLevel] = useState<HintLevel>(0);
   const [undoHistory, setUndoHistory] = useState<UndoSnapshot[]>([]);
@@ -289,6 +290,7 @@ export function GameScreen({
     clearUndoHistory();
     setPreparedTileSlots(createEmptyPreparedSlots());
     setSelectedTileId(null);
+    setSelectedPreparedSlotIndex(null);
     clearHint();
     clearErrorHighlights();
   }, [game.gameId]);
@@ -841,6 +843,7 @@ export function GameScreen({
     cancelHintSearch();
     setSelectedTileId(null);
     setPreparedTileIds([]);
+    setSelectedPreparedSlotIndex(null);
     setIsPendingWordSelected(false);
     clearHint();
     clearErrorHighlights();
@@ -881,6 +884,7 @@ export function GameScreen({
     pushUndoPoint();
     clearHint();
     setPreparedTileSlots(createEmptyPreparedSlots());
+    setSelectedPreparedSlotIndex(null);
     setIsPendingWordSelected(false);
     clearErrorHighlights();
     onGameChange({
@@ -904,6 +908,7 @@ export function GameScreen({
     setHintLevel(nextHintLevel);
     setIsPendingWordSelected(false);
     setSelectedTileId(null);
+    setSelectedPreparedSlotIndex(null);
     clearErrorHighlights();
 
     if (nextHintLevel >= MAX_HINT_LEVEL) {
@@ -1021,12 +1026,15 @@ export function GameScreen({
       return;
     }
 
+    const targetIndex = selectedPreparedSlotIndex ?? getAppendPreparedSlotIndex(preparedTileSlots);
+
     pushUndoPoint();
     setSelectedTileId(null);
+    setSelectedPreparedSlotIndex(null);
     clearHint();
     setIsPendingWordSelected(false);
     clearErrorHighlights();
-    setPreparedTileSlots((currentSlots) => placeTileIdInPreparedSlot(currentSlots, tileId, getAppendPreparedSlotIndex(currentSlots), game));
+    setPreparedTileSlots((currentSlots) => placeTileIdInPreparedSlot(currentSlots, tileId, targetIndex, game));
   }
 
   function handleInsertPreparedTile(tileId: string, targetIndex: number) {
@@ -1036,6 +1044,7 @@ export function GameScreen({
 
     pushUndoPoint();
     setSelectedTileId(null);
+    setSelectedPreparedSlotIndex(null);
     clearHint();
     setIsPendingWordSelected(false);
     clearErrorHighlights();
@@ -1057,6 +1066,7 @@ export function GameScreen({
 
     clearHint();
     setIsPendingWordSelected(false);
+    setSelectedPreparedSlotIndex(null);
     clearErrorHighlights();
     pushUndoPoint();
     setPreparedTileSlots(removeBoardTileTokensFromPreparedSlots);
@@ -1300,6 +1310,7 @@ export function GameScreen({
           <RackView
             rack={game.racks.human}
             preparedTileIds={preparedTileIds}
+            selectedPreparedSlotIndex={selectedPreparedSlotIndex}
             onAddTile={handleAddPreparedTile}
             onBoardDrop={handleTileDropOnBoard}
             onPreparedDrop={(tileId, targetIndex) =>
@@ -1313,10 +1324,14 @@ export function GameScreen({
                 displayedWord={displayedPreparedWord}
                 tileSlots={preparedTileSlotDetails}
                 tileIdSlots={preparedTileSlots}
+                selectedSlotIndex={selectedPreparedSlotIndex}
               boardTileKeys={preparedBoardTileKeys}
               onInsertTile={handleInsertPreparedTile}
               onMoveTileToEnd={handleMovePreparedTileToEnd}
               onRemoveTile={handleRemovePreparedTile}
+              onSelectSlot={(slotIndex) =>
+                setSelectedPreparedSlotIndex((currentIndex) => (currentIndex === slotIndex ? null : slotIndex))
+              }
             />
           </div>
           <div className="mobile-action-bar" aria-label="Actions rapides">
@@ -1561,18 +1576,22 @@ function PreparedWordTiles({
   displayedWord,
   tileSlots,
   tileIdSlots,
+  selectedSlotIndex,
   boardTileKeys,
   onInsertTile,
   onMoveTileToEnd,
-  onRemoveTile
+  onRemoveTile,
+  onSelectSlot
 }: {
   displayedWord: string;
   tileSlots: (Tile | null)[];
   tileIdSlots: (string | null)[];
+  selectedSlotIndex: number | null;
   boardTileKeys: string[];
   onInsertTile: (tileId: string, targetIndex: number) => void;
   onMoveTileToEnd: (tileId: string) => void;
   onRemoveTile: (tileId: string) => void;
+  onSelectSlot: (slotIndex: number) => void;
 }) {
   const [dropIndicatorIndex, setDropIndicatorIndex] = useState<number | null>(null);
   const [touchDrag, setTouchDrag] = useState<PreparedTouchDragState | null>(null);
@@ -1703,13 +1722,21 @@ function PreparedWordTiles({
           const isBoardTile = tileId ? boardTileKeys.includes(parseBoardTileKey(tileId) ?? "") : false;
 
           if (!tile || !tileId) {
+            const isSelectedSlot = selectedSlotIndex === index;
+
             return (
               <button
-                className={`prepared-word-slot${dropIndicatorIndex === index ? " prepared-word-slot-drop-target" : ""}`}
+                className={`prepared-word-slot${dropIndicatorIndex === index ? " prepared-word-slot-drop-target" : ""}${isSelectedSlot ? " prepared-word-slot-selected" : ""}`}
                 key={`slot-${index}`}
                 type="button"
                 data-slot-index={index}
-                aria-label={`Emplacement vide ${index + 1}`}
+                aria-label={
+                  isSelectedSlot
+                    ? `Emplacement vide ${index + 1}, sélectionné`
+                    : `Emplacement vide ${index + 1}`
+                }
+                aria-pressed={isSelectedSlot}
+                onClick={() => onSelectSlot(index)}
                 onDragOver={(event) => {
                   event.preventDefault();
                   setDropIndicatorIndex(index);

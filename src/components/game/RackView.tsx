@@ -5,6 +5,7 @@ import { Rack } from "../../domain/tiles/types";
 type RackViewProps = {
   rack: Rack;
   preparedTileIds: string[];
+  selectedPreparedSlotIndex: number | null;
   onAddTile: (tileId: string) => void;
   onBoardDrop: (tileId: string, row: number, col: number) => void;
   onPreparedDrop: (tileId: string, targetIndex: number | null) => void;
@@ -27,7 +28,15 @@ type TouchDragState = {
 
 const TOUCH_DRAG_THRESHOLD_PX = 8;
 
-export function RackView({ rack, preparedTileIds, onAddTile, onBoardDrop, onPreparedDrop, onDropTile }: RackViewProps) {
+export function RackView({
+  rack,
+  preparedTileIds,
+  selectedPreparedSlotIndex,
+  onAddTile,
+  onBoardDrop,
+  onPreparedDrop,
+  onDropTile
+}: RackViewProps) {
   const availableTiles = rack.filter((tile) => !preparedTileIds.includes(tile.id));
   const [touchDrag, setTouchDrag] = useState<TouchDragState | null>(null);
   const touchDragRef = useRef<TouchDragState | null>(null);
@@ -147,7 +156,11 @@ export function RackView({ rack, preparedTileIds, onAddTile, onBoardDrop, onPrep
               draggable
               key={tile.id}
               type="button"
-              aria-label={`Ajouter la lettre ${tile.letter}, valeur ${tile.value}`}
+              aria-label={
+                selectedPreparedSlotIndex === null
+                  ? `Ajouter la lettre ${tile.letter}, valeur ${tile.value}`
+                  : `Placer la lettre ${tile.letter}, valeur ${tile.value}, dans l'emplacement ${selectedPreparedSlotIndex + 1}`
+              }
               onClick={() => {
                 if (ignoreNextClickRef.current) {
                   ignoreNextClickRef.current = false;

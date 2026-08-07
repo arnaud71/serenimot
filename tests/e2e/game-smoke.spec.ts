@@ -118,6 +118,22 @@ test("glisse des lettres dans le chevalet sur écran tactile", async ({ page, br
   await expect(page.locator(".prepared-word-tile[data-slot-index='1'] span")).toHaveText(firstBefore ?? "");
 });
 
+test("place une lettre dans un emplacement choisi du chevalet", async ({ page }) => {
+  await installSeededRandom(page, 10);
+  await page.goto("/");
+  await startNewGame(page);
+
+  const firstRackLetter = await page.locator(".rack-tile").first().locator("span").textContent();
+
+  await page.locator(".prepared-word-slot[data-slot-index='2']").click();
+  await expect(page.locator(".prepared-word-slot[data-slot-index='2']")).toHaveAttribute("aria-pressed", "true");
+
+  await page.locator(".rack-tile").first().click();
+
+  await expect(page.locator(".prepared-word-tile[data-slot-index='2'] span")).toHaveText(firstRackLetter ?? "");
+  await expect(page.locator(".prepared-word-slot[data-slot-index='3']")).toBeVisible();
+});
+
 test("cherche un indice sans bloquer l'interface", async ({ page }) => {
   const browserErrors = collectBrowserErrors(page);
 
