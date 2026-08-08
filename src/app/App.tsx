@@ -85,7 +85,7 @@ const COMPUTER_SEARCH_PROFILE_OPTIONS: { value: ComputerSearchPreference; label:
   }
 ];
 const GAME_EXPLANATION_LENGTHS = [2, 3, 4] as const;
-const PROMO_URL = "https://arnaud71.github.io/serenimot/";
+const PROMO_URL = "https://serenimot.fr/";
 const PROMO_TITLE = "Sérénimot - jeu original de lettres croisées sur grille";
 const PROMO_DESCRIPTION =
   "Jeu original de lettres croisées sur grille, gratuit, en code ouvert, sans compte, sans publicité, jouable hors ligne et installable comme PWA.";
