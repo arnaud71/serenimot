@@ -794,7 +794,8 @@ p {
   background: var(--primary-dark);
 }
 
-.promo-official-site {
+.promo-official-site,
+.promo-feedback-links {
   max-width: 48rem;
   margin: -0.1rem auto 0;
   color: #526663;
@@ -804,7 +805,12 @@ p {
   text-align: center;
 }
 
-.promo-official-site a {
+.promo-feedback-links {
+  margin-top: -0.32rem;
+}
+
+.promo-official-site a,
+.promo-feedback-links a {
   color: var(--primary-dark);
   font-weight: 850;
 }

@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { GITHUB_PAGES_APP_URL, OFFICIAL_SITE_URL, PROJECT_REPOSITORY_URL } from "../../app/links";
+import {
+  BUG_REPORT_URL,
+  FEATURE_REQUEST_URL,
+  GITHUB_PAGES_APP_URL,
+  OFFICIAL_SITE_URL,
+  PROJECT_REPOSITORY_URL
+} from "../../app/links";
 import { createBoard } from "../../domain/board/board";
 import { DICTIONARY_LABEL, ORIGINAL_LEXICON_LABEL } from "../../domain/rules/dictionary";
 import { getLetterDistributionForBoardSize, getTileCountForBoardSize } from "../../domain/tiles/bag";
@@ -350,6 +356,18 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
             L'application est actuellement hébergée gratuitement avec GitHub Pages. Elle a été
             conçue en vibecoding avec Codex, dans l'idée de créer rapidement une application
             directement utilisable, facile à prendre en main et sans compte utilisateur.
+          </p>
+          <p>
+            Pour aider le projet, vous pouvez{" "}
+            <a href={BUG_REPORT_URL} target="_blank" rel="noreferrer">
+              signaler un bug
+            </a>{" "}
+            ou{" "}
+            <a href={FEATURE_REQUEST_URL} target="_blank" rel="noreferrer">
+              proposer une idée
+            </a>
+            . Les retours restent publics sur GitHub afin que les demandes puissent être suivies et
+            priorisées.
           </p>
           <p>
             Le projet devait d'abord tourner confortablement sur ordinateur. Une version smartphone

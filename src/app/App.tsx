@@ -16,7 +16,13 @@ import {
 import { playGameMessageSound } from "../features/audio/gameSounds";
 import { deleteSavedGame, loadSavedGame } from "../features/persistence/gameStorage";
 import { DEFAULT_PREFERENCES, loadPreferences, savePreferences } from "../features/accessibility/preferences";
-import { GITHUB_PAGES_APP_URL, OFFICIAL_SITE_URL, PROJECT_REPOSITORY_URL } from "./links";
+import {
+  BUG_REPORT_URL,
+  FEATURE_REQUEST_URL,
+  GITHUB_PAGES_APP_URL,
+  OFFICIAL_SITE_URL,
+  PROJECT_REPOSITORY_URL
+} from "./links";
 
 type Screen = "home" | "rules" | "lexicon" | "options" | "game" | "pwa";
 type DictionaryStatus = "loading" | "ready" | "fallback";
@@ -437,6 +443,17 @@ function PromoHome({
         . L'application reste également accessible depuis{" "}
         <a href={GITHUB_PAGES_APP_URL} target="_blank" rel="noreferrer">
           GitHub Pages
+        </a>
+        .
+      </p>
+      <p className="promo-feedback-links">
+        Retours :{" "}
+        <a href={BUG_REPORT_URL} target="_blank" rel="noreferrer">
+          signaler un bug
+        </a>{" "}
+        ou{" "}
+        <a href={FEATURE_REQUEST_URL} target="_blank" rel="noreferrer">
+          proposer une idée
         </a>
         .
       </p>
