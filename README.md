@@ -2,6 +2,8 @@
 
 Jeu original de lettres croisées sur grille, sans compte, sans publicité, jouable hors ligne et installable comme PWA.
 
+Site officiel : [serenimot.fr](https://serenimot.fr/). L'application reste aussi accessible via [GitHub Pages](https://arnaud71.github.io/serenimot/). Le code et la documentation sont disponibles dans le [dépôt GitHub](https://github.com/arnaud71/serenimot).
+
 Sérénimot est un jeu original de lettres croisées sur grille. Cette première base vise un prototype local simple : commencer une partie, placer des lettres par sélection puis clic ou toucher, annuler son coup, valider des mots avec un dictionnaire local, sauvegarder et reprendre.
 
 Accroche de travail : « Les mots, à votre rythme. »

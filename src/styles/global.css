@@ -794,6 +794,21 @@ p {
   background: var(--primary-dark);
 }
 
+.promo-official-site {
+  max-width: 48rem;
+  margin: -0.1rem auto 0;
+  color: #526663;
+  font-size: 0.98rem;
+  font-weight: 650;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.promo-official-site a {
+  color: var(--primary-dark);
+  font-weight: 850;
+}
+
 .pwa-intro {
   background:
     linear-gradient(135deg, rgb(217 145 61 / 0.12), transparent 42%),

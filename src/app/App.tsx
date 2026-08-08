@@ -16,7 +16,7 @@ import {
 import { playGameMessageSound } from "../features/audio/gameSounds";
 import { deleteSavedGame, loadSavedGame } from "../features/persistence/gameStorage";
 import { DEFAULT_PREFERENCES, loadPreferences, savePreferences } from "../features/accessibility/preferences";
-import { PROJECT_REPOSITORY_URL } from "./links";
+import { GITHUB_PAGES_APP_URL, OFFICIAL_SITE_URL, PROJECT_REPOSITORY_URL } from "./links";
 
 type Screen = "home" | "rules" | "lexicon" | "options" | "game" | "pwa";
 type DictionaryStatus = "loading" | "ready" | "fallback";
@@ -85,7 +85,7 @@ const COMPUTER_SEARCH_PROFILE_OPTIONS: { value: ComputerSearchPreference; label:
   }
 ];
 const GAME_EXPLANATION_LENGTHS = [2, 3, 4] as const;
-const PROMO_URL = "https://serenimot.fr/";
+const PROMO_URL = OFFICIAL_SITE_URL;
 const PROMO_TITLE = "Sérénimot - jeu original de lettres croisées sur grille";
 const PROMO_DESCRIPTION =
   "Jeu original de lettres croisées sur grille, gratuit, en code ouvert, sans compte, sans publicité, jouable hors ligne et installable comme PWA.";
@@ -429,6 +429,17 @@ function PromoHome({
           Projet GitHub
         </a>
       </nav>
+      <p className="promo-official-site">
+        Site officiel :{" "}
+        <a href={OFFICIAL_SITE_URL} target="_blank" rel="noreferrer">
+          serenimot.fr
+        </a>
+        . L'application reste également accessible depuis{" "}
+        <a href={GITHUB_PAGES_APP_URL} target="_blank" rel="noreferrer">
+          GitHub Pages
+        </a>
+        .
+      </p>
     </main>
   );
 }
@@ -825,6 +836,17 @@ export function App() {
     setScreen("home");
   }
 
+  function openLexiconScreen() {
+    if (window.location.hash) {
+      window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    }
+
+    setScreen("lexicon");
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    });
+  }
+
   function updateTextScale(direction: -1 | 1) {
     const matchedIndex = TEXT_SCALE_OPTIONS.findIndex((option) => option.value === preferences.textScale);
     const currentIndex = matchedIndex === -1 ? getStandardTextScaleIndex() : matchedIndex;
@@ -842,7 +864,7 @@ export function App() {
       <RulesScreen
         hasGame={Boolean(game)}
         onBack={() => setScreen(game ? "game" : "home")}
-        onLexiconRequest={() => setScreen("lexicon")}
+        onLexiconRequest={openLexiconScreen}
       />
     );
   }
@@ -1141,7 +1163,7 @@ export function App() {
         }}
         onNewGameRequest={startNewGame}
         onRulesRequest={() => setScreen("rules")}
-        onLexiconRequest={() => setScreen("lexicon")}
+        onLexiconRequest={openLexiconScreen}
         onOptionsRequest={() => setScreen("options")}
         onExplanationInitialRequested={requestWordExplanationsForInitial}
         interfaceScaleLabel={textScaleLabel}
@@ -1167,7 +1189,7 @@ export function App() {
       explanationsStatus={explanationsStatus}
       hasSave={hasSave}
       onContinue={continueGame}
-      onLexiconRequest={() => setScreen("lexicon")}
+      onLexiconRequest={openLexiconScreen}
       onNewGame={startNewGame}
       onOptionsRequest={() => setScreen("options")}
       onPwaInfoRequest={() => setScreen("pwa")}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PROJECT_REPOSITORY_URL } from "../../app/links";
+import { GITHUB_PAGES_APP_URL, OFFICIAL_SITE_URL, PROJECT_REPOSITORY_URL } from "../../app/links";
 import { createBoard } from "../../domain/board/board";
 import { DICTIONARY_LABEL, ORIGINAL_LEXICON_LABEL } from "../../domain/rules/dictionary";
 import { getLetterDistributionForBoardSize, getTileCountForBoardSize } from "../../domain/tiles/bag";
@@ -332,6 +332,17 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
             publicité n'est affichée. L'application est gratuite et son code est ouvert :{" "}
             <a href={PROJECT_REPOSITORY_URL} target="_blank" rel="noreferrer">
               voir le projet sur GitHub
+            </a>
+            .
+          </p>
+          <p>
+            Le site officiel est{" "}
+            <a href={OFFICIAL_SITE_URL} target="_blank" rel="noreferrer">
+              serenimot.fr
+            </a>
+            . L'application reste aussi accessible depuis{" "}
+            <a href={GITHUB_PAGES_APP_URL} target="_blank" rel="noreferrer">
+              GitHub Pages
             </a>
             .
           </p>
