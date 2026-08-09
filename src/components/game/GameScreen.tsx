@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { DragEvent, PointerEvent } from "react";
+import type { DragEvent } from "react";
 import { BoardView } from "./BoardView";
 import type { BoardBonusAnimationCell, BoardFloatingWord, BoardPreviewCell, BoardScorePreview } from "./BoardView";
 import { RackView } from "./RackView";
@@ -16,7 +16,6 @@ import {
   createBoardTileToken,
   exchangeHumanTiles,
   isGameFinished,
-  moveHumanTurnWord,
   placeTile,
   placeWord,
   recordHumanHintUse,
@@ -48,7 +47,7 @@ type GameScreenProps = {
   opponentLevel: OpponentLevel;
   computerSearchProfile: "auto" | ComputerSearchProfile;
   hintMode: "none" | "progressive" | "complete";
-  undoMode: "off" | "all-actions";
+  undoMode: "turn-only" | "all-actions";
   hintsEnabled: boolean;
   developerMode: boolean;
   canDecreaseInterfaceScale: boolean;
@@ -58,7 +57,6 @@ type GameScreenProps = {
 };
 
 const TILE_DRAG_MIME = "text/serenimot-tile-id";
-const TOUCH_DRAG_THRESHOLD_PX = 8;
 const HINT_SEARCH_DELAY_MS = 850;
 const COMPUTER_THINKING_DELAY_MS = 1200;
 const COMPUTER_AUTO_PROFILE_SAMPLE_SIZE = 4;
@@ -149,6 +147,7 @@ export function GameScreen({
   const [selectedBoardCell, setSelectedBoardCell] = useState<SelectedBoardCell | null>(null);
   const [preparedTileSlots, setPreparedTileSlots] = useState<(string | null)[]>(() => createEmptyPreparedSlots());
   const [selectedPreparedSlotIndex, setSelectedPreparedSlotIndex] = useState<number | null>(null);
+  const [isKeyboardPreparationEntryActive, setIsKeyboardPreparationEntryActive] = useState(false);
   const [hint, setHint] = useState<BestMoveHint | null>(null);
   const [hintLevel, setHintLevel] = useState<HintLevel>(0);
   const [undoHistory, setUndoHistory] = useState<UndoSnapshot[]>([]);
@@ -165,6 +164,7 @@ export function GameScreen({
   const [isExchangeMode, setIsExchangeMode] = useState(false);
   const [selectedExchangeTileIds, setSelectedExchangeTileIds] = useState<string[]>([]);
   const [dismissedGameOverId, setDismissedGameOverId] = useState<string | null>(null);
+  const [isMobileTopbarCollapsed, setIsMobileTopbarCollapsed] = useState(true);
   const hintSearchTimeoutRef = useRef<number | null>(null);
   const hintSearchRequestIdRef = useRef(0);
   const computerSearchRequestIdRef = useRef(0);
@@ -191,6 +191,10 @@ export function GameScreen({
   const preparedTiles = preparedTileDetails.map((tile) => tile.letter);
   const preparedWord = preparedTiles.join("");
   const pendingTurnWord = useMemo(() => getPendingTurnWord(game), [game]);
+  const pendingWordStartCellKey =
+    pendingTurnWord?.row !== undefined && pendingTurnWord.col !== undefined
+      ? `${pendingTurnWord.row}:${pendingTurnWord.col}`
+      : null;
   const scoreWordInitials = useMemo(
     () =>
       uniqueStrings(
@@ -201,12 +205,10 @@ export function GameScreen({
     [game.message.scoreDetails]
   );
   const usesProgressiveHints = hintMode === "progressive";
-  const usesUndoMode = undoMode === "all-actions";
-  const canUndoAction = usesUndoMode && undoHistory.length > 0;
-  const canRedoAction = usesUndoMode && redoHistory.length > 0;
+  const usesFullUndoMode = undoMode === "all-actions";
   const isCompleteHintVisible = Boolean(hint && hintLevel >= 6);
   const isPartialHintVisible = Boolean(hint && hintLevel > 0 && hintLevel < MAX_HINT_LEVEL);
-  const displayedPreparedWord = isCompleteHintVisible ? hint?.word ?? "" : preparedWord || pendingTurnWord?.word || "";
+  const displayedPreparedWord = isCompleteHintVisible ? hint?.word ?? "" : preparedWord;
   const preparedBoardTileKeys = preparedTileIds
     .map((tileId) => parseBoardTileKey(tileId))
     .filter((key): key is string => Boolean(key));
@@ -258,6 +260,8 @@ export function GameScreen({
   );
   const isHintDisabled = isFinished || game.turn.player !== "human" || isHintSearching || hintMode === "none";
   const hasPreparedActivity = preparedTileIds.length > 0 || Boolean(pendingTurnWord);
+  const canUndoAction = undoHistory.length > 0 && (usesFullUndoMode || hasPreparedActivity);
+  const canRedoAction = redoHistory.length > 0 && (usesFullUndoMode || game.turn.player === "human");
   const canUseExchangeMode = !isFinished && game.turn.player === "human" && game.bag.length > 0;
   const exchangeButtonLabel =
     isExchangeMode && selectedExchangeTileIds.length > 0
@@ -294,7 +298,7 @@ export function GameScreen({
   }
 
   function pushUndoPoint() {
-    if (!usesUndoMode || isFinished) {
+    if (isFinished) {
       return;
     }
 
@@ -305,6 +309,12 @@ export function GameScreen({
   function clearUndoHistory() {
     setUndoHistory([]);
     setRedoHistory([]);
+  }
+
+  function clearPreparedDestinationSelection() {
+    setSelectedBoardCell(null);
+    setSelectedPreparedSlotIndex(null);
+    setIsKeyboardPreparationEntryActive(false);
   }
 
   function createUndoSnapshot(): UndoSnapshot {
@@ -330,6 +340,7 @@ export function GameScreen({
     setSelectedTileId(snapshot.selectedTileId);
     setSelectedBoardCell(snapshot.selectedBoardCell);
     setPreparedTileSlots(snapshot.preparedTileSlots);
+    setIsKeyboardPreparationEntryActive(false);
     setIsPendingWordSelected(snapshot.isPendingWordSelected);
     setHint(snapshot.hint);
     setHintLevel(snapshot.hintLevel);
@@ -366,6 +377,7 @@ export function GameScreen({
     setSelectedTileId(null);
     setSelectedBoardCell(null);
     setSelectedPreparedSlotIndex(null);
+    setIsKeyboardPreparationEntryActive(false);
     setIsExchangeMode(false);
     setSelectedExchangeTileIds([]);
     clearHint();
@@ -385,12 +397,8 @@ export function GameScreen({
   }, [game.bag.length, game.racks.human, game.turn.player, isFinished, preparedTileIds]);
 
   useEffect(() => {
-    if (usesUndoMode) {
-      return;
-    }
-
-    clearUndoHistory();
-  }, [usesUndoMode]);
+    setPreparedTileSlots((currentSlots) => sanitizePreparedTileSlots(currentSlots, game));
+  }, [game]);
 
   useEffect(
     () => () => {
@@ -405,6 +413,45 @@ export function GameScreen({
     },
     []
   );
+
+  useEffect(() => {
+    function handleWindowKeyDown(event: KeyboardEvent) {
+      const shouldHandleDelete =
+        (event.key === "Backspace" || event.key === "Delete") &&
+        !event.ctrlKey &&
+        !event.metaKey &&
+        !event.altKey &&
+        !isTextEntryTarget(event.target);
+
+      if (shouldHandleDelete) {
+        const didHandleDelete = handleKeyboardDeleteEntry();
+
+        if (didHandleDelete) {
+          event.preventDefault();
+        }
+
+        return;
+      }
+
+      const letter = getKeyboardLetter(event);
+
+      if (!letter || event.ctrlKey || event.metaKey || event.altKey || isTextEntryTarget(event.target)) {
+        return;
+      }
+
+      const didHandleLetter = handleKeyboardLetterEntry(letter);
+
+      if (didHandleLetter) {
+        event.preventDefault();
+      }
+    }
+
+    window.addEventListener("keydown", handleWindowKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleWindowKeyDown);
+    };
+  });
 
   useEffect(() => {
     const updateBoardVisibility = () => {
@@ -572,49 +619,41 @@ export function GameScreen({
       return;
     }
 
-    clearErrorHighlights();
     const cellTile = game.board[row][col].tile;
-    const hasPendingTiles = getPlacedTiles(game.board).length > 0;
-    if (cellTile && !cellTile.committed && cellTile.owner === "human" && pendingTurnWord) {
-      if (selectedBoardCell) {
-        clearHint();
-        const result = placeTile(game, cellTile.id, selectedBoardCell.row, selectedBoardCell.col);
 
-        pushUndoPoint();
-        onGameChange(
-          result.ok
-            ? result.state
-            : {
-                ...result.state,
-                message: {
-                  tone: "notice",
-                  text: result.reason
-                }
-              }
-        );
-        if (result.ok) {
-          setPreparedTileIds(getPendingTurnTileIds(result.state));
-          setIsPendingWordSelected(false);
-        }
+    clearErrorHighlights();
+    if (cellTile && !cellTile.committed && cellTile.owner === "human" && pendingTurnWord) {
+      clearHint();
+
+      const result = movePendingHumanTiles(game, row, col, pendingTurnWord.direction);
+      pushUndoPoint();
+
+      if (!result.ok) {
+        onGameChange({
+          ...result.state,
+          message: {
+            tone: "notice",
+            text: `${result.reason} La suite de lettres n'a pas été déplacée.`
+          }
+        });
         setSelectedTileId(null);
-        setSelectedBoardCell(null);
-        setSelectedPreparedSlotIndex(null);
         return;
       }
 
-      clearHint();
-      const removedTile = removeHumanTurnTile(game, cellTile.id);
-
-      if (removedTile.ok) {
-        pushUndoPoint();
-        setPreparedTileIds(getPendingTurnTileIds(removedTile.state));
-        setIsPendingWordSelected(false);
-        setSelectedBoardCell(null);
-        setSelectedPreparedSlotIndex(null);
-        onGameChange(removedTile.state);
-      }
+      const nextPendingTurnWord = getPendingTurnWord(result.state);
 
       setSelectedTileId(null);
+      setSelectedPreparedSlotIndex(null);
+      setIsKeyboardPreparationEntryActive(false);
+      setIsPendingWordSelected(false);
+      setSelectedBoardCell(getAppendCellForPendingWord(result.state, nextPendingTurnWord));
+      onGameChange({
+        ...result.state,
+        message: {
+          tone: "info",
+          text: "La suite de lettres a été déplacée. Vous pouvez encore la modifier avant de valider."
+        }
+      });
       return;
     }
 
@@ -664,11 +703,50 @@ export function GameScreen({
       }
     }
 
-    if (!selectedTileId && !cellTile && (preparedTileIds.length <= 1 || (hasPendingTiles && !isPendingWordSelected))) {
+    if (pendingTurnWord && !selectedTileId && !cellTile && preparedTileIds.length === 0) {
+      const result = movePendingHumanTiles(game, row, col, pendingTurnWord.direction);
+
+      clearHint();
+      clearErrorHighlights();
+      pushUndoPoint();
+
+      if (!result.ok) {
+        const attemptedCells = buildAttemptPreviewCells(game, pendingTurnWord.word, row, col, pendingTurnWord.direction);
+        setErrorPreviewCells(attemptedCells);
+        setInvalidCellKeys(attemptedCells.map((cell) => `${cell.row}:${cell.col}`));
+        onGameChange({
+          ...result.state,
+          message: {
+            tone: "notice",
+            text: `${result.reason} La suite de lettres n'a pas été déplacée.`
+          }
+        });
+        return;
+      }
+
+      const nextPendingTurnWord = getPendingTurnWord(result.state);
+
+      setSelectedTileId(null);
+      setSelectedPreparedSlotIndex(null);
+      setIsKeyboardPreparationEntryActive(false);
+      setIsPendingWordSelected(false);
+      setSelectedBoardCell(getAppendCellForPendingWord(result.state, nextPendingTurnWord));
+      onGameChange({
+        ...result.state,
+        message: {
+          tone: "info",
+          text: "La suite de lettres a été déplacée. Vous pouvez encore la modifier avant de valider."
+        }
+      });
+      return;
+    }
+
+    if (!selectedTileId && !cellTile && preparedTileIds.length <= 1) {
       setSelectedBoardCell((currentCell) =>
         currentCell?.row === row && currentCell.col === col ? null : { row, col }
       );
       setSelectedPreparedSlotIndex(null);
+      setIsKeyboardPreparationEntryActive(false);
       onGameChange({
         ...game,
         message: {
@@ -680,17 +758,6 @@ export function GameScreen({
     }
 
     if (preparedTileIds.length > 0) {
-      if (hasPendingTiles && !isPendingWordSelected) {
-        onGameChange({
-          ...game,
-          message: {
-            tone: "info",
-            text: "Glissez une lettre du coup vers une nouvelle case pour déplacer le mot."
-          }
-        });
-        return;
-      }
-
       const placement = findPreparedPlacementAt(game, preparedTileIds, preparedWord, row, col);
       const result = placement
         ? placeWord(game, preparedTileIds, placement.row, placement.col, placement.direction)
@@ -717,7 +784,7 @@ export function GameScreen({
             }
       );
       if (result.ok) {
-        setPreparedTileIds(getPendingTurnTileIds(result.state));
+        setPreparedTileIds([]);
         setIsPendingWordSelected(false);
       }
       setSelectedTileId(null);
@@ -737,7 +804,7 @@ export function GameScreen({
 
     const result = placeTile(game, selectedTileId, row, col);
     clearHint();
-    setSelectedBoardCell(null);
+    clearPreparedDestinationSelection();
     pushUndoPoint();
     onGameChange(
       result.ok
@@ -751,21 +818,24 @@ export function GameScreen({
           }
     );
     if (result.ok) {
-      setPreparedTileIds(getPendingTurnTileIds(result.state));
+      removePreparedTileId(selectedTileId);
       setIsPendingWordSelected(false);
     }
     setSelectedTileId(null);
   }
 
-  function handleTileDropOnBoard(tileId: string, row: number, col: number) {
+  function removePreparedTileId(tileId: string) {
+    setPreparedTileSlots((currentSlots) => removeTileIdFromPreparedSlots(currentSlots, tileId));
+  }
+
+  function handlePlaceTileOnBoard(tileId: string, row: number, col: number) {
     if (isFinished) {
       return;
     }
 
     clearErrorHighlights();
     clearHint();
-    setSelectedBoardCell(null);
-    setSelectedPreparedSlotIndex(null);
+    clearPreparedDestinationSelection();
 
     const result = placeTile(game, tileId, row, col);
     pushUndoPoint();
@@ -781,7 +851,7 @@ export function GameScreen({
           }
     );
     if (result.ok) {
-      setPreparedTileIds(getPendingTurnTileIds(result.state));
+      setPreparedTileSlots((currentSlots) => removeTileIdFromPreparedSlots(currentSlots, tileId));
       setIsPendingWordSelected(false);
     }
     setSelectedTileId(null);
@@ -804,104 +874,11 @@ export function GameScreen({
 
     if (removedTile.ok) {
       pushUndoPoint();
-      setPreparedTileIds(getPendingTurnTileIds(removedTile.state));
+      setPreparedTileSlots((currentSlots) => removeTileIdFromPreparedSlots(currentSlots, tile.id));
       setIsPendingWordSelected(false);
       onGameChange(removedTile.state);
     }
     setSelectedTileId(null);
-  }
-
-  function handlePendingWordDrop(row: number, col: number, sourceRow?: number, sourceCol?: number) {
-    if (isFinished) {
-      return;
-    }
-
-    setFloatingScorePreview(null);
-
-    if (!pendingTurnWord) {
-      return;
-    }
-
-    clearErrorHighlights();
-    clearHint();
-    const anchoredDropCell = getAnchoredPendingWordDropCell(pendingTurnWord, row, col, sourceRow, sourceCol);
-    const result = moveHumanTurnWord(game, anchoredDropCell.row, anchoredDropCell.col, pendingTurnWord.direction);
-
-    if (!result.ok) {
-      pushUndoPoint();
-      const attemptedCells = buildAttemptPreviewCells(
-        game,
-        pendingTurnWord.word,
-        anchoredDropCell.row,
-        anchoredDropCell.col,
-        pendingTurnWord.direction
-      );
-      setErrorPreviewCells(attemptedCells);
-      setInvalidCellKeys(attemptedCells.map((cell) => `${cell.row}:${cell.col}`));
-    }
-
-    if (result.ok) {
-      pushUndoPoint();
-    }
-
-    onGameChange(
-      result.ok
-        ? result.state
-        : {
-            ...result.state,
-            message: {
-              tone: "notice",
-              text: result.reason
-            }
-          }
-    );
-    if (result.ok) {
-      setPreparedTileIds(getPendingTurnTileIds(result.state));
-      setIsPendingWordSelected(false);
-    }
-  }
-
-  function handleFloatingWordDrop(row: number, col: number) {
-    setFloatingScorePreview(null);
-
-    if (preparedTileIds.length > 0) {
-      handleCellClick(row, col);
-      return;
-    }
-
-    if (!pendingTurnWord) {
-      return;
-    }
-
-    clearErrorHighlights();
-    const result = moveHumanTurnWord(game, row, col, pendingTurnWord.direction);
-
-    if (!result.ok) {
-      pushUndoPoint();
-      const attemptedCells = buildAttemptPreviewCells(game, pendingTurnWord.word, row, col, pendingTurnWord.direction);
-      setErrorPreviewCells(attemptedCells);
-      setInvalidCellKeys(attemptedCells.map((cell) => `${cell.row}:${cell.col}`));
-    }
-
-    if (result.ok) {
-      pushUndoPoint();
-    }
-
-    onGameChange(
-      result.ok
-        ? result.state
-        : {
-            ...result.state,
-            message: {
-              tone: "notice",
-              text: result.reason
-            }
-          }
-    );
-  }
-
-  function handleFloatingWordDrag(row: number, col: number) {
-    setFloatingScorePreview(getFloatingPlacementScore(game, preparedTileIds, pendingTurnWord, row, col, pendingTurnWord?.direction ?? "row"));
   }
 
   function handleValidate() {
@@ -912,7 +889,7 @@ export function GameScreen({
     const completeHint = isCompleteHintVisible ? hint : null;
 
     setSelectedTileId(null);
-    setSelectedBoardCell(null);
+    clearPreparedDestinationSelection();
     clearHint();
     clearErrorHighlights();
 
@@ -962,8 +939,7 @@ export function GameScreen({
     cancelHintSearch();
     setSelectedTileId(null);
     setPreparedTileIds([]);
-    setSelectedBoardCell(null);
-    setSelectedPreparedSlotIndex(null);
+    clearPreparedDestinationSelection();
     setIsPendingWordSelected(false);
     clearHint();
     clearErrorHighlights();
@@ -990,8 +966,7 @@ export function GameScreen({
     clearHint();
     clearErrorHighlights();
     setSelectedTileId(null);
-    setSelectedBoardCell(null);
-    setSelectedPreparedSlotIndex(null);
+    clearPreparedDestinationSelection();
     setIsPendingWordSelected(false);
 
     if (!isExchangeMode) {
@@ -1069,8 +1044,7 @@ export function GameScreen({
     pushUndoPoint();
     clearHint();
     setPreparedTileSlots(createEmptyPreparedSlots());
-    setSelectedBoardCell(null);
-    setSelectedPreparedSlotIndex(null);
+    clearPreparedDestinationSelection();
     setIsPendingWordSelected(false);
     clearErrorHighlights();
     onGameChange({
@@ -1082,7 +1056,7 @@ export function GameScreen({
     });
   }
 
-  function revealHintLevel(nextHint: BestMoveHint, nextHintLevel: HintLevel, recordUndo = true) {
+  function revealHintLevel(nextHint: BestMoveHint, nextHintLevel: HintLevel, recordUndo = true, baseGame = game) {
     const directionLabel = nextHint.direction === "row" ? "horizontalement" : "verticalement";
     const levelMessage = getHintMessage(nextHint, nextHintLevel, directionLabel, usesProgressiveHints);
 
@@ -1094,8 +1068,7 @@ export function GameScreen({
     setHintLevel(nextHintLevel);
     setIsPendingWordSelected(false);
     setSelectedTileId(null);
-    setSelectedBoardCell(null);
-    setSelectedPreparedSlotIndex(null);
+    clearPreparedDestinationSelection();
     clearErrorHighlights();
 
     if (nextHintLevel >= MAX_HINT_LEVEL) {
@@ -1104,7 +1077,7 @@ export function GameScreen({
       setPreparedTileSlots(getHintPreparedTileSlots(nextHint, nextHintLevel));
     }
 
-    const nextGame = recordHumanHintUse(game, nextHintLevel >= MAX_HINT_LEVEL ? "complete" : "partial");
+    const nextGame = recordHumanHintUse(baseGame, nextHintLevel >= MAX_HINT_LEVEL ? "complete" : "partial");
 
     onGameChange({
       ...nextGame,
@@ -1146,14 +1119,23 @@ export function GameScreen({
     }
 
     cancelHintSearch();
+    const searchGame = pendingTurnWord ? undoHumanTurn(game) : game;
+    const hadPreparedActivity = hasPreparedActivity;
+
     pushUndoPoint();
     setIsHintSearching(true);
+    setPreparedTileIds([]);
+    setSelectedTileId(null);
+    clearPreparedDestinationSelection();
+    setIsPendingWordSelected(false);
     clearErrorHighlights();
     onGameChange({
-      ...game,
+      ...searchGame,
       message: {
         tone: "info",
-        text: "Le robot cherche un indice possible."
+        text: hadPreparedActivity
+          ? "Les lettres en cours ont été reprises pour chercher un indice clair."
+          : "Le robot cherche un indice possible."
       }
     });
 
@@ -1161,7 +1143,7 @@ export function GameScreen({
     hintSearchRequestIdRef.current = requestId;
 
     hintSearchTimeoutRef.current = window.setTimeout(() => {
-      void findBestHumanMoveAsync(game)
+      void findBestHumanMoveAsync(searchGame)
         .then((nextHint) => {
           if (hintSearchRequestIdRef.current !== requestId) {
             return;
@@ -1181,7 +1163,7 @@ export function GameScreen({
             clearHint();
             clearErrorHighlights();
             onGameChange({
-              ...game,
+              ...searchGame,
               message: {
                 tone: "notice",
                 text: "Aucun mot possible n'a été trouvé avec le dictionnaire actuel."
@@ -1190,7 +1172,7 @@ export function GameScreen({
             return;
           }
 
-          revealHintLevel(nextHint, hintMode === "complete" ? MAX_HINT_LEVEL : 1, false);
+          revealHintLevel(nextHint, hintMode === "complete" ? MAX_HINT_LEVEL : 1, false, searchGame);
         })
         .catch(() => {
           if (hintSearchRequestIdRef.current !== requestId) {
@@ -1200,7 +1182,7 @@ export function GameScreen({
           hintSearchTimeoutRef.current = null;
           setIsHintSearching(false);
           onGameChange({
-            ...game,
+            ...searchGame,
             message: {
               tone: "notice",
               text: "La recherche d'indice n'a pas abouti. Vous pouvez réessayer."
@@ -1216,20 +1198,205 @@ export function GameScreen({
     }
 
     if (selectedBoardCell) {
-      handleTileDropOnBoard(tileId, selectedBoardCell.row, selectedBoardCell.col);
+      handleDirectTilePlacement(tileId, selectedBoardCell.row, selectedBoardCell.col);
       return;
     }
 
     const targetIndex = selectedPreparedSlotIndex ?? getAppendPreparedSlotIndex(preparedTileSlots);
 
-    pushUndoPoint();
-    setSelectedTileId(null);
-    setSelectedBoardCell(null);
-    setSelectedPreparedSlotIndex(null);
-    clearHint();
-    setIsPendingWordSelected(false);
+    moveTileToPreparedSlot(tileId, targetIndex);
+  }
+
+  function handleKeyboardLetterEntry(letter: string): boolean {
+    if (isFinished || isExchangeMode || game.turn.player !== "human") {
+      return false;
+    }
+
+    const tile = game.racks.human.find((rackTile) => rackTile.letter === letter && !preparedTileIds.includes(rackTile.id));
+
+    if (!tile) {
+      onGameChange({
+        ...game,
+        message: {
+          tone: "notice",
+          text: `La lettre ${letter} n'est pas disponible dans vos lettres.`
+        }
+      });
+      return true;
+    }
+
+    const targetCell = selectedBoardCell ?? getAppendCellForPendingWord(game, pendingTurnWord);
+
+    if (targetCell) {
+      handleDirectTilePlacement(tile.id, targetCell.row, targetCell.col);
+      return true;
+    }
+
+    if (selectedPreparedSlotIndex !== null || isKeyboardPreparationEntryActive || isFocusInsidePreparationZone()) {
+      handleAddPreparedTile(tile.id);
+      setIsKeyboardPreparationEntryActive(true);
+      return true;
+    }
+
+    return false;
+  }
+
+  function handleKeyboardDeleteEntry(): boolean {
+    if (isFinished || isExchangeMode || game.turn.player !== "human") {
+      return false;
+    }
+
+    const lastPreparedTileId = getLastPreparedTileId(preparedTileSlots);
+
+    if (lastPreparedTileId) {
+      handleRemovePreparedTile(lastPreparedTileId);
+      setIsKeyboardPreparationEntryActive(true);
+      return true;
+    }
+
+    const lastPendingBoardTile = getLastPendingBoardTile(game);
+
+    if (lastPendingBoardTile) {
+      const removedTile = removeHumanTurnTile(game, lastPendingBoardTile.id);
+
+      if (removedTile.ok) {
+        pushUndoPoint();
+        clearHint();
+        setIsPendingWordSelected(false);
+        clearErrorHighlights();
+        setSelectedTileId(null);
+        setSelectedPreparedSlotIndex(null);
+        setIsKeyboardPreparationEntryActive(false);
+        setSelectedBoardCell({ row: lastPendingBoardTile.row, col: lastPendingBoardTile.col });
+        onGameChange(removedTile.state);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  function handleDirectTilePlacement(tileId: string, row: number, col: number) {
     clearErrorHighlights();
-    setPreparedTileSlots((currentSlots) => placeTileIdInPreparedSlot(currentSlots, tileId, targetIndex, game));
+    clearHint();
+    setSelectedPreparedSlotIndex(null);
+    setIsKeyboardPreparationEntryActive(false);
+
+    const result = placeTile(game, tileId, row, col);
+    pushUndoPoint();
+    onGameChange(
+      result.ok
+        ? result.state
+        : {
+            ...result.state,
+            message: {
+              tone: "notice",
+              text: result.reason
+            }
+          }
+    );
+
+    if (result.ok) {
+      const nextPendingTurnWord = getPendingTurnWord(result.state);
+
+      removePreparedTileId(tileId);
+      setIsPendingWordSelected(false);
+      setSelectedBoardCell(getNextDirectPlacementCell(result.state, nextPendingTurnWord, row, col));
+      setSelectedTileId(null);
+      return;
+    }
+
+    setSelectedTileId(null);
+  }
+
+  function handleRotatePendingWord() {
+    if (isFinished || game.turn.player !== "human" || (!pendingTurnWord && !hint)) {
+      return;
+    }
+
+    if (!pendingTurnWord && hint) {
+      handleRotateHint();
+      return;
+    }
+
+    const nextDirection: PlacementDirection = pendingTurnWord?.direction === "row" ? "col" : "row";
+    const rotatedPlacement = getRotatedPendingWordPlacement(game, nextDirection);
+
+    if (!rotatedPlacement) {
+      onGameChange({
+        ...game,
+        message: {
+          tone: "notice",
+          text: "Aucun mot posé ce tour-ci ne peut être tourné."
+        }
+      });
+      return;
+    }
+
+    const result = movePendingHumanTiles(game, rotatedPlacement.row, rotatedPlacement.col, nextDirection);
+
+    clearHint();
+    clearErrorHighlights();
+    pushUndoPoint();
+
+    if (!result.ok) {
+      onGameChange({
+        ...result.state,
+        message: {
+          tone: "notice",
+          text: `${result.reason} La direction du mot n'a pas été changée.`
+        }
+      });
+      return;
+    }
+
+    const nextPendingTurnWord = getPendingTurnWord(result.state);
+
+    setSelectedTileId(null);
+    setSelectedPreparedSlotIndex(null);
+    setIsKeyboardPreparationEntryActive(false);
+    setIsPendingWordSelected(false);
+    setSelectedBoardCell(getAppendCellForPendingWord(result.state, nextPendingTurnWord));
+    onGameChange({
+      ...result.state,
+      message: {
+        tone: "info",
+        text: nextDirection === "row" ? "Le mot est maintenant horizontal." : "Le mot est maintenant vertical."
+      }
+    });
+  }
+
+  function handleRotateHint() {
+    if (!hint) {
+      return;
+    }
+
+    const nextDirection: PlacementDirection = hint.direction === "row" ? "col" : "row";
+    const rotatedHint = getRotatedHint(game, hint, nextDirection);
+
+    clearErrorHighlights();
+
+    if (!rotatedHint) {
+      onGameChange({
+        ...game,
+        message: {
+          tone: "notice",
+          text: "L'indice ne peut pas être tourné à cet endroit."
+        }
+      });
+      return;
+    }
+
+    pushUndoPoint();
+    setHint(rotatedHint);
+    setPreparedTileSlots(hintLevel >= MAX_HINT_LEVEL ? packPreparedTileSlots(rotatedHint.tileIds) : getHintPreparedTileSlots(rotatedHint, hintLevel));
+    onGameChange({
+      ...game,
+      message: {
+        tone: "info",
+        text: nextDirection === "row" ? "L'indice est maintenant horizontal." : "L'indice est maintenant vertical."
+      }
+    });
   }
 
   function handleInsertPreparedTile(tileId: string, targetIndex: number) {
@@ -1237,18 +1404,29 @@ export function GameScreen({
       return;
     }
 
-    pushUndoPoint();
-    setSelectedTileId(null);
-    setSelectedBoardCell(null);
-    setSelectedPreparedSlotIndex(null);
-    clearHint();
-    setIsPendingWordSelected(false);
-    clearErrorHighlights();
-    setPreparedTileSlots((currentSlots) => placeTileIdInPreparedSlot(currentSlots, tileId, targetIndex, game));
+    moveTileToPreparedSlot(tileId, targetIndex);
   }
 
   function handleMovePreparedTileToEnd(tileId: string) {
     handleInsertPreparedTile(tileId, getAppendPreparedSlotIndex(preparedTileSlots));
+  }
+
+  function moveTileToPreparedSlot(tileId: string, targetIndex: number) {
+    const pendingBoardTile = getPendingBoardTile(game, tileId);
+    const removedFromBoard = pendingBoardTile ? removeHumanTurnTile(game, tileId) : null;
+    const nextGame = removedFromBoard?.ok ? removedFromBoard.state : game;
+
+    pushUndoPoint();
+    setSelectedTileId(null);
+    clearPreparedDestinationSelection();
+    clearHint();
+    setIsPendingWordSelected(false);
+    clearErrorHighlights();
+    setPreparedTileSlots((currentSlots) => placeTileIdInPreparedSlot(currentSlots, tileId, targetIndex, nextGame));
+
+    if (removedFromBoard?.ok) {
+      onGameChange(nextGame);
+    }
   }
 
   function handleRecallPlacedTurnTiles() {
@@ -1262,8 +1440,7 @@ export function GameScreen({
 
     clearHint();
     setIsPendingWordSelected(false);
-    setSelectedBoardCell(null);
-    setSelectedPreparedSlotIndex(null);
+    clearPreparedDestinationSelection();
     clearErrorHighlights();
     pushUndoPoint();
     setPreparedTileSlots(removeBoardTileTokensFromPreparedSlots);
@@ -1359,56 +1536,80 @@ export function GameScreen({
 
   return (
     <main className="game-layout">
-      <header className="game-topbar" aria-label="Actions principales">
-        <nav className="topbar-links" aria-label="Navigation du jeu">
+      <header
+        className={`game-topbar${isMobileTopbarCollapsed ? " game-topbar-collapsed" : ""}`}
+        aria-label="Actions principales"
+      >
+        <button
+          className="mobile-topbar-restore"
+          type="button"
+          onClick={() => setIsMobileTopbarCollapsed(false)}
+          aria-expanded="false"
+          aria-controls="game-topbar-content"
+        >
+          Menu
+        </button>
+        <div id="game-topbar-content" className="game-topbar-content">
           <button
+            className="mobile-topbar-collapse"
             type="button"
-            onClick={onNewGameRequest}
-            {...getButtonHintProps("Commence une nouvelle partie. Une confirmation est demandée si une partie est en cours.")}
-          >
-            Nouvelle partie
-          </button>
-          <button
-            type="button"
-            onClick={onRulesRequest}
-            {...getButtonHintProps("Ouvre les règles, les bonus et la distribution des lettres.")}
-          >
-            Règles
-          </button>
-          <button
-            type="button"
-            onClick={onLexiconRequest}
-            {...getButtonHintProps("Ouvre le lexique et les explications de mots disponibles.")}
-          >
-            Lexique
-          </button>
-          <button type="button" onClick={onOptionsRequest} {...getButtonHintProps("Ouvre les options de partie.")}>
-            Options
-          </button>
-        </nav>
-        <div className="topbar-scale-control" aria-label="Taille de l'interface">
-          <span>Affichage</span>
-          <button
-            className="secondary-button"
-            type="button"
-            onClick={onDecreaseInterfaceScale}
-            disabled={!canDecreaseInterfaceScale}
-            aria-label="Réduire l'interface"
-            {...getButtonHintProps("Réduit la taille générale de l'interface et du plateau.")}
+            onClick={() => setIsMobileTopbarCollapsed(true)}
+            aria-label="Masquer les actions principales"
+            aria-expanded="true"
+            aria-controls="game-topbar-content"
           >
             -
           </button>
-          <strong aria-live="polite">{interfaceScaleLabel}</strong>
-          <button
-            className="secondary-button"
-            type="button"
-            onClick={onIncreaseInterfaceScale}
-            disabled={!canIncreaseInterfaceScale}
-            aria-label="Agrandir l'interface"
-            {...getButtonHintProps("Agrandit la taille générale de l'interface et du plateau.")}
-          >
-            +
-          </button>
+          <nav className="topbar-links" aria-label="Navigation du jeu">
+            <button
+              type="button"
+              onClick={onNewGameRequest}
+              {...getButtonHintProps("Commence une nouvelle partie. Une confirmation est demandée si une partie est en cours.")}
+            >
+              Nouvelle partie
+            </button>
+            <button
+              type="button"
+              onClick={onRulesRequest}
+              {...getButtonHintProps("Ouvre les règles, les bonus et la distribution des lettres.")}
+            >
+              Règles
+            </button>
+            <button
+              type="button"
+              onClick={onLexiconRequest}
+              {...getButtonHintProps("Ouvre le lexique et les explications de mots disponibles.")}
+            >
+              Lexique
+            </button>
+            <button type="button" onClick={onOptionsRequest} {...getButtonHintProps("Ouvre les options de partie.")}>
+              Options
+            </button>
+          </nav>
+          <div className="topbar-scale-control" aria-label="Taille de l'interface">
+            <span>Affichage</span>
+            <button
+              className="secondary-button"
+              type="button"
+              onClick={onDecreaseInterfaceScale}
+              disabled={!canDecreaseInterfaceScale}
+              aria-label="Réduire l'interface"
+              {...getButtonHintProps("Réduit la taille générale de l'interface et du plateau.")}
+            >
+              -
+            </button>
+            <strong aria-live="polite">{interfaceScaleLabel}</strong>
+            <button
+              className="secondary-button"
+              type="button"
+              onClick={onIncreaseInterfaceScale}
+              disabled={!canIncreaseInterfaceScale}
+              aria-label="Agrandir l'interface"
+              {...getButtonHintProps("Agrandit la taille générale de l'interface et du plateau.")}
+            >
+              +
+            </button>
+          </div>
         </div>
       </header>
 
@@ -1443,6 +1644,7 @@ export function GameScreen({
         <BoardView
           board={game.board}
           selectedBoardCellKey={selectedBoardCell ? `${selectedBoardCell.row}:${selectedBoardCell.col}` : null}
+          referenceBoardCellKey={pendingWordStartCellKey}
           hint={isCompleteHintVisible ? hint : null}
           hintAreaCellKeys={hintAreaCellKeys}
           hintAnchorCellKeys={hintAnchorCellKeys}
@@ -1462,11 +1664,7 @@ export function GameScreen({
           floatingScorePreview={floatingScorePreview}
           onCellClick={handleCellClick}
           onCellDoubleClick={handleCellDoubleClick}
-          onPendingWordDrop={handlePendingWordDrop}
-          onTileDrop={handleTileDropOnBoard}
-          onFloatingWordDrag={handleFloatingWordDrag}
-          onFloatingWordDragEnd={() => setFloatingScorePreview(null)}
-          onFloatingWordDrop={handleFloatingWordDrop}
+          onTileDrop={handlePlaceTileOnBoard}
         />
       </section>
 
@@ -1484,12 +1682,10 @@ export function GameScreen({
               selectedBoardCell={selectedBoardCell}
               selectedPreparedSlotIndex={selectedPreparedSlotIndex}
               onAddTile={handleAddPreparedTile}
+              onRotateBoardWord={handleRotatePendingWord}
               onToggleExchangeTile={handleToggleExchangeTile}
-              onBoardDrop={handleTileDropOnBoard}
-              onPreparedDrop={(tileId, targetIndex) =>
-                targetIndex === null ? handleMovePreparedTileToEnd(tileId) : handleInsertPreparedTile(tileId, targetIndex)
-              }
-              onDropTile={handleRemovePreparedTile}
+              canRotateBoardWord={!isFinished && game.turn.player === "human" && Boolean(pendingTurnWord || hint)}
+              rotateBoardWordDirection={pendingTurnWord?.direction ?? hint?.direction ?? "row"}
             />
           </div>
           <div className="preparation-subsection">
@@ -1502,17 +1698,18 @@ export function GameScreen({
               tileIdSlots={preparedTileSlots}
               selectedSlotIndex={selectedPreparedSlotIndex}
               boardTileKeys={preparedBoardTileKeys}
-              onBoardDrop={handleTileDropOnBoard}
               onInsertTile={handleInsertPreparedTile}
               onMoveTileToEnd={handleMovePreparedTileToEnd}
               onRemoveTile={handleRemovePreparedTile}
               onSelectSlot={(slotIndex) => {
+                const isSelectingNewSlot = selectedPreparedSlotIndex !== slotIndex;
                 setSelectedBoardCell(null);
-                setSelectedPreparedSlotIndex((currentIndex) => (currentIndex === slotIndex ? null : slotIndex));
+                setSelectedPreparedSlotIndex(isSelectingNewSlot ? slotIndex : null);
+                setIsKeyboardPreparationEntryActive(isSelectingNewSlot);
               }}
             />
           </div>
-          <div className={`mobile-action-bar${usesUndoMode ? " with-history" : ""}`} aria-label="Actions rapides">
+          <div className="mobile-action-bar with-history" aria-label="Actions rapides">
             <button
               type="button"
               onClick={handleValidate}
@@ -1548,22 +1745,16 @@ export function GameScreen({
             >
               Passer
             </button>
-            {usesUndoMode ? (
-              <button
-                className="secondary-button icon-action-button"
-                type="button"
-                aria-label="Défaire"
-                onClick={handleUndoAction}
-                disabled={!canUndoAction || game.turn.player !== "human"}
-                {...getButtonHintProps(
-                  canUndoAction
-                    ? "Défait la dernière action de préparation, de pose ou de validation."
-                    : "Aucune action à défaire pour le moment."
-                )}
-              >
-                <span aria-hidden="true">↶</span>
-              </button>
-            ) : null}
+            <button
+              className="secondary-button icon-action-button"
+              type="button"
+              aria-label="Défaire"
+              onClick={handleUndoAction}
+              disabled={!canUndoAction || game.turn.player !== "human"}
+              {...getButtonHintProps(getUndoButtonDescription(canUndoAction, usesFullUndoMode))}
+            >
+              <span aria-hidden="true">↶</span>
+            </button>
             <button
               className={`secondary-button${isExchangeMode ? " active-action" : ""}`}
               type="button"
@@ -1602,22 +1793,18 @@ export function GameScreen({
             >
               Effacer
             </button>
-            {usesUndoMode ? (
-              <button
-                className="secondary-button icon-action-button"
-                type="button"
-                aria-label="Refaire"
-                onClick={handleRedoAction}
-                disabled={!canRedoAction || game.turn.player !== "human"}
-                {...getButtonHintProps(
-                  canRedoAction ? "Refait la dernière action qui vient d'être défaite." : "Aucune action à refaire pour le moment."
-                )}
-              >
-                <span aria-hidden="true">↷</span>
-              </button>
-            ) : null}
+            <button
+              className="secondary-button icon-action-button"
+              type="button"
+              aria-label="Refaire"
+              onClick={handleRedoAction}
+              disabled={!canRedoAction || game.turn.player !== "human"}
+              {...getButtonHintProps(getRedoButtonDescription(canRedoAction, usesFullUndoMode))}
+            >
+              <span aria-hidden="true">↷</span>
+            </button>
           </div>
-          <div className={`builder-actions${usesUndoMode ? " with-history" : ""}`}>
+          <div className="builder-actions with-history">
             <button
               type="button"
               onClick={handleValidate}
@@ -1653,22 +1840,16 @@ export function GameScreen({
             >
               Passer
             </button>
-            {usesUndoMode ? (
-              <button
-                className="secondary-button icon-action-button"
-                type="button"
-                aria-label="Défaire"
-                onClick={handleUndoAction}
-                disabled={!canUndoAction || game.turn.player !== "human"}
-                {...getButtonHintProps(
-                  canUndoAction
-                    ? "Défait la dernière action de préparation, de pose ou de validation."
-                    : "Aucune action à défaire pour le moment."
-                )}
-              >
-                <span aria-hidden="true">↶</span>
-              </button>
-            ) : null}
+            <button
+              className="secondary-button icon-action-button"
+              type="button"
+              aria-label="Défaire"
+              onClick={handleUndoAction}
+              disabled={!canUndoAction || game.turn.player !== "human"}
+              {...getButtonHintProps(getUndoButtonDescription(canUndoAction, usesFullUndoMode))}
+            >
+              <span aria-hidden="true">↶</span>
+            </button>
             <button
               className={`secondary-button${isExchangeMode ? " active-action" : ""}`}
               type="button"
@@ -1707,20 +1888,16 @@ export function GameScreen({
             >
               Effacer
             </button>
-            {usesUndoMode ? (
-              <button
-                className="secondary-button icon-action-button"
-                type="button"
-                aria-label="Refaire"
-                onClick={handleRedoAction}
-                disabled={!canRedoAction || game.turn.player !== "human"}
-                {...getButtonHintProps(
-                  canRedoAction ? "Refait la dernière action qui vient d'être défaite." : "Aucune action à refaire pour le moment."
-                )}
-              >
-                <span aria-hidden="true">↷</span>
-              </button>
-            ) : null}
+            <button
+              className="secondary-button icon-action-button"
+              type="button"
+              aria-label="Refaire"
+              onClick={handleRedoAction}
+              disabled={!canRedoAction || game.turn.player !== "human"}
+              {...getButtonHintProps(getRedoButtonDescription(canRedoAction, usesFullUndoMode))}
+            >
+              <span aria-hidden="true">↷</span>
+            </button>
           </div>
           {pendingScoreDetails ? (
             <div className="pending-score-preview" aria-live="polite">
@@ -1736,6 +1913,7 @@ export function GameScreen({
                 Score prévu : {pendingScoreDetails.total} point{pendingScoreDetails.total > 1 ? "s" : ""}
               </strong>
               <ScoreDetailsDisclosure details={pendingScoreDetails} />
+              <ScoreWordExplanations details={pendingScoreDetails} />
             </div>
           ) : null}
           <p className="preparation-guidance">
@@ -1744,9 +1922,9 @@ export function GameScreen({
               : hint
               ? getHintInstruction(hintLevel, usesProgressiveHints)
               : pendingTurnWord
-                ? "Glissez une lettre du mot pour le déplacer, ou validez."
+                ? "Validez le mot ou touchez une lettre posée pour la retirer."
               : displayedPreparedWord
-                ? "Touchez une case pour poser le mot, ou glissez les lettres une par une."
+                ? "Touchez une case du plateau pour poser le mot préparé."
               : selectedTile
                 ? `Lettre choisie : ${selectedTile.letter}.`
                 : "Composez votre mot avant de le poser."}
@@ -2021,7 +2199,7 @@ function getContextualHelp({
       title: "Mot posé sur le plateau",
       items: [
         "Vous pouvez le valider si le coup est correct.",
-        "Glissez une lettre du mot pour déplacer l'ensemble du mot.",
+        "Touchez une lettre posée ce tour pour la retirer.",
         "Reprendre remet les lettres du tour dans Vos lettres."
       ]
     };
@@ -2032,7 +2210,7 @@ function getContextualHelp({
       title: "Mot dans le chevalet",
       items: [
         "Touchez une case compatible du plateau pour poser le mot.",
-        "Vous pouvez déplacer les lettres dans le chevalet avant de poser.",
+        "Vous pouvez choisir une case du chevalet puis toucher une lettre pour l'y placer.",
         "Effacer vide le chevalet et remet les lettres dans Vos lettres."
       ],
       note: `Dictionnaire actuel : ${DICTIONARY_LABEL}, ${dictionaryWordCount} mots.`
@@ -2055,8 +2233,7 @@ function getContextualHelp({
       title: `Lettre ${selectedTile.letter} choisie`,
       items: [
         "Touchez une case vide du plateau pour poser cette lettre.",
-        "Touchez une case du chevalet pour préparer un mot.",
-        "Vous pouvez aussi glisser la lettre vers le plateau ou le chevalet."
+        "Touchez une case du chevalet pour préparer un mot."
       ]
     };
   }
@@ -2066,7 +2243,6 @@ function getContextualHelp({
       title: "Case du plateau choisie",
       items: [
         "Touchez une lettre de Vos lettres pour la poser sur cette case.",
-        "Touchez une lettre déjà posée ce tour pour la déplacer ici.",
         "Touchez une autre case vide pour changer la sélection."
       ]
     };
@@ -2077,7 +2253,7 @@ function getContextualHelp({
       title: "Case du chevalet choisie",
       items: [
         "Touchez une lettre de Vos lettres pour la placer dans cette case.",
-        "Touchez une lettre déjà dans le chevalet pour la déplacer ici.",
+        "Touchez une lettre déjà dans le chevalet pour la placer ici.",
         "Touchez la même case pour annuler la sélection."
       ]
     };
@@ -2176,7 +2352,6 @@ function PreparedWordTiles({
   tileIdSlots,
   selectedSlotIndex,
   boardTileKeys,
-  onBoardDrop,
   onInsertTile,
   onMoveTileToEnd,
   onRemoveTile,
@@ -2187,269 +2362,162 @@ function PreparedWordTiles({
   tileIdSlots: (string | null)[];
   selectedSlotIndex: number | null;
   boardTileKeys: string[];
-  onBoardDrop: (tileId: string, row: number, col: number) => void;
   onInsertTile: (tileId: string, targetIndex: number) => void;
   onMoveTileToEnd: (tileId: string) => void;
   onRemoveTile: (tileId: string) => void;
   onSelectSlot: (slotIndex: number) => void;
 }) {
-  const [dropIndicatorIndex, setDropIndicatorIndex] = useState<number | null>(null);
-  const [touchDrag, setTouchDrag] = useState<PreparedTouchDragState | null>(null);
-  const touchDragRef = useRef<PreparedTouchDragState | null>(null);
-  const ignoreNextClickRef = useRef(false);
   const hasPreparedTiles = tileSlots.some(Boolean);
+  const [insertionTargetIndex, setInsertionTargetIndex] = useState<number | null>(null);
 
-  function handleTilePointerDown(
-    event: PointerEvent<HTMLButtonElement>,
-    tileId: string,
-    tile: Tile
-  ) {
-    if (event.pointerType === "mouse") {
-      return;
-    }
-
-    event.currentTarget.setPointerCapture(event.pointerId);
-    const nextDrag = {
-      tileId,
-      letter: tile.letter,
-      value: tile.value,
-      pointerId: event.pointerId,
-      startX: event.clientX,
-      startY: event.clientY,
-      x: event.clientX,
-      y: event.clientY,
-      active: false
-    };
-    touchDragRef.current = nextDrag;
-    setTouchDrag(nextDrag);
-  }
-
-  function handleTilePointerMove(event: PointerEvent<HTMLButtonElement>) {
-    const currentDrag = touchDragRef.current;
-
-    if (!currentDrag || currentDrag.pointerId !== event.pointerId) {
-      return;
-    }
-
-    const distance = Math.hypot(event.clientX - currentDrag.startX, event.clientY - currentDrag.startY);
-    const active = currentDrag.active || distance >= TOUCH_DRAG_THRESHOLD_PX;
-
-    if (active) {
-      event.preventDefault();
-      ignoreNextClickRef.current = true;
-    }
-
-    const target = document
-      .elementFromPoint(event.clientX, event.clientY)
-      ?.closest(".prepared-word-slot, .prepared-word-tile");
-    const targetIndex = Number((target as HTMLElement | null)?.dataset.slotIndex);
-    setDropIndicatorIndex(Number.isInteger(targetIndex) ? targetIndex : null);
-
-    const nextDrag = {
-      ...currentDrag,
-      x: event.clientX,
-      y: event.clientY,
-      active
-    };
-    touchDragRef.current = nextDrag;
-    setTouchDrag(nextDrag);
-  }
-
-  function handleTilePointerUp(event: PointerEvent<HTMLButtonElement>) {
-    const currentDrag = touchDragRef.current;
-
-    if (!currentDrag || currentDrag.pointerId !== event.pointerId) {
-      return;
-    }
-
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
-      event.currentTarget.releasePointerCapture(event.pointerId);
-    }
-
-    touchDragRef.current = null;
-    setTouchDrag(null);
-    setDropIndicatorIndex(null);
-
-    if (!currentDrag.active) {
-      return;
-    }
-
-    event.preventDefault();
-    ignoreNextClickRef.current = true;
-    const boardCell = document.elementFromPoint(event.clientX, event.clientY)?.closest(".board-cell");
-    const row = Number((boardCell as HTMLElement | null)?.dataset.row);
-    const col = Number((boardCell as HTMLElement | null)?.dataset.col);
-
-    if (Number.isInteger(row) && Number.isInteger(col)) {
-      onBoardDrop(currentDrag.tileId, row, col);
-      return;
-    }
-
-    const target = document
-      .elementFromPoint(event.clientX, event.clientY)
-      ?.closest(".prepared-word-slot, .prepared-word-tile, .prepared-word, .rack");
-    const targetIndex = Number((target as HTMLElement | null)?.dataset.slotIndex);
-
-    if (Number.isInteger(targetIndex)) {
-      onInsertTile(currentDrag.tileId, targetIndex);
-      return;
-    }
-
-    if (target?.classList.contains("rack")) {
-      onRemoveTile(currentDrag.tileId);
-      return;
-    }
-
-    if (target?.classList.contains("prepared-word")) {
-      onMoveTileToEnd(currentDrag.tileId);
-    }
+  function clearInsertionTarget() {
+    setInsertionTargetIndex(null);
   }
 
   return (
-    <>
-      <div
-        className={`prepared-word prepared-word-tiles prepared-word-slots${hasPreparedTiles ? "" : " prepared-word-empty"}`}
-        aria-label={displayedWord ? `Chevalet ${displayedWord}` : "Chevalet vide"}
-        onDragOver={(event) => event.preventDefault()}
-        onDragLeave={(event) => {
-          if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-            setDropIndicatorIndex(null);
-          }
-        }}
-        onDrop={(event) => {
-          event.preventDefault();
-          setDropIndicatorIndex(null);
-          const tileId = getDraggedTileId(event);
+    <div
+      className={`prepared-word prepared-word-tiles prepared-word-slots${hasPreparedTiles ? "" : " prepared-word-empty"}`}
+      aria-label={displayedWord ? `Chevalet ${displayedWord}` : "Chevalet vide"}
+      onDragOver={(event) => event.preventDefault()}
+      onDragLeave={(event) => {
+        const nextTarget = event.relatedTarget;
 
-          if (tileId) {
-            onMoveTileToEnd(tileId);
-          }
-        }}
-      >
-        {tileSlots.map((tile, index) => {
-          const tileId = tileIdSlots[index];
-          const isBoardTile = tileId ? boardTileKeys.includes(parseBoardTileKey(tileId) ?? "") : false;
+        if (!(nextTarget instanceof Node) || !event.currentTarget.contains(nextTarget)) {
+          clearInsertionTarget();
+        }
+      }}
+      onDrop={(event) => {
+        event.preventDefault();
+        clearInsertionTarget();
+        const draggedTileId = getDraggedTileId(event);
 
-          if (!tile || !tileId) {
-            const isSelectedSlot = selectedSlotIndex === index;
+        if (draggedTileId) {
+          onMoveTileToEnd(draggedTileId);
+        }
+      }}
+    >
+      {tileSlots.map((tile, index) => {
+        const tileId = tileIdSlots[index];
+        const isBoardTile = tileId ? boardTileKeys.includes(parseBoardTileKey(tileId) ?? "") : false;
 
-            return (
-              <button
-                className={`prepared-word-slot${dropIndicatorIndex === index ? " prepared-word-slot-drop-target" : ""}${isSelectedSlot ? " prepared-word-slot-selected" : ""}`}
-                key={`slot-${index}`}
-                type="button"
-                data-slot-index={index}
-                aria-label={
-                  isSelectedSlot
-                    ? `Emplacement vide ${index + 1}, sélectionné`
-                    : `Emplacement vide ${index + 1}`
-                }
-                aria-pressed={isSelectedSlot}
-                onClick={() => onSelectSlot(index)}
-                onDragOver={(event) => {
-                  event.preventDefault();
-                  setDropIndicatorIndex(index);
-                }}
-                onDragLeave={() => setDropIndicatorIndex(null)}
-                onDrop={(event) => {
-                  event.preventDefault();
-                  event.stopPropagation();
-                  setDropIndicatorIndex(null);
-                  const draggedTileId = getDraggedTileId(event);
-
-                  if (draggedTileId) {
-                    onInsertTile(draggedTileId, index);
-                  }
-                }}
-              />
-            );
-          }
+        if (!tile || !tileId) {
+          const isSelectedSlot = selectedSlotIndex === index;
 
           return (
             <button
-              className={`prepared-word-tile${isBoardTile ? " prepared-word-tile-board" : ""}${dropIndicatorIndex === index ? " prepared-word-slot-drop-target" : ""}`}
-              draggable
-              key={tileId}
+              className={`prepared-word-slot${isSelectedSlot ? " prepared-word-slot-selected" : ""}${insertionTargetIndex === index ? " prepared-word-insert-target" : ""}`}
+              key={`slot-${index}`}
               type="button"
               data-slot-index={index}
-              aria-label={`${isBoardTile ? "Lettre du plateau" : "Retirer la lettre"} ${tile.letter} du chevalet`}
-              title={isBoardTile ? "Lettre déjà sur le plateau" : "Remettre dans vos lettres"}
-              onClick={() => {
-                if (ignoreNextClickRef.current) {
-                  ignoreNextClickRef.current = false;
-                  return;
-                }
-
-                if (selectedSlotIndex !== null) {
-                  onInsertTile(tileId, selectedSlotIndex);
-                  return;
-                }
-
-                onRemoveTile(tileId);
-              }}
-              onDragStart={(event) => {
-                event.dataTransfer.setData(TILE_DRAG_MIME, tileId);
-                event.dataTransfer.setData("text/plain", tileId);
-                event.dataTransfer.effectAllowed = "move";
-              }}
-              onDragEnd={() => setDropIndicatorIndex(null)}
+              aria-label={
+                isSelectedSlot
+                  ? `Insérer à la position ${index + 1}, sélectionné`
+                  : `Insérer à la position ${index + 1}`
+              }
+              aria-pressed={isSelectedSlot}
+              onClick={() => onSelectSlot(index)}
               onDragOver={(event) => {
                 event.preventDefault();
-                setDropIndicatorIndex(index);
+                setInsertionTargetIndex(index);
               }}
               onDrop={(event) => {
                 event.preventDefault();
                 event.stopPropagation();
-                setDropIndicatorIndex(null);
-                const tileId = getDraggedTileId(event);
+                clearInsertionTarget();
+                const draggedTileId = getDraggedTileId(event);
 
-                if (tileId) {
-                  onInsertTile(tileId, index);
+                if (draggedTileId) {
+                  onInsertTile(draggedTileId, index);
                 }
               }}
-              onPointerDown={(event) => handleTilePointerDown(event, tileId, tile)}
-              onPointerMove={handleTilePointerMove}
-              onPointerCancel={() => {
-                touchDragRef.current = null;
-                setTouchDrag(null);
-                setDropIndicatorIndex(null);
-              }}
-              onPointerUp={handleTilePointerUp}
-            >
-              <span>{tile.letter}</span>
-              <small>{tile.value}</small>
-            </button>
+            />
           );
-        })}
-      </div>
-      {touchDrag?.active ? (
-        <span
-          className="touch-drag-tile"
-          style={{ left: `${touchDrag.x}px`, top: `${touchDrag.y}px` }}
-          aria-hidden="true"
-        >
-          <span>{touchDrag.letter}</span>
-          <small>{touchDrag.value}</small>
-        </span>
-      ) : null}
-    </>
+        }
+
+        return (
+          <button
+            className={`prepared-word-tile${isBoardTile ? " prepared-word-tile-board" : ""}${insertionTargetIndex === index ? " prepared-word-insert-target" : ""}`}
+            key={tileId}
+            type="button"
+            data-slot-index={index}
+            aria-label={`${isBoardTile ? "Retirer la lettre du plateau" : "Retirer la lettre"} ${tile.letter} du chevalet`}
+            title={isBoardTile ? "Lettre déjà sur le plateau" : "Remettre dans vos lettres"}
+            onClick={() => {
+              if (selectedSlotIndex !== null) {
+                onInsertTile(tileId, selectedSlotIndex);
+                return;
+              }
+
+              onRemoveTile(tileId);
+            }}
+            onDoubleClick={() => onMoveTileToEnd(tileId)}
+            draggable={!isBoardTile}
+            onDragStart={(event) => {
+              if (isBoardTile) {
+                event.preventDefault();
+                return;
+              }
+
+              setDraggedTileId(event, tileId);
+            }}
+            onDragEnd={clearInsertionTarget}
+            onDragOver={(event) => {
+              event.preventDefault();
+              setInsertionTargetIndex(index);
+            }}
+            onDrop={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              clearInsertionTarget();
+              const draggedTileId = getDraggedTileId(event);
+
+              if (draggedTileId) {
+                onInsertTile(draggedTileId, index);
+              }
+            }}
+          >
+            <span>{tile.letter}</span>
+            <small>{tile.value}</small>
+          </button>
+        );
+      })}
+    </div>
   );
 }
 
-type PreparedTouchDragState = {
-  tileId: string;
-  letter: string;
-  value: number;
-  pointerId: number;
-  startX: number;
-  startY: number;
-  x: number;
-  y: number;
-  active: boolean;
-};
+function setDraggedTileId(event: DragEvent<HTMLElement>, tileId: string) {
+  event.dataTransfer.setData(TILE_DRAG_MIME, tileId);
+  event.dataTransfer.setData("text/plain", tileId);
+  event.dataTransfer.effectAllowed = "move";
+}
 
 function getDraggedTileId(event: DragEvent<HTMLElement>): string {
   return event.dataTransfer.getData(TILE_DRAG_MIME) || event.dataTransfer.getData("text/plain");
+}
+
+function getKeyboardLetter(event: KeyboardEvent): string | null {
+  if (event.key.length !== 1) {
+    return null;
+  }
+
+  const letter = event.key
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLocaleUpperCase("fr-CH");
+
+  return /^[A-Z]$/u.test(letter) ? letter : null;
+}
+
+function isTextEntryTarget(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) {
+    return false;
+  }
+
+  return Boolean(target.closest("input, textarea, select, [contenteditable='true']"));
+}
+
+function isFocusInsidePreparationZone(): boolean {
+  return Boolean(document.activeElement?.closest(".preparation-zone, .rack, .prepared-word"));
 }
 
 function getWordInitial(word: string): string | null {
@@ -2523,79 +2591,320 @@ function buildAttemptPreviewCells(
 }
 
 function getPendingTurnWord(game: GameState): BoardFloatingWord | null {
-  const placedTiles = game.board
-    .flatMap((row) => row)
-    .map((cell) => cell.tile)
-    .filter((tile): tile is PlacedTile => Boolean(tile && !tile.committed));
+  const geometry = getPendingTurnGeometry(game);
+
+  if (!geometry) {
+    return null;
+  }
+
+  return {
+    word: geometry.word,
+    direction: geometry.direction,
+    row: geometry.row,
+    col: geometry.col
+  };
+}
+
+function getRotatedPendingWordPlacement(
+  game: GameState,
+  nextDirection: PlacementDirection
+): SelectedBoardCell | null {
+  const placedTiles = getOrderedPendingHumanTiles(game);
 
   if (placedTiles.length === 0) {
     return null;
   }
 
-  const sameRow = placedTiles.every((tile) => tile.row === placedTiles[0].row);
-  const direction: PlacementDirection = sameRow ? "row" : "col";
-  const orderedTiles = [...placedTiles].sort((first, second) =>
-    direction === "row" ? first.col - second.col : first.row - second.row
-  );
+  const center = getBoardCenter(game.board);
+  const hasCommittedTiles = game.board.flat().some((cell) => cell.tile?.committed);
+  const centerTileIndex = placedTiles.findIndex((tile) => tile.row === center && tile.col === center);
+  const anchorIndex = !hasCommittedTiles
+    ? centerTileIndex >= 0
+      ? centerTileIndex
+      : Math.floor(placedTiles.length / 2)
+    : 0;
+  const anchorRow = !hasCommittedTiles ? center : placedTiles[anchorIndex].row;
+  const anchorCol = !hasCommittedTiles ? center : placedTiles[anchorIndex].col;
 
   return {
-    word: orderedTiles.map((tile) => tile.letter).join(""),
-    direction,
-    row: orderedTiles[0].row,
-    col: orderedTiles[0].col
+    row: nextDirection === "col" ? anchorRow - anchorIndex : anchorRow,
+    col: nextDirection === "row" ? anchorCol - anchorIndex : anchorCol
   };
 }
 
-function getAnchoredPendingWordDropCell(
-  pendingTurnWord: BoardFloatingWord,
-  targetRow: number,
-  targetCol: number,
-  sourceRow?: number,
-  sourceCol?: number
-): { row: number; col: number } {
-  if (typeof sourceRow !== "number" || typeof sourceCol !== "number") {
-    return { row: targetRow, col: targetCol };
-  }
+function getRotatedHint(game: GameState, hint: BestMoveHint, nextDirection: PlacementDirection): BestMoveHint | null {
+  const placement = getRotatedHintPlacement(game, hint, nextDirection);
 
-  const offset =
-    pendingTurnWord.direction === "row"
-      ? sourceCol - (pendingTurnWord.col ?? sourceCol)
-      : sourceRow - (pendingTurnWord.row ?? sourceRow);
-
-  if (!Number.isInteger(offset) || offset < 0 || offset >= pendingTurnWord.word.length) {
-    return { row: targetRow, col: targetCol };
-  }
-
-  return pendingTurnWord.direction === "row"
-    ? { row: targetRow, col: targetCol - offset }
-    : { row: targetRow - offset, col: targetCol };
-}
-
-function getFloatingPlacementScore(
-  game: GameState,
-  preparedTileIds: string[],
-  pendingTurnWord: BoardFloatingWord | null,
-  row: number,
-  col: number,
-  direction: PlacementDirection
-): number | null {
-  const result =
-    preparedTileIds.length > 0
-      ? placeWord(game, preparedTileIds, row, col, direction)
-      : pendingTurnWord
-        ? moveHumanTurnWord(game, row, col, direction)
-        : null;
-
-  if (!result?.ok) {
+  if (!placement) {
     return null;
   }
 
-  const validation = validateTurn(result.state.board);
+  const placedWord = placeWord(game, hint.tileIds, placement.row, placement.col, nextDirection);
+
+  if (!placedWord.ok) {
+    return null;
+  }
+
+  const validation = validateTurn(placedWord.state.board);
+
   if (!validation.ok) {
     return null;
   }
 
-  return explainTurnScore(result.state.board, validation.words, getPlacedTiles(result.state.board)).total;
+  const placedTiles = getPlacedTiles(placedWord.state.board);
+  const scoreDetails = explainTurnScore(placedWord.state.board, validation.words, placedTiles);
+
+  return {
+    ...hint,
+    row: placement.row,
+    col: placement.col,
+    direction: nextDirection,
+    score: scoreDetails.total,
+    scoreDetails,
+    words: validation.words,
+    board: placedWord.state.board,
+    placedTiles,
+    rackAfterMove: placedWord.state.racks.human
+  };
+}
+
+function getRotatedHintPlacement(
+  game: GameState,
+  hint: BestMoveHint,
+  nextDirection: PlacementDirection
+): SelectedBoardCell | null {
+  const center = getBoardCenter(game.board);
+  const hasCommittedTiles = game.board.flat().some((cell) => cell.tile?.committed);
+  const centerIndex = getHintCellIndexAt(hint, center, center);
+  const anchorIndex = !hasCommittedTiles
+    ? centerIndex >= 0
+      ? centerIndex
+      : Math.floor(hint.word.length / 2)
+    : getFirstBoardTokenIndex(hint);
+  const anchorRow = !hasCommittedTiles ? center : getHintCellRow(hint, anchorIndex);
+  const anchorCol = !hasCommittedTiles ? center : getHintCellCol(hint, anchorIndex);
+
+  return {
+    row: nextDirection === "col" ? anchorRow - anchorIndex : anchorRow,
+    col: nextDirection === "row" ? anchorCol - anchorIndex : anchorCol
+  };
+}
+
+function getHintCellIndexAt(hint: BestMoveHint, row: number, col: number): number {
+  return hint.word.split("").findIndex((_, index) => getHintCellRow(hint, index) === row && getHintCellCol(hint, index) === col);
+}
+
+function getFirstBoardTokenIndex(hint: BestMoveHint): number {
+  const boardTokenIndex = hint.tileIds.findIndex((tileId) => Boolean(parseBoardTileKey(tileId)));
+
+  return boardTokenIndex >= 0 ? boardTokenIndex : 0;
+}
+
+function getHintCellRow(hint: BestMoveHint, index: number): number {
+  return hint.direction === "col" ? hint.row + index : hint.row;
+}
+
+function getHintCellCol(hint: BestMoveHint, index: number): number {
+  return hint.direction === "row" ? hint.col + index : hint.col;
+}
+
+function movePendingHumanTiles(
+  game: GameState,
+  row: number,
+  col: number,
+  direction: PlacementDirection
+): { ok: true; state: GameState } | { ok: false; reason: string; state: GameState } {
+  const geometry = getPendingTurnGeometry(game);
+
+  if (!geometry) {
+    return { ok: false, reason: "Aucune suite de lettres posée n'est à déplacer.", state: game };
+  }
+
+  const movedTileIds = new Set(geometry.pendingTiles.map(({ tile }) => tile.id));
+  const board = game.board.map((boardRow) =>
+    boardRow.map((cell) => ({
+      ...cell,
+      tile: cell.tile && !movedTileIds.has(cell.tile.id) ? { ...cell.tile } : null
+    }))
+  );
+
+  for (const { offset, tile } of geometry.pendingTiles) {
+    const targetRow = direction === "col" ? row + offset : row;
+    const targetCol = direction === "row" ? col + offset : col;
+
+    if (!board[targetRow]?.[targetCol]) {
+      return { ok: false, reason: "La suite de lettres dépasserait du plateau.", state: game };
+    }
+
+    const destinationTile = board[targetRow][targetCol].tile;
+
+    if (destinationTile && (!destinationTile.committed || destinationTile.letter !== tile.letter)) {
+      return { ok: false, reason: "Une case de destination contient déjà une lettre incompatible.", state: game };
+    }
+
+    if (destinationTile?.committed) {
+      continue;
+    }
+
+    board[targetRow][targetCol].tile = {
+      ...tile,
+      row: targetRow,
+      col: targetCol
+    };
+  }
+
+  return {
+    ok: true,
+    state: {
+      ...game,
+      board,
+      message: {
+        tone: "info",
+        text: "La suite de lettres a changé de direction. Vous pouvez encore la modifier avant de valider."
+      }
+    }
+  };
+}
+
+type PendingTurnGeometry = {
+  word: string;
+  direction: PlacementDirection;
+  row: number;
+  col: number;
+  pendingTiles: Array<{ tile: PlacedTile; offset: number }>;
+};
+
+function getPendingTurnGeometry(game: GameState): PendingTurnGeometry | null {
+  const placedTiles = getOrderedPendingHumanTiles(game);
+
+  if (placedTiles.length === 0) {
+    return null;
+  }
+
+  const direction = getPendingTileDirection(placedTiles);
+  const pendingTileIds = new Set(placedTiles.map((tile) => tile.id));
+  let row = placedTiles[0].row;
+  let col = placedTiles[0].col;
+
+  while (direction === "row" ? game.board[row]?.[col - 1]?.tile : game.board[row - 1]?.[col]?.tile) {
+    if (direction === "row") {
+      col -= 1;
+    } else {
+      row -= 1;
+    }
+  }
+
+  const startRow = row;
+  const startCol = col;
+  let word = "";
+  const pendingTiles: Array<{ tile: PlacedTile; offset: number }> = [];
+  let offset = 0;
+
+  while (game.board[row]?.[col]?.tile) {
+    const tile = game.board[row][col].tile;
+
+    if (!tile) {
+      break;
+    }
+
+    word += tile.letter;
+    if (pendingTileIds.has(tile.id)) {
+      pendingTiles.push({ tile, offset });
+    }
+
+    if (direction === "row") {
+      col += 1;
+    } else {
+      row += 1;
+    }
+    offset += 1;
+  }
+
+  return {
+    word,
+    direction,
+    row: startRow,
+    col: startCol,
+    pendingTiles
+  };
+}
+
+function getLastPendingBoardTile(game: GameState): PlacedTile | null {
+  const placedTiles = getOrderedPendingHumanTiles(game);
+
+  return placedTiles.at(-1) ?? null;
+}
+
+function getOrderedPendingHumanTiles(game: GameState): PlacedTile[] {
+  const placedTiles = game.board
+    .flatMap((row) => row)
+    .map((cell) => cell.tile)
+    .filter((tile): tile is PlacedTile => Boolean(tile && !tile.committed && tile.owner === "human"));
+
+  if (placedTiles.length === 0) {
+    return [];
+  }
+
+  const direction = getPendingTileDirection(placedTiles);
+
+  return [...placedTiles].sort((first, second) =>
+    direction === "row" ? first.col - second.col : first.row - second.row
+  );
+}
+
+function getPendingTileDirection(placedTiles: PlacedTile[]): PlacementDirection {
+  const sameRow = placedTiles.every((tile) => tile.row === placedTiles[0].row);
+
+  return sameRow ? "row" : "col";
+}
+
+function getAppendCellForPendingWord(game: GameState, pendingTurnWord: BoardFloatingWord | null): SelectedBoardCell | null {
+  if (!pendingTurnWord || pendingTurnWord.row === undefined || pendingTurnWord.col === undefined) {
+    return null;
+  }
+
+  return getNextEmptyBoardCell(game, pendingTurnWord.row, pendingTurnWord.col, pendingTurnWord.direction);
+}
+
+function getNextDirectPlacementCell(
+  game: GameState,
+  pendingTurnWord: BoardFloatingWord | null,
+  fallbackRow: number,
+  fallbackCol: number
+): SelectedBoardCell | null {
+  return getAppendCellForPendingWord(game, pendingTurnWord) ?? getNextEmptyBoardCell(game, fallbackRow, fallbackCol + 1, "row");
+}
+
+function getEmptyBoardCell(game: GameState, row: number, col: number): SelectedBoardCell | null {
+  if (!game.board[row]?.[col] || game.board[row][col].tile) {
+    return null;
+  }
+
+  return { row, col };
+}
+
+function getNextEmptyBoardCell(
+  game: GameState,
+  startRow: number,
+  startCol: number,
+  direction: PlacementDirection
+): SelectedBoardCell | null {
+  let row = startRow;
+  let col = startCol;
+
+  while (game.board[row]?.[col]) {
+    if (!game.board[row][col].tile) {
+      return { row, col };
+    }
+
+    if (direction === "row") {
+      col += 1;
+    } else {
+      row += 1;
+    }
+  }
+
+  return null;
 }
 
 function getPendingScoreDetails(game: GameState): ScoreDetails | null {
@@ -2695,7 +3004,7 @@ function getHintInstruction(level: HintLevel, usesProgressiveHints: boolean): st
   }
 
   if (level === 5) {
-    return "Indice 5/6 : l'explication du mot est donnée si elle existe.";
+    return "Indice 5/6 : une explication est donnée sans révéler le mot.";
   }
 
   if (level === 6) {
@@ -2712,7 +3021,59 @@ function getHintExplanationText(word: string): string {
     return "aucune explication n'est encore disponible pour ce mot.";
   }
 
-  return `${explanation.partOfSpeech} : ${formatWordExplanationDefinition(explanation)}${explanation.usage ? ` ${explanation.usage}` : ""}`;
+  const definition = maskHintExplanationWords(getHintDefinitionOnly(explanation), explanation);
+  const usage = explanation.usage ? ` ${maskHintExplanationWords(explanation.usage, explanation)}` : "";
+
+  return `${definition}${usage}`;
+}
+
+function getHintDefinitionOnly(explanation: WordExplanation): string {
+  const labeledDefinition = explanation.shortDefinition.match(
+    /(?:^|[.!?]\s+)[A-ZÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸÆŒ-]{2,}\s*:\s*(.+)$/u
+  );
+
+  if (labeledDefinition?.[1]) {
+    return labeledDefinition[1];
+  }
+
+  return explanation.shortDefinition;
+}
+
+function maskHintExplanationWords(text: string, explanation: WordExplanation): string {
+  const hiddenWords = getHintExplanationHiddenWords(explanation);
+  const maskedText = hiddenWords.reduce((nextText, hiddenWord) => {
+    const escapedWord = escapeRegExp(hiddenWord);
+    const wordPattern = new RegExp(`(?<![\\p{L}\\p{N}])${escapedWord}(?![\\p{L}\\p{N}])`, "giu");
+
+    return nextText.replace(wordPattern, "un mot masqué");
+  }, text);
+
+  return maskedText
+    .replace(/\b[Dd]e un mot masqué\b/gu, (match) => (match.startsWith("D") ? "D'un mot masqué" : "d'un mot masqué"))
+    .replace(/\b[Dd]u un mot masqué\b/gu, (match) => (match.startsWith("D") ? "D'un mot masqué" : "d'un mot masqué"));
+}
+
+function getHintExplanationHiddenWords(explanation: WordExplanation): string[] {
+  const candidates = [explanation.word, explanation.baseWord, explanation.lemma].filter(
+    (candidate): candidate is string => Boolean(candidate)
+  );
+  const variants = candidates.flatMap((candidate) => [
+    candidate,
+    candidate.toLocaleUpperCase("fr-CH"),
+    candidate.toLocaleLowerCase("fr-CH"),
+    stripAccents(candidate).toLocaleUpperCase("fr-CH"),
+    stripAccents(candidate).toLocaleLowerCase("fr-CH")
+  ]);
+
+  return Array.from(new Set(variants.filter(Boolean))).sort((first, second) => second.length - first.length);
+}
+
+function stripAccents(value: string): string {
+  return value.normalize("NFD").replace(/\p{Diacritic}/gu, "");
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 function getHintPreviewCells(game: GameState, hint: BestMoveHint, level: HintLevel): BoardPreviewCell[] {
@@ -2766,7 +3127,26 @@ function createEmptyPreparedSlots(): (string | null)[] {
 }
 
 function getPreparedSlotTileIds(slots: (string | null)[]): string[] {
-  return slots.filter((tileId): tileId is string => Boolean(tileId));
+  const seenTileIds = new Set<string>();
+
+  return slots.filter((tileId): tileId is string => {
+    if (!tileId || seenTileIds.has(tileId)) {
+      return false;
+    }
+
+    seenTileIds.add(tileId);
+    return true;
+  });
+}
+
+function getLastPreparedTileId(slots: (string | null)[]): string | null {
+  for (let index = slots.length - 1; index >= 0; index -= 1) {
+    if (slots[index]) {
+      return slots[index];
+    }
+  }
+
+  return null;
 }
 
 function getPreparedWordFromTileIds(game: GameState, tileIds: string[]): string {
@@ -2786,11 +3166,26 @@ function removeBoardTileTokensFromPreparedSlots(slots: (string | null)[]): (stri
 function packPreparedTileSlots(tileIds: string[]): (string | null)[] {
   const nextSlots = createEmptyPreparedSlots();
 
-  tileIds.slice(0, PREPARED_SLOT_COUNT).forEach((tileId, index) => {
+  getUniqueTileIds(tileIds)
+    .slice(0, PREPARED_SLOT_COUNT)
+    .forEach((tileId, index) => {
     nextSlots[index] = tileId;
   });
 
   return nextSlots;
+}
+
+function getUniqueTileIds(tileIds: string[]): string[] {
+  const seenTileIds = new Set<string>();
+
+  return tileIds.filter((tileId) => {
+    if (seenTileIds.has(tileId)) {
+      return false;
+    }
+
+    seenTileIds.add(tileId);
+    return true;
+  });
 }
 
 function getFirstEmptySlotIndex(slots: (string | null)[]): number {
@@ -2815,29 +3210,58 @@ function placeTileIdInPreparedSlot(
   targetIndex: number,
   game: GameState
 ): (string | null)[] {
-  const tileExists = slots.includes(tileId) || game.racks.human.some((tile) => tile.id === tileId) || Boolean(parseBoardTileKey(tileId));
+  const normalizedSlots = normalizePreparedSlots(slots);
+  const tileExists =
+    normalizedSlots.includes(tileId) || game.racks.human.some((tile) => tile.id === tileId) || Boolean(parseBoardTileKey(tileId));
 
   if (!tileExists) {
-    return slots;
+    return normalizedSlots;
   }
 
-  const nextSlots = [...slots];
   const safeTargetIndex = Math.min(Math.max(targetIndex, 0), PREPARED_SLOT_COUNT - 1);
-  const currentIndex = nextSlots.indexOf(tileId);
+  const nextSlots = removeTileIdFromPreparedSlots(normalizedSlots, tileId);
 
-  if (currentIndex !== -1) {
-    nextSlots[currentIndex] = null;
+  if (!nextSlots[safeTargetIndex]) {
+    nextSlots[safeTargetIndex] = tileId;
+    return nextSlots;
   }
 
-  if (nextSlots[safeTargetIndex] && nextSlots[safeTargetIndex] !== tileId) {
-    const displacedTileId = nextSlots[safeTargetIndex];
-    const fallbackIndex = getFirstEmptySlotIndex(nextSlots);
+  return insertTileIdInPreparedSlots(nextSlots, tileId, safeTargetIndex);
+}
 
-    nextSlots[fallbackIndex] = displacedTileId;
+function insertTileIdInPreparedSlots(slots: (string | null)[], tileId: string, targetIndex: number): (string | null)[] {
+  const nextSlots = [...slots];
+
+  for (let index = PREPARED_SLOT_COUNT - 1; index > targetIndex; index -= 1) {
+    nextSlots[index] = nextSlots[index - 1];
   }
 
-  nextSlots[safeTargetIndex] = tileId;
-  return nextSlots;
+  nextSlots[targetIndex] = tileId;
+
+  return normalizePreparedSlots(nextSlots);
+}
+
+function normalizePreparedSlots(slots: (string | null)[]): (string | null)[] {
+  const seenTileIds = new Set<string>();
+
+  return slots.map((tileId) => {
+    if (!tileId || seenTileIds.has(tileId)) {
+      return null;
+    }
+
+    seenTileIds.add(tileId);
+    return tileId;
+  });
+}
+
+function sanitizePreparedTileSlots(slots: (string | null)[], game: GameState): (string | null)[] {
+  return normalizePreparedSlots(slots).map((tileId) => {
+    if (!tileId || !getPreparedTile(game, tileId)) {
+      return null;
+    }
+
+    return tileId;
+  });
 }
 
 function getHintRevealedLetterIndexesForLevel(hint: BestMoveHint, level: HintLevel): number[] {
@@ -3046,88 +3470,6 @@ function getPendingBoardTile(game: GameState, tileId: string): Tile | null {
       .find((tile): tile is PlacedTile => Boolean(tile && !tile.committed && tile.owner === "human" && tile.id === tileId)) ??
     null
   );
-}
-
-function getPendingTurnTileIds(game: GameState): string[] {
-  const placedTiles = game.board
-    .flatMap((row) => row)
-    .map((cell) => cell.tile)
-    .filter((tile): tile is PlacedTile => Boolean(tile && !tile.committed && tile.owner === "human"));
-
-  if (placedTiles.length === 0) {
-    return [];
-  }
-
-  const mainWordTileIds = getBestMainTurnTileIds(game, placedTiles);
-
-  return mainWordTileIds ?? getSortedPendingTileIds(placedTiles);
-}
-
-function getBestMainTurnTileIds(game: GameState, placedTiles: PlacedTile[]): string[] | null {
-  const candidates = (["row", "col"] as const)
-    .map((direction) => getMainTurnTileIds(game, placedTiles[0].row, placedTiles[0].col, direction))
-    .filter((tileIds) => pendingTileIdsAreIncluded(tileIds, placedTiles));
-
-  if (candidates.length === 0) {
-    return null;
-  }
-
-  const meaningfulCandidates = candidates.filter((tileIds) => tileIds.length > 1);
-
-  if (meaningfulCandidates.length === 1) {
-    return meaningfulCandidates[0];
-  }
-
-  if (meaningfulCandidates.length > 1) {
-    const [first, second] = [...meaningfulCandidates].sort((a, b) => b.length - a.length);
-    return first.length > second.length ? first : null;
-  }
-
-  return candidates[0];
-}
-
-function pendingTileIdsAreIncluded(tileIds: string[], placedTiles: PlacedTile[]): boolean {
-  return placedTiles.every((tile) => tileIds.includes(tile.id));
-}
-
-function getMainTurnTileIds(game: GameState, anchorRow: number, anchorCol: number, direction: PlacementDirection): string[] {
-  let row = anchorRow;
-  let col = anchorCol;
-
-  while (direction === "row" ? game.board[row]?.[col - 1]?.tile : game.board[row - 1]?.[col]?.tile) {
-    if (direction === "row") {
-      col -= 1;
-    } else {
-      row -= 1;
-    }
-  }
-
-  const tileIds: string[] = [];
-  while (game.board[row]?.[col]?.tile) {
-    const tile = game.board[row][col].tile;
-
-    if (tile?.committed) {
-      tileIds.push(createBoardTileToken(row, col));
-    } else if (tile?.owner === "human") {
-      tileIds.push(tile.id);
-    }
-
-    if (direction === "row") {
-      col += 1;
-    } else {
-      row += 1;
-    }
-  }
-
-  return tileIds;
-}
-
-function getSortedPendingTileIds(placedTiles: PlacedTile[]): string[] {
-  const sameRow = placedTiles.every((tile) => tile.row === placedTiles[0].row);
-
-  return [...placedTiles]
-    .sort((first, second) => (sameRow ? first.col - second.col : first.row - second.row))
-    .map((tile) => tile.id);
 }
 
 function parseBoardTileKey(tileId: string): string | null {
@@ -3354,4 +3696,28 @@ function getHintButtonDescription(
   }
 
   return hintMode === "complete" ? "Donne directement le meilleur mot trouvé." : "Cherche un bon coup possible.";
+}
+
+function getUndoButtonDescription(canUndoAction: boolean, usesFullUndoMode: boolean): string {
+  if (canUndoAction) {
+    return usesFullUndoMode
+      ? "Défait la dernière action, même si elle appartient à un tour précédent."
+      : "Défait la dernière action du tour en cours.";
+  }
+
+  return usesFullUndoMode
+    ? "Aucune action à défaire pour le moment."
+    : "Aucune action à défaire dans le tour en cours.";
+}
+
+function getRedoButtonDescription(canRedoAction: boolean, usesFullUndoMode: boolean): string {
+  if (canRedoAction) {
+    return usesFullUndoMode
+      ? "Refait la dernière action qui vient d'être défaite."
+      : "Refait la dernière action défaite dans le tour en cours.";
+  }
+
+  return usesFullUndoMode
+    ? "Aucune action à refaire pour le moment."
+    : "Aucune action à refaire dans le tour en cours.";
 }

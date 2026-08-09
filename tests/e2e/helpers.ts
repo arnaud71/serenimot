@@ -10,6 +10,19 @@ export async function startNewGame(page: Page) {
   await getStartButton(page).click();
 }
 
+export async function openTopbarMenuIfCollapsed(page: Page) {
+  const menuButton = page.getByRole("button", { name: "Menu" });
+
+  if (await menuButton.isVisible().catch(() => false)) {
+    await menuButton.click();
+  }
+}
+
+export async function clickTopbarButton(page: Page, name: string | RegExp) {
+  await openTopbarMenuIfCollapsed(page);
+  await page.getByRole("button", { name }).click();
+}
+
 function getStartButton(page: Page) {
   return page
     .getByRole("button", { name: "Jouer maintenant" })

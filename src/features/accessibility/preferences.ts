@@ -5,7 +5,7 @@ export type ComfortPreferences = {
   opponentLevel: "very-easy" | "easy" | "normal" | "hard" | "expert";
   computerSearchProfile: "auto" | "safe" | "balanced" | "quality";
   hintMode: "none" | "progressive" | "complete";
-  undoMode: "off" | "all-actions";
+  undoMode: "turn-only" | "all-actions";
   hintsEnabled: boolean;
   developerMode: boolean;
   soundEnabled: boolean;
@@ -24,7 +24,7 @@ export const DEFAULT_PREFERENCES: ComfortPreferences = {
   opponentLevel: "easy",
   computerSearchProfile: "auto",
   hintMode: "progressive",
-  undoMode: "all-actions",
+  undoMode: "turn-only",
   hintsEnabled: true,
   developerMode: false,
   soundEnabled: true,
@@ -41,7 +41,7 @@ const BOARD_SIZES: ComfortPreferences["boardSize"][] = [9, 11, 13, 15, 17];
 const OPPONENT_LEVELS: ComfortPreferences["opponentLevel"][] = ["very-easy", "easy", "normal", "hard", "expert"];
 const COMPUTER_SEARCH_PROFILES: ComfortPreferences["computerSearchProfile"][] = ["auto", "safe", "balanced", "quality"];
 const HINT_MODES: ComfortPreferences["hintMode"][] = ["none", "progressive", "complete"];
-const UNDO_MODES: ComfortPreferences["undoMode"][] = ["off", "all-actions"];
+const UNDO_MODES: ComfortPreferences["undoMode"][] = ["turn-only", "all-actions"];
 
 export function loadPreferences(): ComfortPreferences {
   const storage = getPreferencesStorage();
@@ -80,6 +80,10 @@ export function savePreferences(preferences: ComfortPreferences): void {
 function normalizeUndoMode(mode: unknown): ComfortPreferences["undoMode"] {
   if (mode === "last-turn") {
     return "all-actions";
+  }
+
+  if (mode === "off") {
+    return "turn-only";
   }
 
   return UNDO_MODES.includes(mode as ComfortPreferences["undoMode"])

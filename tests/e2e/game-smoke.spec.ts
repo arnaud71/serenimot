@@ -1,11 +1,12 @@
 import { expect, test } from "@playwright/test";
-import { collectBrowserErrors, installSeededRandom, startNewGame, waitForAppReady } from "./helpers";
+import { clickTopbarButton, collectBrowserErrors, installSeededRandom, startNewGame, waitForAppReady } from "./helpers";
 import {
+  addWordFromRack,
   findBestWordForRack,
   getAvailableRackLetters,
   getHumanScore,
-  placeFirstWordAtCenterFromRack,
-  touchDrag
+  placeFirstWordAtCenter,
+  placeFirstWordAtCenterFromRack
 } from "./game-test-utils";
 
 test("démarre une partie et vérifie les réglages principaux", async ({ page }) => {
@@ -20,7 +21,7 @@ test("démarre une partie et vérifie les réglages principaux", async ({ page }
   await expect(page.getByLabel("Scores")).toContainText("Vous");
   await expect(page.getByLabel("Scores")).toContainText("Grille");
 
-  await page.getByRole("button", { name: "Options" }).click();
+  await clickTopbarButton(page, "Options");
 
   await expect(page.getByRole("heading", { name: "Sérénimot" })).toBeVisible();
   await expect(page.getByLabel("Performance du robot")).toHaveValue("auto");
@@ -54,76 +55,26 @@ test("compose, pose et valide un premier mot", async ({ page }) => {
   }
 });
 
-test("glisse des lettres dans le chevalet sur écran tactile", async ({ page, browserName }) => {
-  test.skip(
-    browserName !== "chromium" || !["mobile-chrome", "tablet-android"].includes(test.info().project.name),
-    "La simulation tactile fine utilise un contexte Chromium tactile."
-  );
-
-  await installSeededRandom(page, 9);
+test("vide le chevalet quand le mot préparé est posé sur le plateau", async ({ page }) => {
+  await installSeededRandom(page, 1);
   await page.goto("/");
   await startNewGame(page);
 
-  await touchDrag(page, page.locator(".rack-tile").first(), page.locator(".prepared-word-slot[data-slot-index='0']"));
-  await touchDrag(page, page.locator(".rack-tile").first(), page.locator(".prepared-word-slot[data-slot-index='1']"));
+  const rackLetters = await getAvailableRackLetters(page);
+  const word = findBestWordForRack(rackLetters);
+  expect(word, `Aucun mot testable avec le chevalet ${rackLetters.join("")}`).not.toBeNull();
 
-  await expect(page.locator(".prepared-word-tile")).toHaveCount(2);
-  const firstBefore = await page.locator(".prepared-word-tile[data-slot-index='0'] span").textContent();
-  const secondBefore = await page.locator(".prepared-word-tile[data-slot-index='1'] span").textContent();
+  const rackTileCount = await page.locator(".rack-tile").count();
+  await addWordFromRack(page, word ?? "");
 
-  await touchDrag(
-    page,
-    page.locator(".prepared-word-tile[data-slot-index='1']"),
-    page.locator(".prepared-word-tile[data-slot-index='0']")
-  );
+  await expect(page.locator(".prepared-word-tile")).toHaveCount(word?.length ?? 0);
+  await expect(page.locator(".rack-tile")).toHaveCount(rackTileCount - (word?.length ?? 0));
 
-  await expect(page.locator(".prepared-word-tile[data-slot-index='0'] span")).toHaveText(secondBefore ?? "");
-  await expect(page.locator(".prepared-word-tile[data-slot-index='1'] span")).toHaveText(firstBefore ?? "");
-});
+  await placeFirstWordAtCenter(page, word ?? "");
 
-test("glisse une lettre déjà posée sur le plateau", async ({ page, browserName }) => {
-  test.skip(
-    browserName !== "chromium" || !["mobile-chrome", "tablet-android"].includes(test.info().project.name),
-    "La simulation tactile fine utilise un contexte Chromium tactile."
-  );
-
-  await installSeededRandom(page, 14);
-  await page.goto("/");
-  await startNewGame(page);
-
-  const sourceCell = page.locator(".board-cell[data-row='6'][data-col='6']");
-  const targetCell = page.locator(".board-cell[data-row='6'][data-col='7']");
-  const firstRackLetter = await page.locator(".rack-tile").first().locator("span").textContent();
-
-  await sourceCell.click();
-  await page.locator(".rack-tile").first().click();
-  await expect(sourceCell.locator(".board-tile-letter")).toHaveText(firstRackLetter ?? "");
-
-  await touchDrag(page, sourceCell, targetCell);
-
-  await expect(sourceCell.locator(".board-tile-letter")).toHaveCount(0);
-  await expect(targetCell.locator(".board-tile-letter")).toHaveText(firstRackLetter ?? "");
-});
-
-test("glisse une lettre du chevalet vers le plateau", async ({ page, browserName }) => {
-  test.skip(
-    browserName !== "chromium" || !["mobile-chrome", "tablet-android"].includes(test.info().project.name),
-    "La simulation tactile fine utilise un contexte Chromium tactile."
-  );
-
-  await installSeededRandom(page, 15);
-  await page.goto("/");
-  await startNewGame(page);
-
-  const centerCell = page.locator(".board-cell[data-row='6'][data-col='6']");
-  const firstRackLetter = await page.locator(".rack-tile").first().locator("span").textContent();
-
-  await touchDrag(page, page.locator(".rack-tile").first(), page.locator(".prepared-word-slot[data-slot-index='0']"));
-  await expect(page.locator(".prepared-word-tile[data-slot-index='0'] span")).toHaveText(firstRackLetter ?? "");
-
-  await touchDrag(page, page.locator(".prepared-word-tile[data-slot-index='0']"), centerCell);
-
-  await expect(centerCell.locator(".board-tile-letter")).toHaveText(firstRackLetter ?? "");
+  await expect(page.getByLabel("Chevalet vide")).toBeVisible();
+  await expect(page.locator(".prepared-word-tile")).toHaveCount(0);
+  await expect(page.locator(".rack-tile")).toHaveCount(rackTileCount - (word?.length ?? 0));
 });
 
 test("place une lettre dans un emplacement choisi du chevalet", async ({ page }) => {
@@ -159,6 +110,7 @@ test("déplace une lettre du chevalet vers l'emplacement choisi", async ({ page 
   await page.locator(".prepared-word-tile[data-slot-index='0']").click();
 
   await expect(page.locator(".prepared-word-slot[data-slot-index='0']")).toBeVisible();
+  await expect(page.locator(".prepared-word-tile")).toHaveCount(2);
   await expect(page.locator(".prepared-word-tile[data-slot-index='1'] span")).toHaveText(secondPreparedLetter ?? "");
   await expect(page.locator(".prepared-word-tile[data-slot-index='3'] span")).toHaveText(firstPreparedLetter ?? "");
 });
@@ -180,11 +132,12 @@ test("place une lettre sur une case choisie du plateau", async ({ page }) => {
   await expect(page.getByText("La lettre est posée. Vous pouvez valider ou modifier votre coup.")).toBeVisible();
 });
 
-test("priorise la case du plateau choisie sur le chevalet", async ({ page }) => {
+test("retire seulement la lettre posée sur la case du plateau choisie", async ({ page }) => {
   await installSeededRandom(page, 12);
   await page.goto("/");
   await startNewGame(page);
 
+  const preparedLetter = await page.locator(".rack-tile").first().locator("span").textContent();
   await page.locator(".rack-tile").first().click();
   await expect(page.locator(".prepared-word-tile")).toHaveCount(1);
 
@@ -198,55 +151,7 @@ test("priorise la case du plateau choisie sur le chevalet", async ({ page }) => 
 
   await expect(centerCell.locator(".board-tile-letter")).toHaveText(nextRackLetter ?? "");
   await expect(page.locator(".prepared-word-tile")).toHaveCount(1);
-});
-
-test("retire seulement la lettre du plateau cliquée", async ({ page }) => {
-  await installSeededRandom(page, 13);
-  await page.goto("/");
-  await startNewGame(page);
-
-  const firstCell = page.locator(".board-cell[data-row='6'][data-col='6']");
-  const secondCell = page.locator(".board-cell[data-row='6'][data-col='7']");
-  const firstLetter = await page.locator(".rack-tile").first().locator("span").textContent();
-  const secondLetter = await page.locator(".rack-tile").nth(1).locator("span").textContent();
-
-  await firstCell.click();
-  await page.locator(".rack-tile").first().click();
-  await secondCell.click();
-  await page.locator(".rack-tile").first().click();
-
-  await expect(firstCell.locator(".board-tile-letter")).toHaveText(firstLetter ?? "");
-  await expect(secondCell.locator(".board-tile-letter")).toHaveText(secondLetter ?? "");
-
-  await firstCell.click();
-
-  await expect(firstCell.locator(".board-tile-letter")).toHaveCount(0);
-  await expect(secondCell.locator(".board-tile-letter")).toHaveText(secondLetter ?? "");
-});
-
-test("déplace une lettre du plateau vers la case choisie", async ({ page }) => {
-  await installSeededRandom(page, 17);
-  await page.goto("/");
-  await startNewGame(page);
-
-  const firstCell = page.locator(".board-cell[data-row='6'][data-col='6']");
-  const secondCell = page.locator(".board-cell[data-row='6'][data-col='7']");
-  const targetCell = page.locator(".board-cell[data-row='7'][data-col='6']");
-  const firstLetter = await page.locator(".rack-tile").first().locator("span").textContent();
-  const secondLetter = await page.locator(".rack-tile").nth(1).locator("span").textContent();
-
-  await firstCell.click();
-  await page.locator(".rack-tile").first().click();
-  await secondCell.click();
-  await page.locator(".rack-tile").first().click();
-
-  await targetCell.click();
-  await expect(targetCell).toHaveAttribute("aria-pressed", "true");
-  await firstCell.click();
-
-  await expect(firstCell.locator(".board-tile-letter")).toHaveCount(0);
-  await expect(targetCell.locator(".board-tile-letter")).toHaveText(firstLetter ?? "");
-  await expect(secondCell.locator(".board-tile-letter")).toHaveText(secondLetter ?? "");
+  await expect(page.locator(".prepared-word-tile span")).toHaveText(preparedLetter ?? "");
 });
 
 test("cherche un indice sans bloquer l'interface", async ({ page }) => {
@@ -270,7 +175,7 @@ test("désactive le bouton indice quand les indices sont coupés", async ({ page
   await page.goto("/");
 
   await waitForAppReady(page);
-  await page.getByRole("button", { name: "Options" }).click();
+  await clickTopbarButton(page, "Options");
   await page.getByLabel("Indice").selectOption("none");
   await page.getByRole("button", { name: "Retour" }).click();
   await startNewGame(page);
@@ -286,7 +191,7 @@ test("affiche l'indice complet sans numérotation progressive", async ({ page })
   await page.goto("/");
 
   await waitForAppReady(page);
-  await page.getByRole("button", { name: "Options" }).click();
+  await clickTopbarButton(page, "Options");
   await page.getByLabel("Indice").selectOption("complete");
   await page.getByRole("button", { name: "Retour" }).click();
   await startNewGame(page);

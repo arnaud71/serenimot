@@ -1,6 +1,6 @@
 # Sérénimot
 
-Jeu original de lettres croisées sur grille, sans compte, sans publicité, jouable hors ligne et installable comme PWA.
+Jeu original de lettres croisées sur grille, sans compte, sans publicité, jouable en ligne et installable comme une application.
 
 Site officiel : [serenimot.fr](https://serenimot.fr/). L'application reste aussi accessible via [GitHub Pages](https://arnaud71.github.io/serenimot/). Le code et la documentation sont disponibles dans le [dépôt GitHub](https://github.com/arnaud71/serenimot).
 

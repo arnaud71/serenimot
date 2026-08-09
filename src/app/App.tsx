@@ -30,6 +30,7 @@ type ExplanationsStatus = "idle" | "loading" | "partial" | "ready" | "fallback";
 type TextScale = typeof DEFAULT_PREFERENCES.textScale;
 type HintMode = typeof DEFAULT_PREFERENCES.hintMode;
 type ComputerSearchPreference = typeof DEFAULT_PREFERENCES.computerSearchProfile;
+type UndoMode = typeof DEFAULT_PREFERENCES.undoMode;
 type VisualHintProps = {
   "aria-description": string;
   "data-tooltip"?: string;
@@ -68,6 +69,19 @@ const HINT_MODE_OPTIONS: { value: HintMode; label: string; description: string }
   { value: "complete", label: "Indice complet", description: "Un appui donne directement le meilleur mot trouvé." }
 ];
 
+const UNDO_MODE_OPTIONS: { value: UndoMode; label: string; description: string }[] = [
+  {
+    value: "turn-only",
+    label: "Tour en cours seulement",
+    description: "Permet de défaire ou refaire les actions du tour en cours, sans revenir au tour précédent."
+  },
+  {
+    value: "all-actions",
+    label: "Historique complet",
+    description: "Permet de défaire ou refaire plusieurs actions, y compris sur les tours précédents."
+  }
+];
+
 const COMPUTER_SEARCH_PROFILE_OPTIONS: { value: ComputerSearchPreference; label: string; description: string }[] = [
   {
     value: "auto",
@@ -94,7 +108,7 @@ const GAME_EXPLANATION_LENGTHS = [2, 3, 4] as const;
 const PROMO_URL = OFFICIAL_SITE_URL;
 const PROMO_TITLE = "Sérénimot - jeu original de lettres croisées sur grille";
 const PROMO_DESCRIPTION =
-  "Jeu original de lettres croisées sur grille, gratuit, en code ouvert, sans compte, sans publicité, jouable hors ligne et installable comme PWA.";
+  "Jeu original de lettres croisées sur grille, gratuit, en code ouvert, sans compte, sans publicité, jouable en ligne et installable comme une application.";
 const SHARE_TEXT = `${PROMO_TITLE}. ${PROMO_DESCRIPTION}`;
 const ASSET_BASE_URL = import.meta.env.BASE_URL;
 const APP_ICON_URL = `${ASSET_BASE_URL}icons/icon.svg`;
@@ -234,7 +248,7 @@ function PromoHome({
           </div>
           <p className="promo-lead">
             Jeu original de lettres croisées sur grille, gratuit, en code ouvert, sans compte, sans
-            publicité, jouable hors ligne et installable comme PWA.
+            publicité, jouable en ligne et installable comme une application.
           </p>
           <div className="home-actions promo-actions">
             <button type="button" onClick={onNewGame} disabled={!canPlay}>
@@ -250,7 +264,7 @@ function PromoHome({
               Lexique
             </button>
             <button className="secondary-button" type="button" onClick={onPwaInfoRequest}>
-              C'est quoi une PWA ?
+              Installation sans store
             </button>
             <a className="promo-action-link" href="#installation">
               Installer sur mon téléphone
@@ -336,7 +350,7 @@ function PromoHome({
             L'application se lancera ensuite comme une app classique.
           </p>
           <button className="secondary-button" type="button" onClick={onPwaInfoRequest}>
-            C'est quoi une PWA ?
+            Installation sans store
           </button>
         </div>
         <div className="promo-install-steps">
@@ -429,7 +443,7 @@ function PromoHome({
           Page Lexique
         </button>
         <button type="button" onClick={onPwaInfoRequest}>
-          C'est quoi une PWA ?
+          Installation sans store
         </button>
         <a href={PROJECT_REPOSITORY_URL} target="_blank" rel="noreferrer">
           Projet GitHub
@@ -987,27 +1001,25 @@ export function App() {
           <p className="setting-help">
             {HINT_MODE_OPTIONS.find((option) => option.value === preferences.hintMode)?.description}
           </p>
-          <div
-            className="setting-row checkbox-setting"
-            {...optionHintProps("Affiche ou masque les boutons pour défaire et refaire les actions.")}
+          <label
+            className="setting-row"
+            {...optionHintProps("Choisit jusqu'où les boutons pour défaire et refaire peuvent remonter.")}
           >
             <span>Annuler / refaire</span>
-            <label className="toggle-setting">
-              <span>{preferences.undoMode === "all-actions" ? "Actif" : "Inactif"}</span>
-              <input
-                aria-label="Annuler / refaire"
-                type="checkbox"
-                checked={preferences.undoMode === "all-actions"}
-                onChange={(event) =>
-                  setPreferences({ ...preferences, undoMode: event.target.checked ? "all-actions" : "off" })
-                }
-              />
-            </label>
-          </div>
+            <select
+              aria-label="Annuler / refaire"
+              value={preferences.undoMode}
+              onChange={(event) => setPreferences({ ...preferences, undoMode: event.target.value as UndoMode })}
+            >
+              {UNDO_MODE_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </label>
           <p className="setting-help">
-            {preferences.undoMode === "all-actions"
-              ? "Affiche les boutons ↶ et ↷ pour revenir en arrière ou refaire une action."
-              : "Masque les boutons ↶ et ↷ pendant la partie."}
+            {UNDO_MODE_OPTIONS.find((option) => option.value === preferences.undoMode)?.description}
           </p>
           {import.meta.env.DEV ? (
             <>

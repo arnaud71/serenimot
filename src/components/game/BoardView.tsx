@@ -1,12 +1,14 @@
-import { useEffect, useRef, useState } from "react";
-import type { DragEvent, PointerEvent, Ref } from "react";
 import { Board, getBoardCenter } from "../../domain/tiles/types";
 import type { BonusKind } from "../../domain/tiles/types";
 import type { BestMoveHint } from "../../domain/turns/hints";
+import type { DragEvent } from "react";
+
+const TILE_DRAG_MIME = "text/serenimot-tile-id";
 
 type BoardViewProps = {
   board: Board;
   selectedBoardCellKey: string | null;
+  referenceBoardCellKey: string | null;
   hint: BestMoveHint | null;
   hintAreaCellKeys: string[];
   hintAnchorCellKeys: string[];
@@ -26,11 +28,7 @@ type BoardViewProps = {
   floatingScorePreview: number | null;
   onCellClick: (row: number, col: number) => void;
   onCellDoubleClick: (row: number, col: number) => void;
-  onPendingWordDrop: (row: number, col: number, sourceRow?: number, sourceCol?: number) => void;
   onTileDrop: (tileId: string, row: number, col: number) => void;
-  onFloatingWordDrag: (row: number, col: number) => void;
-  onFloatingWordDragEnd: () => void;
-  onFloatingWordDrop: (row: number, col: number) => void;
 };
 
 export type BoardPreviewCell = {
@@ -85,25 +83,10 @@ const BONUS_HINTS: Record<BonusKind, string> = {
   calm: "Sérénité +1 : la lettre posée ici gagne 1 point."
 };
 
-const TILE_DRAG_MIME = "text/serenimot-tile-id";
-const PENDING_WORD_DRAG_MIME = "text/serenimot-pending-word";
-const TOUCH_DRAG_THRESHOLD_PX = 8;
-
-type BoardTouchDragState = {
-  tileId: string;
-  letter: string;
-  value: number;
-  pointerId: number;
-  startX: number;
-  startY: number;
-  x: number;
-  y: number;
-  active: boolean;
-};
-
 export function BoardView({
   board,
   selectedBoardCellKey,
+  referenceBoardCellKey,
   hint,
   hintAreaCellKeys,
   hintAnchorCellKeys,
@@ -123,185 +106,14 @@ export function BoardView({
   floatingScorePreview,
   onCellClick,
   onCellDoubleClick,
-  onPendingWordDrop,
-  onTileDrop,
-  onFloatingWordDrag,
-  onFloatingWordDragEnd,
-  onFloatingWordDrop
+  onTileDrop
 }: BoardViewProps) {
-  const boardRef = useRef<HTMLDivElement | null>(null);
-  const floatingWordRef = useRef<HTMLDivElement | null>(null);
-  const [dragPosition, setDragPosition] = useState<{ x: number; y: number } | null>(null);
-  const [isDraggingFloatingWord, setIsDraggingFloatingWord] = useState(false);
-  const [touchDrag, setTouchDrag] = useState<BoardTouchDragState | null>(null);
-  const [expandedBonusKey, setExpandedBonusKey] = useState<string | null>(null);
-  const touchDragRef = useRef<BoardTouchDragState | null>(null);
-  const ignoreNextClickRef = useRef(false);
   const center = getBoardCenter(board);
-
-  useEffect(() => {
-    setDragPosition(null);
-    setIsDraggingFloatingWord(false);
-  }, [floatingPreparedWord?.word, floatingPreparedWord?.direction]);
-
-  function handleFloatingPointerDown(event: PointerEvent<HTMLDivElement>) {
-    const boardRect = boardRef.current?.getBoundingClientRect();
-
-    if (!boardRect || !floatingPreparedWord) {
-      return;
-    }
-
-    event.preventDefault();
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setIsDraggingFloatingWord(true);
-    const nextPosition = {
-      x: event.clientX - boardRect.left,
-      y: event.clientY - boardRect.top
-    };
-    setDragPosition(nextPosition);
-    const dragCell = getFloatingWordDropCellFromPosition(boardRef.current, nextPosition, floatingPreparedWord);
-    if (dragCell) {
-      onFloatingWordDrag(dragCell.row, dragCell.col);
-    } else {
-      onFloatingWordDragEnd();
-    }
-  }
-
-  function handleFloatingPointerMove(event: PointerEvent<HTMLDivElement>) {
-    if (!isDraggingFloatingWord || !floatingPreparedWord) {
-      return;
-    }
-
-    const boardRect = boardRef.current?.getBoundingClientRect();
-
-    if (!boardRect) {
-      return;
-    }
-
-    const nextPosition = {
-      x: event.clientX - boardRect.left,
-      y: event.clientY - boardRect.top
-    };
-    setDragPosition(nextPosition);
-    const dragCell = getFloatingWordDropCellFromPosition(boardRef.current, nextPosition, floatingPreparedWord);
-    if (dragCell) {
-      onFloatingWordDrag(dragCell.row, dragCell.col);
-    } else {
-      onFloatingWordDragEnd();
-    }
-  }
-
-  function handleFloatingPointerUp(event: PointerEvent<HTMLDivElement>) {
-    if (!isDraggingFloatingWord || !floatingPreparedWord) {
-      return;
-    }
-
-    event.currentTarget.releasePointerCapture(event.pointerId);
-    setIsDraggingFloatingWord(false);
-
-    const boardRect = boardRef.current?.getBoundingClientRect();
-    const dropCell = boardRect
-      ? getFloatingWordDropCellFromPosition(
-          boardRef.current,
-          {
-            x: event.clientX - boardRect.left,
-            y: event.clientY - boardRect.top
-          },
-          floatingPreparedWord
-        )
-      : null;
-    if (dropCell) {
-      onFloatingWordDrop(dropCell.row, dropCell.col);
-    } else {
-      onFloatingWordDragEnd();
-    }
-  }
-
-  function handleTilePointerDown(
-    event: PointerEvent<HTMLButtonElement>,
-    tileId: string,
-    letter: string,
-    value: number
-  ) {
-    if (event.pointerType === "mouse") {
-      return;
-    }
-
-    event.currentTarget.setPointerCapture(event.pointerId);
-    const nextDrag = {
-      tileId,
-      letter,
-      value,
-      pointerId: event.pointerId,
-      startX: event.clientX,
-      startY: event.clientY,
-      x: event.clientX,
-      y: event.clientY,
-      active: false
-    };
-    touchDragRef.current = nextDrag;
-    setTouchDrag(nextDrag);
-  }
-
-  function handleTilePointerMove(event: PointerEvent<HTMLButtonElement>) {
-    const currentDrag = touchDragRef.current;
-
-    if (!currentDrag || currentDrag.pointerId !== event.pointerId) {
-      return;
-    }
-
-    const distance = Math.hypot(event.clientX - currentDrag.startX, event.clientY - currentDrag.startY);
-    const active = currentDrag.active || distance >= TOUCH_DRAG_THRESHOLD_PX;
-
-    if (active) {
-      event.preventDefault();
-      ignoreNextClickRef.current = true;
-    }
-
-    const nextDrag = {
-      ...currentDrag,
-      x: event.clientX,
-      y: event.clientY,
-      active
-    };
-    touchDragRef.current = nextDrag;
-    setTouchDrag(nextDrag);
-  }
-
-  function handleTilePointerUp(event: PointerEvent<HTMLButtonElement>) {
-    const currentDrag = touchDragRef.current;
-
-    if (!currentDrag || currentDrag.pointerId !== event.pointerId) {
-      return;
-    }
-
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
-      event.currentTarget.releasePointerCapture(event.pointerId);
-    }
-
-    touchDragRef.current = null;
-    setTouchDrag(null);
-
-    if (!currentDrag.active) {
-      return;
-    }
-
-    event.preventDefault();
-    ignoreNextClickRef.current = true;
-    const boardCell = document.elementFromPoint(event.clientX, event.clientY)?.closest(".board-cell");
-    const row = Number((boardCell as HTMLElement | null)?.dataset.row);
-    const col = Number((boardCell as HTMLElement | null)?.dataset.col);
-
-    if (Number.isInteger(row) && Number.isInteger(col)) {
-      onTileDrop(currentDrag.tileId, row, col);
-    }
-  }
 
   return (
     <div className="board-shell" aria-label="Plateau de jeu">
       <div className="board-stage">
         <div
-          ref={boardRef}
           className="board"
           role="grid"
           aria-rowcount={board.length}
@@ -322,13 +134,13 @@ export function BoardView({
               const isLastMoveCell = lastMoveCellKeys.includes(`${cell.row}:${cell.col}`);
               const cellKey = `${cell.row}:${cell.col}`;
               const isSelectedBoardCell = selectedBoardCellKey === cellKey;
+              const isReferenceBoardCell = referenceBoardCellKey === cellKey;
               const isHintAreaCell = hintAreaCellKeys.includes(cellKey);
               const isHintAnchorCell = hintAnchorCellKeys.includes(cellKey);
               const isHintPositionCell = hintPositionCellKeys.includes(cellKey);
               const isNearLeftEdge = cell.col <= 1;
               const isNearRightEdge = cell.col >= board.length - 2;
               const isNearTopEdge = cell.row <= 1;
-              const isExpandedBonus = expandedBonusKey === cellKey;
               const isAnimatedCell = animatedCellKeys.includes(cellKey);
               const isConsumedBonus = Boolean(tile?.committed && cell.bonus !== "plain");
               const bonusHint = isConsumedBonus
@@ -339,7 +151,7 @@ export function BoardView({
                 (animationCell) => animationCell.row === cell.row && animationCell.col === cell.col
               );
               const label = tile
-                ? `Ligne ${cell.row + 1}, colonne ${cell.col + 1}, lettre ${tile.letter}${cell.bonus !== "plain" ? `, ${bonusName}` : ""}${isPreparedBoardTile ? ", choisie dans le mot préparé" : ""}${isNewWordCell ? ", dans un mot créé par ce coup" : ""}${isLastMoveCell ? ", lettre du dernier coup joué" : ""}${isAnimatedCell ? ", lettre jouée par le robot" : ""}${bonusAnimation ? `, bonus ${BONUS_NAMES[bonusAnimation.bonus]} appliqué` : ""}${isInvalidCell ? ", à vérifier" : ""}`
+                ? `Ligne ${cell.row + 1}, colonne ${cell.col + 1}, lettre ${tile.letter}${cell.bonus !== "plain" ? `, ${bonusName}` : ""}${isReferenceBoardCell ? ", début du mot en cours" : ""}${isPreparedBoardTile ? ", choisie dans le mot préparé" : ""}${isNewWordCell ? ", dans un mot créé par ce coup" : ""}${isLastMoveCell ? ", lettre du dernier coup joué" : ""}${isAnimatedCell ? ", lettre jouée par le robot" : ""}${bonusAnimation ? `, bonus ${BONUS_NAMES[bonusAnimation.bonus]} appliqué` : ""}${isInvalidCell ? ", à vérifier" : ""}`
                 : previewLetter
                   ? `Ligne ${cell.row + 1}, colonne ${cell.col + 1}, aperçu lettre ${previewLetter}${hintPreviewLetter ? ", lettre révélée par l'indice" : ""}${errorPreviewLetter ? ", pose refusée" : ""}`
                   : isHintPositionCell
@@ -352,7 +164,7 @@ export function BoardView({
 
               return (
                 <button
-                  className={`board-cell bonus-${cell.bonus} ${cell.row === center && cell.col === center ? "center-cell" : ""} ${isNearLeftEdge ? "tooltip-left-edge" : ""} ${isNearRightEdge ? "tooltip-right-edge" : ""} ${isNearTopEdge ? "tooltip-top-edge" : ""} ${isHintAreaCell ? "hint-area-cell" : ""} ${isHintAnchorCell ? "hint-anchor-cell" : ""} ${isHintPositionCell ? "hint-position-cell" : ""} ${isSelectedBoardCell ? "selected-board-cell" : ""} ${isLastMoveCell ? "last-move-cell" : ""} ${isNewWordCell ? "new-word-cell" : ""} ${isExpandedBonus ? "expanded-bonus-cell" : ""} ${isAnimatedCell ? "computer-move-cell" : ""} ${bonusAnimation ? `bonus-score-cell bonus-score-${bonusAnimation.bonus}-cell` : ""} ${isInvalidCell ? "invalid-cell" : ""}`}
+                  className={`board-cell bonus-${cell.bonus} ${cell.row === center && cell.col === center ? "center-cell" : ""} ${isNearLeftEdge ? "tooltip-left-edge" : ""} ${isNearRightEdge ? "tooltip-right-edge" : ""} ${isNearTopEdge ? "tooltip-top-edge" : ""} ${isHintAreaCell ? "hint-area-cell" : ""} ${isHintAnchorCell ? "hint-anchor-cell" : ""} ${isHintPositionCell ? "hint-position-cell" : ""} ${isSelectedBoardCell ? "selected-board-cell" : ""} ${isLastMoveCell ? "last-move-cell" : ""} ${isNewWordCell ? "new-word-cell" : ""} ${isAnimatedCell ? "computer-move-cell" : ""} ${bonusAnimation ? `bonus-score-cell bonus-score-${bonusAnimation.bonus}-cell` : ""} ${isInvalidCell ? "invalid-cell" : ""}`}
                   key={`${cell.row}-${cell.col}`}
                   type="button"
                   role="gridcell"
@@ -360,40 +172,30 @@ export function BoardView({
                   data-col={cell.col}
                   aria-label={label}
                   aria-pressed={isPreparedBoardTile || isSelectedBoardCell}
-                  draggable={Boolean(tile && !tile.committed)}
-                  onClick={() => {
-                    if (ignoreNextClickRef.current) {
-                      ignoreNextClickRef.current = false;
-                      return;
-                    }
-
-                    setExpandedBonusKey(cell.bonus === "plain" || expandedBonusKey === cellKey ? null : cellKey);
-                    onCellClick(cell.row, cell.col);
-                  }}
+                  onClick={() => onCellClick(cell.row, cell.col)}
                   onDoubleClick={() => onCellDoubleClick(cell.row, cell.col)}
-                  onDragStart={(event) => {
-                    if (tile && !tile.committed) {
-                      event.dataTransfer.setData(TILE_DRAG_MIME, tile.id);
-                      event.dataTransfer.setData("text/plain", tile.id);
-                      event.dataTransfer.effectAllowed = "move";
-                    }
-                  }}
                   onDragOver={(event) => event.preventDefault()}
-                  onDrop={(event) => handleBoardDrop(event, cell.row, cell.col, onTileDrop, onPendingWordDrop)}
-                  onPointerDown={(event) => {
-                    if (tile && !tile.committed && tile.owner === "human") {
-                      handleTilePointerDown(event, tile.id, tile.letter, tile.value);
+                  onDrop={(event) => {
+                    event.preventDefault();
+                    const tileId = getDraggedTileId(event);
+
+                    if (tileId) {
+                      onTileDrop(tileId, cell.row, cell.col);
                     }
                   }}
-                  onPointerMove={handleTilePointerMove}
-                  onPointerCancel={() => {
-                    touchDragRef.current = null;
-                    setTouchDrag(null);
-                  }}
-                  onPointerUp={handleTilePointerUp}
                 >
                   {tile ? (
-                    <span className={`board-tile ${tile.committed ? "committed" : "pending"} ${isPendingWordSelected && !tile.committed && tile.owner === "human" ? "selected-pending-word-tile" : ""} ${isPreparedBoardTile ? "selected-board-tile" : ""} ${isAnimatedCell ? "computer-move-tile" : ""} ${isInvalidCell ? "invalid-board-tile" : ""}`}>
+                    <span
+                      className={`board-tile ${tile.committed ? "committed" : "pending"} ${isPendingWordSelected && !tile.committed && tile.owner === "human" ? "selected-pending-word-tile" : ""} ${isReferenceBoardCell ? "reference-board-tile" : ""} ${isPreparedBoardTile ? "selected-board-tile" : ""} ${isAnimatedCell ? "computer-move-tile" : ""} ${isInvalidCell ? "invalid-board-tile" : ""}`}
+                      draggable={!tile.committed && tile.owner === "human"}
+                      onDragStart={(event) => {
+                        if (tile.committed || tile.owner !== "human") {
+                          return;
+                        }
+
+                        setDraggedTileId(event, tile.id);
+                      }}
+                    >
                       <span className="board-tile-letter">{tile.letter}</span>
                       <small>{tile.value}</small>
                     </span>
@@ -412,7 +214,7 @@ export function BoardView({
                     </>
                   )}
                   {cell.bonus !== "plain" ? (
-                    <span className={`bonus-tooltip${isExpandedBonus ? " bonus-tooltip-expanded" : ""}`} aria-hidden="true">
+                    <span className="bonus-tooltip" aria-hidden="true">
                       {bonusHint}
                     </span>
                   ) : null}
@@ -422,31 +224,25 @@ export function BoardView({
           )}
         </div>
         {boardScorePreview ? <BoardScoreBadge preview={boardScorePreview} /> : null}
-        {touchDrag?.active ? (
-          <span
-            className="touch-drag-tile"
-            style={{ left: `${touchDrag.x}px`, top: `${touchDrag.y}px` }}
-            aria-hidden="true"
-          >
-            <span>{touchDrag.letter}</span>
-            <small>{touchDrag.value}</small>
-          </span>
-        ) : null}
         {floatingPreparedWord ? (
           <FloatingPreparedWord
-            dragPosition={dragPosition}
-            isDragging={isDraggingFloatingWord}
-            onPointerDown={handleFloatingPointerDown}
-            onPointerMove={handleFloatingPointerMove}
-            onPointerUp={handleFloatingPointerUp}
             preview={floatingPreparedWord}
-            floatingRef={floatingWordRef}
             scorePreview={floatingScorePreview}
           />
         ) : null}
       </div>
     </div>
   );
+}
+
+function setDraggedTileId(event: DragEvent<HTMLElement>, tileId: string) {
+  event.dataTransfer.setData(TILE_DRAG_MIME, tileId);
+  event.dataTransfer.setData("text/plain", tileId);
+  event.dataTransfer.effectAllowed = "move";
+}
+
+function getDraggedTileId(event: DragEvent<HTMLElement>): string {
+  return event.dataTransfer.getData(TILE_DRAG_MIME) || event.dataTransfer.getData("text/plain");
 }
 
 function BoardScoreBadge({ preview }: { preview: BoardScorePreview }) {
@@ -464,73 +260,20 @@ function BoardScoreBadge({ preview }: { preview: BoardScorePreview }) {
   );
 }
 
-function handleBoardDrop(
-  event: DragEvent<HTMLButtonElement>,
-  row: number,
-  col: number,
-  onTileDrop: (tileId: string, row: number, col: number) => void,
-  onPendingWordDrop: (row: number, col: number, sourceRow?: number, sourceCol?: number) => void
-) {
-  event.preventDefault();
-  const pendingWord = event.dataTransfer.getData(PENDING_WORD_DRAG_MIME);
-  if (pendingWord) {
-    const source = parsePendingWordDragSource(pendingWord);
-    onPendingWordDrop(row, col, source?.row, source?.col);
-    return;
-  }
-
-  const tileId = event.dataTransfer.getData(TILE_DRAG_MIME) || event.dataTransfer.getData("text/plain");
-
-  if (tileId) {
-    onTileDrop(tileId, row, col);
-  }
-}
-
-function parsePendingWordDragSource(value: string): { row: number; col: number } | null {
-  const match = value.match(/^(\d+):(\d+)$/u);
-
-  if (!match) {
-    return null;
-  }
-
-  return {
-    row: Number(match[1]),
-    col: Number(match[2])
-  };
-}
-
 type FloatingPreparedWordProps = {
-  dragPosition: { x: number; y: number } | null;
-  floatingRef: Ref<HTMLDivElement>;
-  isDragging: boolean;
-  onPointerDown: (event: PointerEvent<HTMLDivElement>) => void;
-  onPointerMove: (event: PointerEvent<HTMLDivElement>) => void;
-  onPointerUp: (event: PointerEvent<HTMLDivElement>) => void;
   preview: BoardFloatingWord;
   scorePreview: number | null;
 };
 
 function FloatingPreparedWord({
-  dragPosition,
-  floatingRef,
-  isDragging,
-  onPointerDown,
-  onPointerMove,
-  onPointerUp,
   preview,
   scorePreview
 }: FloatingPreparedWordProps) {
   return (
     <div
-      ref={floatingRef}
-      className={`floating-prepared-word floating-prepared-word-${preview.direction} ${isDragging ? "dragging" : ""}`}
-      style={getFloatingWordStyle(preview, dragPosition)}
-      aria-label={`Déplacer le mot préparé ${preview.word}`}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      role="button"
-      tabIndex={0}
+      className={`floating-prepared-word floating-prepared-word-${preview.direction}`}
+      style={getFloatingWordStyle(preview)}
+      aria-label={`Aperçu du mot préparé ${preview.word}`}
     >
       {[...preview.word].map((letter, index) => (
         <span key={`${letter}-${index}`}>{letter}</span>
@@ -544,17 +287,7 @@ function FloatingPreparedWord({
   );
 }
 
-function getFloatingWordStyle(
-  preview: BoardFloatingWord,
-  dragPosition: { x: number; y: number } | null
-): { left?: string; top?: string } | undefined {
-  if (dragPosition) {
-    return {
-      left: `${dragPosition.x}px`,
-      top: `${dragPosition.y}px`
-    };
-  }
-
+function getFloatingWordStyle(preview: BoardFloatingWord): { left?: string; top?: string } | undefined {
   if (preview.row === undefined || preview.col === undefined) {
     return undefined;
   }
@@ -563,37 +296,6 @@ function getFloatingWordStyle(
     left: `calc(${preview.col} * (var(--cell) + 0.18rem) + var(--cell) / 2)`,
     top: `calc(${preview.row} * (var(--cell) + 0.18rem) + var(--cell) / 2)`
   };
-}
-
-function getFloatingWordDropCellFromPosition(
-  boardElement: HTMLDivElement | null,
-  position: { x: number; y: number },
-  preview: BoardFloatingWord
-): { row: number; col: number } | null {
-  const firstCellRect = boardElement?.querySelector(".board-cell")?.getBoundingClientRect();
-  const boardStyle = boardElement ? getComputedStyle(boardElement) : null;
-
-  if (!boardElement || !firstCellRect || !boardStyle) {
-    return null;
-  }
-
-  const gap = Number.parseFloat(boardStyle.columnGap) || 0;
-  const stepX = firstCellRect.width + gap;
-  const stepY = firstCellRect.height + gap;
-  const firstLetterX =
-    preview.direction === "row" ? position.x - ((preview.word.length - 1) * stepX) / 2 : position.x;
-  const firstLetterY =
-    preview.direction === "col" ? position.y - ((preview.word.length - 1) * stepY) / 2 : position.y;
-  const col = Math.floor(firstLetterX / stepX);
-  const row = Math.floor(firstLetterY / stepY);
-
-  const boardSize = boardElement.querySelectorAll(".board-cell[data-row='0']").length;
-
-  if (row < 0 || row >= boardSize || col < 0 || col >= boardSize) {
-    return null;
-  }
-
-  return { row, col };
 }
 
 function getPreparedPreviewLetter(previewCells: BoardPreviewCell[], row: number, col: number): string | null {

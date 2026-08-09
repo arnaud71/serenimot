@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { collectBrowserErrors, installSeededRandom, startNewGame, waitForAppReady } from "./helpers";
+import { clickTopbarButton, collectBrowserErrors, installSeededRandom, startNewGame, waitForAppReady } from "./helpers";
 
 test("enchaîne indices et coups ordinateur sans erreur navigateur", async ({ page }) => {
   test.setTimeout(60_000);
@@ -9,7 +9,7 @@ test("enchaîne indices et coups ordinateur sans erreur navigateur", async ({ pa
   await page.goto("/");
 
   await waitForAppReady(page);
-  await page.getByRole("button", { name: "Options" }).click();
+  await clickTopbarButton(page, "Options");
   await page.getByLabel("Mode dev").check();
   await page.getByRole("button", { name: "Retour" }).click();
   await startNewGame(page);

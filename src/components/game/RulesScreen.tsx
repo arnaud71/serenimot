@@ -55,18 +55,18 @@ const INTERACTION_GUIDES = [
       "Après avoir choisi une case, touchez une lettre disponible. Elle est posée immédiatement sur le plateau."
   },
   {
-    title: "Déplacer une lettre déjà posée",
+    title: "Retirer une lettre déjà posée",
     image: `${DOCS_IMAGE_BASE_URL}06-board-letter-moved-to-selected-cell.png`,
-    alt: "Lettre déjà posée déplacée vers une case précédemment sélectionnée.",
+    alt: "Lettre déjà posée pendant le tour retirée du plateau.",
     description:
-      "Si une case vide est déjà sélectionnée, touchez une lettre posée pendant le tour pour la déplacer vers cette case."
+      "Touchez une lettre posée pendant le tour pour la retirer, puis reposez-la ailleurs si nécessaire."
   },
   {
     title: "Préparer un mot dans le chevalet",
     image: `${DOCS_IMAGE_BASE_URL}08-prepared-word-in-rack.png`,
     alt: "Mot préparé dans le chevalet avant d'être posé.",
     description:
-      "Le chevalet permet d'organiser plusieurs lettres avant de poser le mot en une seule action. Il reste possible de déplacer les lettres dans le chevalet avant la pose."
+      "Le chevalet permet d'organiser plusieurs lettres avant de poser le mot en une seule action."
   },
   {
     title: "Poser un mot préparé",
@@ -133,7 +133,7 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
               <li>Touchez une case vide du plateau pour choisir la destination d'une lettre.</li>
               <li>Touchez une case compatible pour poser un mot préparé de plusieurs lettres.</li>
               <li>Validez seulement quand le mot est correct.</li>
-              <li>Vous pouvez déplacer, retirer, reprendre, effacer ou annuler votre coup avant validation.</li>
+              <li>Vous pouvez retirer, reprendre, effacer ou annuler votre coup avant validation.</li>
               <li>Vous pouvez échanger des lettres disponibles si la pioche contient assez de lettres ; cela passe votre tour.</li>
             </ul>
           </article>
@@ -176,8 +176,8 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
         <section className="rules-section" aria-labelledby="interaction-doc-title">
           <h2 id="interaction-doc-title">Documentation des interactions</h2>
           <p>
-            Le jeu propose toujours une alternative au glisser-déposer. Les gestes principaux
-            fonctionnent à la souris, au trackpad ou au toucher selon l'appareil.
+            Les gestes principaux fonctionnent par sélection puis toucher ou clic. Le glisser-déposer
+            est mis de côté pendant la refonte des déplacements.
           </p>
           <div className="interaction-guide-grid">
             {INTERACTION_GUIDES.map((guide) => (
