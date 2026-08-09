@@ -34,13 +34,14 @@ Après le choix d'une lettre, elle apparaît sur le plateau. Le coup peut encore
 
 ![Lettre posée depuis la réserve](assets/interactions/03-board-letter-placed-from-rack.png)
 
-## Déplacer une lettre déjà posée
+## Déplacer une suite déjà posée
 
-Une lettre posée pendant le tour peut être déplacée sans utiliser le glisser-déposer.
+Une suite de lettres posée pendant le tour peut être déplacée sans utiliser le glisser-déposer.
+Le début du mot reste toujours la référence.
 
-1. sélectionner une nouvelle case vide ;
-2. toucher ou cliquer la lettre déjà posée ;
-3. la lettre est déplacée vers la case sélectionnée.
+1. toucher ou cliquer une case vide pour déplacer le début du mot à cet endroit ;
+2. ou toucher une lettre déjà posée pendant le tour pour déplacer le début du mot sur cette lettre ;
+3. les lettres du tour gardent leur ordre et leurs positions relatives dans le mot visible.
 
 Deux lettres sont ici déjà posées pendant le tour.
 
@@ -50,11 +51,11 @@ La nouvelle case de destination est sélectionnée.
 
 ![Destination sélectionnée avant déplacement](assets/interactions/05-board-destination-selected-before-moving-letter.png)
 
-La lettre cliquée est déplacée vers cette destination. Les autres lettres du coup restent en place.
+La suite est déplacée vers cette destination. Les autres lettres du coup suivent le début du mot.
 
 ![Lettre déplacée vers la case sélectionnée](assets/interactions/06-board-letter-moved-to-selected-cell.png)
 
-Sans case destination sélectionnée, un clic sur une lettre posée pendant le tour retire uniquement cette lettre du plateau.
+Pour retirer une seule lettre posée pendant le tour, double-cliquer ou double-toucher cette lettre.
 
 ## Utiliser le chevalet
 
@@ -115,8 +116,9 @@ La zone de préparation mobile conserve les mêmes fonctions que sur ordinateur,
 | --- | --- | --- |
 | Case vide du plateau | Cliquer ou toucher | La case devient la destination sélectionnée. |
 | Case sélectionnée + lettre disponible | Cliquer ou toucher la lettre | La lettre est posée sur la case sélectionnée. |
-| Case sélectionnée + lettre déjà posée ce tour | Cliquer ou toucher la lettre | La lettre est déplacée vers la case sélectionnée. |
-| Lettre déjà posée ce tour, sans case sélectionnée | Cliquer ou toucher | Seule cette lettre est retirée du plateau. |
+| Mot déjà posé ce tour + case vide | Cliquer ou toucher la case | Le début du mot est déplacé sur cette case. |
+| Mot déjà posé ce tour + lettre du même mot | Cliquer ou toucher la lettre | Le début du mot est déplacé sur cette lettre. |
+| Lettre déjà posée ce tour | Double-cliquer ou double-toucher | Seule cette lettre est retirée du plateau. |
 | Lettre du chevalet | Glisser vers le plateau | La lettre est posée sur la case visée. |
 | Lettre déjà posée sur le plateau | Glisser vers une case vide | La lettre est déplacée vers cette case. |
 | Emplacement vide du chevalet | Cliquer ou toucher | L'emplacement devient la destination sélectionnée. |
@@ -129,7 +131,8 @@ La zone de préparation mobile conserve les mêmes fonctions que sur ordinateur,
 ## Points de cohérence à préserver
 
 - Le glisser-déposer ne doit jamais être la seule méthode disponible.
-- Un clic sur une lettre posée ne doit jamais retirer tout le mot.
+- Un clic sur une lettre du mot posé doit déplacer la suite, pas retirer tout le mot.
+- Un double-clic sur une lettre posée ne doit retirer que cette lettre.
 - La sélection d'une destination doit être visible.
 - Le mode échange doit toujours annoncer qu'il passe le tour et qu'il peut être annulé avant confirmation.
 - Les actions mobiles ne doivent pas créer de doublons accessibles avec les actions ordinateur.

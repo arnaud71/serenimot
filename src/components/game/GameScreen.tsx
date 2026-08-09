@@ -1922,7 +1922,7 @@ export function GameScreen({
               : hint
               ? getHintInstruction(hintLevel, usesProgressiveHints)
               : pendingTurnWord
-                ? "Validez le mot ou touchez une lettre posée pour la retirer."
+                ? "Validez le mot, touchez une case pour le déplacer, ou double-touchez une lettre pour la retirer."
               : displayedPreparedWord
                 ? "Touchez une case du plateau pour poser le mot préparé."
               : selectedTile

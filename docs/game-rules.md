@@ -40,7 +40,9 @@ Après un échange, le jeu vérifie la fin de partie comme après un tour passé
 
 ## Préparation et placement
 
-Le joueur peut poser une lettre en touchant d'abord une case vide du plateau, puis une lettre disponible. La même logique permet de déplacer une lettre déjà posée pendant le tour : une case vide est choisie, puis la lettre posée est touchée.
+Le joueur peut poser une lettre en touchant d'abord une case vide du plateau, puis une lettre disponible. Si une suite de lettres est déjà posée pendant le tour, toucher une case vide déplace le début de cette suite sur la case choisie.
+
+Le début du mot reste toujours la référence du déplacement. Toucher une lettre déjà posée pendant le tour déplace le début du mot sur cette lettre : les lettres suivantes gardent leur ordre et avancent dans la direction actuelle. Pour retirer une seule lettre posée pendant le tour, il faut double-cliquer ou double-toucher cette lettre.
 
 Le joueur peut aussi préparer un mot en touchant plusieurs lettres du chevalet, puis toucher une case compatible sur le plateau. Le jeu cherche une pose horizontale ou verticale valide à partir de cette case. Le mot entier est posé en une seule action si les cases sont compatibles et si le coup respecte les règles de validation.
 
@@ -48,7 +50,7 @@ Si le mot préparé traverse une lettre déjà posée et que cette lettre corres
 
 Le joueur peut aussi toucher une lettre déjà validée sur le plateau pour l'ajouter au mot préparé. Cette lettre sert de repère, n'est pas consommée dans le chevalet et peut être retirée avec `Retirer` ou `Effacer`.
 
-Dans le chevalet, le joueur peut sélectionner un emplacement vide puis toucher une lettre du chevalet pour la déplacer vers cet emplacement. Le glisser-déposer reste disponible, mais n'est pas obligatoire.
+Dans le chevalet, le joueur peut sélectionner un emplacement vide puis toucher une lettre du chevalet pour la déplacer vers cet emplacement. Une lettre peut aussi être glissée sur une autre lettre du chevalet pour l'insérer avant ou après elle. Le glisser-déposer reste disponible, mais n'est pas obligatoire.
 
 Le premier mot doit passer par la case centrale. Les lettres posées pendant le tour doivent rester sur une même ligne ou une même colonne. Le mot principal doit être continu, sans case vide entre les lettres posées ou déjà présentes.
 

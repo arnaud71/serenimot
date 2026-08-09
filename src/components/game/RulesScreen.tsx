@@ -55,11 +55,11 @@ const INTERACTION_GUIDES = [
       "Après avoir choisi une case, touchez une lettre disponible. Elle est posée immédiatement sur le plateau."
   },
   {
-    title: "Retirer une lettre déjà posée",
+    title: "Déplacer une suite posée",
     image: `${DOCS_IMAGE_BASE_URL}06-board-letter-moved-to-selected-cell.png`,
-    alt: "Lettre déjà posée pendant le tour retirée du plateau.",
+    alt: "Suite de lettres déplacée sur le plateau pendant le tour.",
     description:
-      "Touchez une lettre posée pendant le tour pour la retirer, puis reposez-la ailleurs si nécessaire."
+      "Touchez une case vide ou une lettre du mot posé : le début du mot est déplacé à cet endroit."
   },
   {
     title: "Préparer un mot dans le chevalet",
@@ -177,7 +177,7 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
           <h2 id="interaction-doc-title">Documentation des interactions</h2>
           <p>
             Les gestes principaux fonctionnent par sélection puis toucher ou clic. Le glisser-déposer
-            est mis de côté pendant la refonte des déplacements.
+            reste disponible, mais il n'est jamais obligatoire.
           </p>
           <div className="interaction-guide-grid">
             {INTERACTION_GUIDES.map((guide) => (
@@ -199,16 +199,23 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
               cette case.
             </p>
             <p role="listitem">
-              <strong>Case sélectionnée puis lettre déjà posée ce tour.</strong> La lettre est
-              déplacée vers cette case.
+              <strong>Mot posé ce tour puis case vide.</strong> Le début du mot est déplacé sur cette case.
             </p>
             <p role="listitem">
-              <strong>Lettre déjà posée, sans case sélectionnée.</strong> Seule cette lettre est
-              retirée du plateau.
+              <strong>Mot posé ce tour puis lettre du même mot.</strong> Le début du mot est déplacé
+              sur cette lettre.
+            </p>
+            <p role="listitem">
+              <strong>Lettre déjà posée.</strong> Un double-clic ou double toucher retire seulement
+              cette lettre.
             </p>
             <p role="listitem">
               <strong>Emplacement vide du chevalet puis lettre.</strong> La lettre se déplace vers
               cet emplacement.
+            </p>
+            <p role="listitem">
+              <strong>Lettre glissée dans le chevalet.</strong> Elle peut s'insérer avant ou après
+              une autre lettre.
             </p>
             <p role="listitem">
               <strong>Glisser-déposer.</strong> Il reste possible depuis la réserve, le chevalet ou
