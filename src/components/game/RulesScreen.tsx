@@ -6,6 +6,7 @@ import {
   OFFICIAL_SITE_URL,
   PROJECT_REPOSITORY_URL
 } from "../../app/links";
+import { APP_VERSION, APP_VERSION_DETAIL } from "../../app/version";
 import { createBoard } from "../../domain/board/board";
 import { DICTIONARY_LABEL, ORIGINAL_LEXICON_LABEL } from "../../domain/rules/dictionary";
 import { getLetterDistributionForBoardSize, getTileCountForBoardSize } from "../../domain/tiles/bag";
@@ -339,6 +340,9 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
 
         <section className="rules-section" aria-labelledby="about-title">
           <h2 id="about-title">À propos de l'application</h2>
+          <p>
+            Version de l'application : {APP_VERSION} ({APP_VERSION_DETAIL}).
+          </p>
           <p>
             Sérénimot fonctionne localement dans votre navigateur ou dans l'application installée.
             Aucune inscription n'est demandée, aucune donnée personnelle n'est collectée et aucune

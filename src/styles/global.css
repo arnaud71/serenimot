@@ -372,6 +372,13 @@ p {
   line-height: 1.32;
 }
 
+.app-version-line {
+  margin-top: 0.55rem;
+  color: #5f6e69;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
 .promo-actions {
   margin-top: 1.25rem;
 }
