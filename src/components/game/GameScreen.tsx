@@ -2875,14 +2875,6 @@ function getNextDirectPlacementCell(
   return getAppendCellForPendingWord(game, pendingTurnWord) ?? getNextEmptyBoardCell(game, fallbackRow, fallbackCol + 1, "row");
 }
 
-function getEmptyBoardCell(game: GameState, row: number, col: number): SelectedBoardCell | null {
-  if (!game.board[row]?.[col] || game.board[row][col].tile) {
-    return null;
-  }
-
-  return { row, col };
-}
-
 function getNextEmptyBoardCell(
   game: GameState,
   startRow: number,
