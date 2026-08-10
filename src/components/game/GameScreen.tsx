@@ -27,7 +27,8 @@ import {
 import type { PlacementDirection } from "../../domain/turns/game";
 import type { ComputerSearchProfile, OpponentLevel } from "../../domain/turns/game";
 import { getBoardCenter } from "../../domain/tiles/types";
-import type { GameState, PlacedTile, PlayerId, ScoreDetails, ScoreLetterDetail, Tile } from "../../domain/tiles/types";
+import type { GameState, PlacedTile, PlacementResult, PlayerId, ScoreDetails, ScoreLetterDetail, Tile } from "../../domain/tiles/types";
+import { cloneBoard } from "../../domain/board/board";
 import { getPlacedTiles, validateTurn } from "../../domain/rules/validation";
 import { explainTurnScore } from "../../domain/scoring/scoring";
 import { DICTIONARY_LABEL, getDictionarySize } from "../../domain/rules/dictionary";
@@ -45,6 +46,7 @@ type GameScreenProps = {
   onExplanationInitialRequested: (initial: string) => void;
   interfaceScaleLabel: string;
   opponentLevel: OpponentLevel;
+  onOpponentLevelCycle: () => void;
   computerSearchProfile: "auto" | ComputerSearchProfile;
   hintMode: "none" | "progressive" | "complete";
   undoMode: "turn-only" | "all-actions";
@@ -103,6 +105,7 @@ type ContextualHelpParams = {
   isHintSearching: boolean;
   pendingScoreDetails: ScoreDetails | null;
   pendingTurnWord: BoardFloatingWord | null;
+  placementDirection: PlacementDirection;
   selectedBoardCell: SelectedBoardCell | null;
   selectedExchangeTileIds: string[];
   selectedPreparedSlotIndex: number | null;
@@ -133,6 +136,7 @@ export function GameScreen({
   onExplanationInitialRequested,
   interfaceScaleLabel,
   opponentLevel,
+  onOpponentLevelCycle,
   computerSearchProfile,
   hintMode,
   undoMode,
@@ -172,7 +176,9 @@ export function GameScreen({
   const computerSearchDurationsRef = useRef<number[]>([]);
   const gameIdRef = useRef(game.gameId);
   const boardSectionRef = useRef<HTMLElement | null>(null);
+  const boardScrollRef = useRef<HTMLDivElement | null>(null);
   const boardRecenterFrameRef = useRef<number | null>(null);
+  const lastAutoCenteredSignatureRef = useRef<string>("");
   const isFinished = isGameFinished(game);
   const finalStatus = game.status?.state === "finished" ? game.status : null;
   const dictionaryWordCount = getDictionarySize().toLocaleString("fr-CH");
@@ -193,6 +199,7 @@ export function GameScreen({
   const preparedWord = preparedTiles.join("");
   const pendingTurnWord = useMemo(() => getPendingTurnWord(game), [game]);
   const pendingHumanTileCount = useMemo(() => getOrderedPendingHumanTiles(game).length, [game]);
+  const pendingBoardTileIds = useMemo(() => getOrderedPendingHumanTiles(game).map((tile) => tile.id), [game]);
   const activePlacementDirection = pendingTurnWord && pendingHumanTileCount > 1 ? pendingTurnWord.direction : placementDirection;
   const pendingWordStartCellKey =
     pendingTurnWord?.row !== undefined && pendingTurnWord.col !== undefined
@@ -253,9 +260,16 @@ export function GameScreen({
     () => getLastMoveCellKeys(game.message.scoreDetails ?? null, game.message.text),
     [game.message.scoreDetails, game.message.text]
   );
+  const robotMoveScoreDetails =
+    game.message.scoreDetails && isRobotMoveMessage(game.message.text) ? game.message.scoreDetails : null;
   const boardScorePreview = useMemo(
-    () => getBoardScorePreview(previewScoreDetails),
-    [previewScoreDetails]
+    () =>
+      getBoardScorePreview(
+        previewScoreDetails ?? robotMoveScoreDetails,
+        game.board.length,
+        previewScoreDetails ? "human" : robotMoveScoreDetails ? "computer" : "human"
+      ),
+    [game.board.length, previewScoreDetails, robotMoveScoreDetails]
   );
   const canValidate = useMemo(
     () => canValidateCurrentMove(game, isCompleteHintVisible ? hint : null),
@@ -266,6 +280,7 @@ export function GameScreen({
   const canUndoAction = undoHistory.length > 0 && (usesFullUndoMode || hasPreparedActivity);
   const canRedoAction = redoHistory.length > 0 && (usesFullUndoMode || game.turn.player === "human");
   const canUseExchangeMode = !isFinished && game.turn.player === "human" && game.bag.length > 0;
+  const isCenterGuideVisible = !isFinished && game.turn.player === "human" && !hasCommittedTileOnBoard(game);
   const exchangeButtonLabel =
     isExchangeMode && selectedExchangeTileIds.length > 0
       ? `Échanger (${selectedExchangeTileIds.length})`
@@ -285,6 +300,25 @@ export function GameScreen({
     isHintSearching,
     pendingScoreDetails,
     pendingTurnWord,
+    placementDirection: activePlacementDirection,
+    selectedBoardCell,
+    selectedExchangeTileIds,
+    selectedPreparedSlotIndex,
+    selectedTile,
+    usesProgressiveHints
+  });
+  const turnGuidance = getTurnGuidance({
+    canValidate,
+    dictionaryWordCount,
+    displayedPreparedWord,
+    game,
+    hintLevel: visibleHintLevel,
+    isExchangeMode,
+    isFinished,
+    isHintSearching,
+    pendingScoreDetails,
+    pendingTurnWord,
+    placementDirection: activePlacementDirection,
     selectedBoardCell,
     selectedExchangeTileIds,
     selectedPreparedSlotIndex,
@@ -521,7 +555,7 @@ export function GameScreen({
   }, [onExplanationInitialRequested, scoreWordInitials]);
 
   useEffect(() => {
-    if (!game.message.scoreDetails || !game.message.text.startsWith("Le robot pose")) {
+    if (!game.message.scoreDetails || !isRobotMoveMessage(game.message.text)) {
       return;
     }
 
@@ -536,6 +570,30 @@ export function GameScreen({
 
     return () => window.clearTimeout(timeout);
   }, [game.message.scoreDetails, game.message.text]);
+
+  useEffect(() => {
+    const targetCellKeys =
+      pendingNewWordCellKeys.length > 0
+        ? pendingNewWordCellKeys
+        : hintPositionCellKeys.length > 0
+          ? hintPositionCellKeys
+          : computerMoveCellKeys.length > 0
+            ? computerMoveCellKeys
+            : [];
+
+    if (targetCellKeys.length === 0) {
+      return;
+    }
+
+    const signature = `${game.gameId}:${targetCellKeys.join("|")}`;
+
+    if (signature === lastAutoCenteredSignatureRef.current) {
+      return;
+    }
+
+    lastAutoCenteredSignatureRef.current = signature;
+    centerBoardOnCellKeys(targetCellKeys);
+  }, [computerMoveCellKeys, game.gameId, hintPositionCellKeys, pendingNewWordCellKeys]);
 
   useEffect(() => {
     if (!game.message.scoreDetails) {
@@ -626,7 +684,7 @@ export function GameScreen({
     const cellTile = game.board[row][col].tile;
 
     clearErrorHighlights();
-    if (cellTile && !cellTile.committed && cellTile.owner === "human" && pendingTurnWord) {
+    if (!selectedTileId && cellTile && !cellTile.committed && cellTile.owner === "human" && pendingTurnWord) {
       clearHint();
 
       const result = movePendingHumanTiles(game, row, col, pendingTurnWord.direction);
@@ -708,6 +766,20 @@ export function GameScreen({
     }
 
     if (pendingTurnWord && !selectedTileId && !cellTile && preparedTileIds.length === 0) {
+      if (!hasCommittedTileOnBoard(game) && !doesWordPlacementCoverCenter(game, pendingTurnWord.word, row, col, pendingTurnWord.direction)) {
+        clearHint();
+        clearErrorHighlights();
+        showInvalidWordAttempt(pendingTurnWord.word, row, col, pendingTurnWord.direction);
+        onGameChange({
+          ...game,
+          message: {
+            tone: "notice",
+            text: "Le premier mot doit passer par la case centrale. La suite de lettres n'a pas été déplacée."
+          }
+        });
+        return;
+      }
+
       const result = movePendingHumanTiles(game, row, col, pendingTurnWord.direction);
 
       clearHint();
@@ -715,9 +787,7 @@ export function GameScreen({
       pushUndoPoint();
 
       if (!result.ok) {
-        const attemptedCells = buildAttemptPreviewCells(game, pendingTurnWord.word, row, col, pendingTurnWord.direction);
-        setErrorPreviewCells(attemptedCells);
-        setInvalidCellKeys(attemptedCells.map((cell) => `${cell.row}:${cell.col}`));
+        showInvalidWordAttempt(pendingTurnWord.word, row, col, pendingTurnWord.direction);
         onGameChange({
           ...result.state,
           message: {
@@ -769,9 +839,7 @@ export function GameScreen({
       clearHint();
       if (!result.ok) {
         pushUndoPoint();
-        const attemptedCells = buildAttemptPreviewCells(game, preparedWord, row, col, "row");
-        setErrorPreviewCells(attemptedCells);
-        setInvalidCellKeys(attemptedCells.map((cell) => `${cell.row}:${cell.col}`));
+        showInvalidWordAttempt(preparedWord, row, col, placement?.direction ?? activePlacementDirection);
       }
       if (result.ok) {
         pushUndoPoint();
@@ -783,7 +851,7 @@ export function GameScreen({
               ...result.state,
               message: {
                 tone: "notice",
-                text: `${result.reason} Touchez une autre case pour replacer le mot.`
+                text: getPreparedPlacementFailureMessage(game, preparedWord, row, col, activePlacementDirection, result.reason)
               }
             }
       );
@@ -806,10 +874,13 @@ export function GameScreen({
       return;
     }
 
-    const result = placeTile(game, selectedTileId, row, col);
+    const result = insertTileIntoPendingWord(game, selectedTileId, row, col) ?? placeTile(game, selectedTileId, row, col);
     clearHint();
     clearPreparedDestinationSelection();
     pushUndoPoint();
+    if (!result.ok) {
+      showInvalidTileAttempt(selectedTileId, row, col);
+    }
     onGameChange(
       result.ok
         ? result.state
@@ -841,8 +912,11 @@ export function GameScreen({
     clearHint();
     clearPreparedDestinationSelection();
 
-    const result = placeTile(game, tileId, row, col);
+    const result = insertTileIntoPendingWord(game, tileId, row, col) ?? placeTile(game, tileId, row, col);
     pushUndoPoint();
+    if (!result.ok) {
+      showInvalidTileAttempt(tileId, row, col);
+    }
     onGameChange(
       result.ok
         ? result.state
@@ -1286,8 +1360,11 @@ export function GameScreen({
     setSelectedPreparedSlotIndex(null);
     setIsKeyboardPreparationEntryActive(false);
 
-    const result = placeTile(game, tileId, row, col);
+    const result = insertTileIntoPendingWord(game, tileId, row, col) ?? placeTile(game, tileId, row, col);
     pushUndoPoint();
+    if (!result.ok) {
+      showInvalidTileAttempt(tileId, row, col);
+    }
     onGameChange(
       result.ok
         ? result.state
@@ -1373,6 +1450,7 @@ export function GameScreen({
     pushUndoPoint();
 
     if (!result.ok) {
+      showInvalidWordAttempt(pendingTurnWord.word, rotatedPlacement.row, rotatedPlacement.col, nextDirection);
       onGameChange({
         ...result.state,
         message: {
@@ -1529,6 +1607,22 @@ export function GameScreen({
     setFloatingScorePreview(null);
   }
 
+  function showInvalidAttempt(cells: BoardPreviewCell[]) {
+    setErrorPreviewCells(cells);
+    setInvalidCellKeys(cells.map((cell) => `${cell.row}:${cell.col}`));
+  }
+
+  function showInvalidWordAttempt(word: string, row: number, col: number, direction: PlacementDirection) {
+    showInvalidAttempt(buildAttemptPreviewCells(game, word, row, col, direction));
+  }
+
+  function showInvalidTileAttempt(tileId: string, row: number, col: number) {
+    const tile = getPreparedTile(game, tileId) ?? game.racks.human.find((rackTile) => rackTile.id === tileId);
+    const letter = tile?.letter ?? "?";
+
+    showInvalidAttempt(buildAttemptPreviewCells(game, letter, row, col, "row"));
+  }
+
   function handleRecenterBoard() {
     const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
 
@@ -1536,6 +1630,50 @@ export function GameScreen({
     boardSectionRef.current?.scrollIntoView({
       behavior: prefersReducedMotion ? "auto" : "smooth",
       block: "start",
+      inline: "nearest"
+    });
+  }
+
+  function centerBoardOnCellKeys(cellKeys: string[]) {
+    if (window.matchMedia?.("(min-width: 761px)").matches) {
+      return;
+    }
+
+    const boardScroller = boardScrollRef.current;
+    const boardSection = boardSectionRef.current;
+
+    if (!boardScroller || !boardSection) {
+      return;
+    }
+
+    const cells = cellKeys
+      .map((key) => {
+        const [row, col] = key.split(":").map(Number);
+
+        return Number.isInteger(row) && Number.isInteger(col)
+          ? boardScroller.querySelector<HTMLElement>(`.board-cell[data-row="${row}"][data-col="${col}"]`)
+          : null;
+      })
+      .filter((cell): cell is HTMLElement => Boolean(cell));
+
+    if (cells.length === 0) {
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+    const scrollerRect = boardScroller.getBoundingClientRect();
+    const minLeft = Math.min(...cells.map((cell) => cell.offsetLeft));
+    const maxRight = Math.max(...cells.map((cell) => cell.offsetLeft + cell.offsetWidth));
+    const targetLeft = (minLeft + maxRight) / 2 - scrollerRect.width / 2;
+
+    boardScroller.scrollTo({
+      left: Math.max(0, targetLeft),
+      behavior: prefersReducedMotion ? "auto" : "smooth"
+    });
+
+    boardSection.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      block: "nearest",
       inline: "nearest"
     });
   }
@@ -1663,7 +1801,15 @@ export function GameScreen({
           >
             <span className="status-label-with-badge">
               Robot
-              <em className={`opponent-level-badge level-${opponentLevel}`}>{OPPONENT_LEVEL_LABELS[opponentLevel]}</em>
+              <button
+                className={`opponent-level-badge opponent-level-badge-button level-${opponentLevel}`}
+                type="button"
+                onClick={onOpponentLevelCycle}
+                aria-label={`Niveau du robot : ${OPPONENT_LEVEL_LABELS[opponentLevel]}. Changer de niveau.`}
+                {...getButtonHintProps("Change le niveau du robot. Après Expert, le niveau revient à Très facile.")}
+              >
+                {OPPONENT_LEVEL_LABELS[opponentLevel]}
+              </button>
             </span>
             <strong>{game.scores.computer}</strong>
           </div>
@@ -1695,6 +1841,8 @@ export function GameScreen({
           bonusAnimationCells={bonusAnimationCells}
           boardScorePreview={boardScorePreview}
           isPendingWordSelected={isPendingWordSelected}
+          isCenterGuideVisible={isCenterGuideVisible}
+          scrollContainerRef={boardScrollRef}
           floatingPreparedWord={floatingPreparedWord}
           floatingScorePreview={floatingScorePreview}
           onCellClick={handleCellClick}
@@ -1712,6 +1860,7 @@ export function GameScreen({
             <RackView
               rack={game.racks.human}
               preparedTileIds={preparedTileIds}
+              pendingBoardTileIds={pendingBoardTileIds}
               exchangeTileIds={selectedExchangeTileIds}
               isExchangeMode={isExchangeMode}
               selectedBoardCell={selectedBoardCell}
@@ -1961,19 +2110,7 @@ export function GameScreen({
               <ScoreWordExplanations details={pendingScoreDetails} />
             </div>
           ) : null}
-          <p className="preparation-guidance">
-            {isHintSearching
-              ? "Recherche d'un indice possible..."
-              : hint
-              ? getHintInstruction(hintLevel, usesProgressiveHints)
-              : pendingTurnWord
-                ? "Validez le mot, touchez une case pour le déplacer, ou double-touchez une lettre pour la retirer."
-              : displayedPreparedWord
-                ? "Touchez une case du plateau pour poser le mot préparé."
-              : selectedTile
-                ? `Lettre choisie : ${selectedTile.letter}.`
-                : "Composez votre mot avant de le poser."}
-          </p>
+          <p className="preparation-guidance" role="status" aria-live="polite">{turnGuidance}</p>
         </section>
 
         <div className={`message game-message message-${game.message.tone}`}>
@@ -2324,6 +2461,83 @@ function getContextualHelp({
     ],
     note: `Dictionnaire actuel : ${DICTIONARY_LABEL}, ${dictionaryWordCount} mots.`
   };
+}
+
+function getTurnGuidance({
+  canValidate,
+  displayedPreparedWord,
+  game,
+  hintLevel,
+  isExchangeMode,
+  isFinished,
+  isHintSearching,
+  pendingScoreDetails,
+  pendingTurnWord,
+  placementDirection,
+  selectedBoardCell,
+  selectedExchangeTileIds,
+  selectedPreparedSlotIndex,
+  selectedTile,
+  usesProgressiveHints
+}: ContextualHelpParams): string {
+  const directionLabel = placementDirection === "row" ? "Sens →" : "Sens ↓";
+
+  if (isFinished) {
+    return "Partie terminée · vous pouvez revoir la grille ou commencer une nouvelle partie.";
+  }
+
+  if (game.turn.player === "computer") {
+    return "Le robot joue · la main revient ensuite à vous.";
+  }
+
+  if (isExchangeMode) {
+    return selectedExchangeTileIds.length > 0
+      ? `Échange prêt · ${selectedExchangeTileIds.length} lettre${selectedExchangeTileIds.length > 1 ? "s" : ""} sélectionnée${selectedExchangeTileIds.length > 1 ? "s" : ""}.`
+      : "Échange · touchez les lettres à remplacer.";
+  }
+
+  if (isHintSearching) {
+    return "Recherche d'un indice possible...";
+  }
+
+  if (hintLevel > 0) {
+    return getHintInstruction(hintLevel, usesProgressiveHints);
+  }
+
+  if (pendingScoreDetails && canValidate) {
+    const words = pendingScoreDetails.words.map((word) => word.word).join(", ");
+    return `Mot reconnu : ${words} · Valider pour jouer.`;
+  }
+
+  if (pendingTurnWord) {
+    return `Suite sur le plateau · touchez une case pour déplacer · ${directionLabel}.`;
+  }
+
+  if (displayedPreparedWord) {
+    return `Chevalet : ${displayedPreparedWord} · touchez le plateau pour poser · ${directionLabel}.`;
+  }
+
+  if (selectedTile && selectedBoardCell) {
+    return `Case choisie · touchez une lettre pour la poser ici · ${directionLabel}.`;
+  }
+
+  if (selectedTile) {
+    return `Lettre ${selectedTile.letter} choisie · touchez une case du plateau ou du chevalet.`;
+  }
+
+  if (selectedBoardCell) {
+    return `Case du plateau choisie · touchez une lettre disponible · ${directionLabel}.`;
+  }
+
+  if (selectedPreparedSlotIndex !== null) {
+    return "Case du chevalet choisie · touchez une lettre disponible.";
+  }
+
+  if (game.message.tone === "notice") {
+    return "Coup à corriger · déplacez les lettres ou reprenez le coup.";
+  }
+
+  return `Choisissez une lettre ou une case · ${directionLabel}.`;
 }
 
 function GameOverAnimation({ winner }: { winner: PlayerId | "draw" }) {
@@ -2762,6 +2976,38 @@ function buildAttemptPreviewCells(
   });
 }
 
+function doesWordPlacementCoverCenter(
+  game: GameState,
+  word: string,
+  startRow: number,
+  startCol: number,
+  direction: PlacementDirection
+): boolean {
+  const center = getBoardCenter(game.board);
+
+  return [...word].some((_, index) => {
+    const row = direction === "col" ? startRow + index : startRow;
+    const col = direction === "row" ? startCol + index : startCol;
+
+    return row === center && col === center;
+  });
+}
+
+function getPreparedPlacementFailureMessage(
+  game: GameState,
+  word: string,
+  row: number,
+  col: number,
+  direction: PlacementDirection,
+  reason: string
+): string {
+  if (!hasCommittedTileOnBoard(game) && !doesWordPlacementCoverCenter(game, word, row, col, direction)) {
+    return "Le premier mot doit passer par la case centrale. Touchez une case qui permet au mot de traverser le centre.";
+  }
+
+  return `${reason} Touchez une autre case pour replacer le mot.`;
+}
+
 function getPendingTurnWord(game: GameState): BoardFloatingWord | null {
   const geometry = getPendingTurnGeometry(game);
 
@@ -2936,6 +3182,130 @@ function movePendingHumanTiles(
       }
     }
   };
+}
+
+function insertTileIntoPendingWord(game: GameState, rawTileId: string, row: number, col: number): PlacementResult | null {
+  const geometry = getPendingTurnGeometry(game);
+  const targetTile = game.board[row]?.[col]?.tile;
+
+  if (!geometry || !targetTile || targetTile.committed || targetTile.owner !== "human") {
+    return null;
+  }
+
+  const targetEntry = geometry.pendingTiles.find(({ tile }) => tile.id === targetTile.id);
+
+  if (!targetEntry) {
+    return null;
+  }
+
+  if (geometry.pendingTiles.length !== geometry.word.length) {
+    return {
+      ok: false,
+      reason: "L'insertion est possible uniquement dans la suite de lettres posée ce tour-ci.",
+      state: game
+    };
+  }
+
+  const tileId = getActualTileIdFromInteraction(game, rawTileId);
+  const sourceEntry = geometry.pendingTiles.find(({ tile }) => tile.id === tileId);
+  const rackTile = game.racks.human.find((tile) => tile.id === tileId);
+  const sourceTile = sourceEntry?.tile ?? rackTile;
+
+  if (!sourceTile) {
+    return {
+      ok: false,
+      reason: "Cette lettre n'est plus disponible.",
+      state: game
+    };
+  }
+
+  const orderedTiles = [...geometry.pendingTiles]
+    .sort((first, second) => first.offset - second.offset)
+    .map(({ tile }) => tile)
+    .filter((tile) => tile.id !== sourceTile.id);
+  const sourceIndex = sourceEntry ? geometry.pendingTiles.findIndex(({ tile }) => tile.id === sourceTile.id) : -1;
+  const targetIndex = geometry.pendingTiles.findIndex(({ tile }) => tile.id === targetTile.id);
+  const insertIndex = sourceIndex >= 0 && sourceIndex < targetIndex ? targetIndex - 1 : targetIndex;
+  const nextTiles = [
+    ...orderedTiles.slice(0, insertIndex),
+    sourceTile,
+    ...orderedTiles.slice(insertIndex)
+  ];
+  const movedTileIds = new Set(geometry.pendingTiles.map(({ tile }) => tile.id));
+  const board = cloneBoard(game.board);
+
+  for (const boardRow of board) {
+    for (const cell of boardRow) {
+      if (cell.tile && movedTileIds.has(cell.tile.id)) {
+        cell.tile = null;
+      }
+    }
+  }
+
+  for (let index = 0; index < nextTiles.length; index += 1) {
+    const targetRow = geometry.direction === "col" ? geometry.row + index : geometry.row;
+    const targetCol = geometry.direction === "row" ? geometry.col + index : geometry.col;
+
+    if (!board[targetRow]?.[targetCol]) {
+      return {
+        ok: false,
+        reason: "La suite de lettres dépasserait du plateau.",
+        state: game
+      };
+    }
+
+    if (board[targetRow][targetCol].tile) {
+      return {
+        ok: false,
+        reason: "Une case de destination contient déjà une lettre incompatible.",
+        state: game
+      };
+    }
+
+    board[targetRow][targetCol].tile = {
+      ...nextTiles[index],
+      row: targetRow,
+      col: targetCol,
+      owner: "human",
+      committed: false
+    };
+  }
+
+  const nextWord = nextTiles.map((tile) => tile.letter).join("");
+
+  return {
+    ok: true,
+    state: {
+      ...game,
+      board,
+      racks: {
+        ...game.racks,
+        human: rackTile ? game.racks.human.filter((tile) => tile.id !== sourceTile.id) : game.racks.human
+      },
+      turn: {
+        ...game.turn,
+        placedTileIds: game.turn.placedTileIds.includes(sourceTile.id)
+          ? game.turn.placedTileIds
+          : [...game.turn.placedTileIds, sourceTile.id]
+      },
+      message: {
+        tone: "info",
+        text: `La lettre a été insérée dans ${nextWord}. Vous pouvez encore modifier avant de valider.`
+      }
+    }
+  };
+}
+
+function getActualTileIdFromInteraction(game: GameState, tileId: string): string {
+  const boardKey = parseBoardTileKey(tileId);
+
+  if (!boardKey) {
+    return tileId;
+  }
+
+  const [row, col] = boardKey.split(":").map(Number);
+
+  return game.board[row]?.[col]?.tile?.id ?? tileId;
 }
 
 type PendingTurnGeometry = {
@@ -3492,7 +3862,11 @@ function getLastMoveCellKeys(details: ScoreDetails | null, messageText: string):
 }
 
 function isPlayedMoveMessage(messageText: string): boolean {
-  return messageText.startsWith("Mot accepté") || messageText.startsWith("Mots acceptés") || messageText.startsWith("Le robot pose");
+  return messageText.startsWith("Mot accepté") || messageText.startsWith("Mots acceptés") || isRobotMoveMessage(messageText);
+}
+
+function isRobotMoveMessage(messageText: string): boolean {
+  return messageText.startsWith("Le robot pose");
 }
 
 function getBonusAnimationCells(details: ScoreDetails): BoardBonusAnimationCell[] {
@@ -3515,7 +3889,11 @@ function getBonusAnimationCells(details: ScoreDetails): BoardBonusAnimationCell[
   return [...cells.values()];
 }
 
-function getBoardScorePreview(details: ScoreDetails | null): BoardScorePreview | null {
+function getBoardScorePreview(
+  details: ScoreDetails | null,
+  boardSize: number,
+  owner: PlayerId
+): BoardScorePreview | null {
   if (!details || details.words.length === 0) {
     return null;
   }
@@ -3532,12 +3910,73 @@ function getBoardScorePreview(details: ScoreDetails | null): BoardScorePreview |
   }
 
   const coordinates = [...cells.values()];
-  const row = coordinates.reduce((sum, cell) => sum + cell.row, 0) / coordinates.length;
-  const col = coordinates.reduce((sum, cell) => sum + cell.col, 0) / coordinates.length;
+  const minRow = Math.min(...coordinates.map((cell) => cell.row));
+  const maxRow = Math.max(...coordinates.map((cell) => cell.row));
+  const minCol = Math.min(...coordinates.map((cell) => cell.col));
+  const maxCol = Math.max(...coordinates.map((cell) => cell.col));
+  const centerRow = (minRow + maxRow) / 2;
+  const centerCol = (minCol + maxCol) / 2;
+  const isHorizontalScore = maxCol - minCol >= maxRow - minRow;
+  const canPlaceRight = maxCol <= boardSize - 3;
+  const canPlaceLeft = minCol >= 2;
+  const canPlaceTop = minRow >= 1;
+  const canPlaceBottom = maxRow <= boardSize - 2;
+
+  if (isHorizontalScore && canPlaceTop) {
+    return {
+      row: minRow,
+      col: centerCol,
+      owner,
+      placement: "top",
+      score: details.total
+    };
+  }
+
+  if (isHorizontalScore && canPlaceBottom) {
+    return {
+      row: maxRow,
+      col: centerCol,
+      owner,
+      placement: "bottom",
+      score: details.total
+    };
+  }
+
+  if (!isHorizontalScore && canPlaceRight) {
+    return {
+      row: centerRow,
+      col: maxCol,
+      owner,
+      placement: "right",
+      score: details.total
+    };
+  }
+
+  if (!isHorizontalScore && canPlaceLeft) {
+    return {
+      row: centerRow,
+      col: minCol,
+      owner,
+      placement: "left",
+      score: details.total
+    };
+  }
+
+  if (canPlaceTop) {
+    return {
+      row: minRow,
+      col: centerCol,
+      owner,
+      placement: "top",
+      score: details.total
+    };
+  }
 
   return {
-    row,
-    col,
+    row: canPlaceBottom ? maxRow : minRow,
+    col: centerCol,
+    owner,
+    placement: canPlaceBottom ? "bottom" : "top",
     score: details.total
   };
 }

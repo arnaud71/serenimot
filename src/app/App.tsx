@@ -891,6 +891,12 @@ export function App() {
     setPreferences({ ...preferences, textScale: TEXT_SCALE_OPTIONS[nextIndex].value });
   }
 
+  function cycleOpponentLevel() {
+    const currentIndex = OPPONENT_LEVEL_OPTIONS.findIndex((option) => option.value === preferences.opponentLevel);
+    const nextIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % OPPONENT_LEVEL_OPTIONS.length;
+    setPreferences({ ...preferences, opponentLevel: OPPONENT_LEVEL_OPTIONS[nextIndex].value });
+  }
+
   const matchedTextScaleIndex = TEXT_SCALE_OPTIONS.findIndex((option) => option.value === preferences.textScale);
   const textScaleIndex = matchedTextScaleIndex === -1 ? getStandardTextScaleIndex() : matchedTextScaleIndex;
   const textScaleLabel = TEXT_SCALE_OPTIONS[textScaleIndex]?.label ?? TEXT_SCALE_OPTIONS[getStandardTextScaleIndex()].label;
@@ -1204,6 +1210,7 @@ export function App() {
         onExplanationInitialRequested={requestWordExplanationsForInitial}
         interfaceScaleLabel={textScaleLabel}
         opponentLevel={preferences.opponentLevel}
+        onOpponentLevelCycle={cycleOpponentLevel}
         computerSearchProfile={preferences.computerSearchProfile}
         hintMode={preferences.hintMode}
         undoMode={preferences.undoMode}

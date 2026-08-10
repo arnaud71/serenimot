@@ -1,5 +1,5 @@
-import { Rack } from "../../domain/tiles/types";
-import { useRef } from "react";
+import { RACK_SIZE, Rack } from "../../domain/tiles/types";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { DragEvent, MutableRefObject, PointerEvent } from "react";
 
 const TILE_DRAG_MIME = "text/serenimot-tile-id";
@@ -15,6 +15,7 @@ type TouchTileDrag = {
 type RackViewProps = {
   rack: Rack;
   preparedTileIds: string[];
+  pendingBoardTileIds: string[];
   exchangeTileIds: string[];
   isExchangeMode: boolean;
   selectedBoardCell: { row: number; col: number } | null;
@@ -31,6 +32,7 @@ type RackViewProps = {
 export function RackView({
   rack,
   preparedTileIds,
+  pendingBoardTileIds,
   exchangeTileIds,
   isExchangeMode,
   selectedBoardCell,
@@ -43,7 +45,13 @@ export function RackView({
   onTileDropOnBoard,
   onToggleExchangeTile
 }: RackViewProps) {
-  const availableTiles = rack.filter((tile) => !preparedTileIds.includes(tile.id));
+  const tileById = useMemo(() => new Map(rack.map((tile) => [tile.id, tile])), [rack]);
+  const preparedRackTileIds = useMemo(() => preparedTileIds.filter((tileId) => !tileId.startsWith("board:")), [preparedTileIds]);
+  const unavailableTileIds = useMemo(
+    () => new Set([...preparedRackTileIds, ...pendingBoardTileIds]),
+    [pendingBoardTileIds, preparedRackTileIds]
+  );
+  const [slotIds, setSlotIds] = useState<(string | null)[]>(() => rack.map((tile) => tile.id));
   const exchangeTileIdSet = new Set(exchangeTileIds);
   const touchDragRef = useRef<TouchTileDrag | null>(null);
   const ignoreNextClickRef = useRef(false);
@@ -52,6 +60,39 @@ export function RackView({
       ? "Direction actuelle : vers la droite. Changer vers le bas."
       : "Direction actuelle : vers le bas. Changer vers la droite.";
   const directionIcon = rotateBoardWordDirection === "row" ? "→" : "↓";
+  const knownTileIds = useMemo(
+    () => uniqueIds([...rack.map((tile) => tile.id), ...preparedRackTileIds, ...pendingBoardTileIds]),
+    [pendingBoardTileIds, preparedRackTileIds, rack]
+  );
+
+  useEffect(() => {
+    setSlotIds((currentSlots) => {
+      const knownTileIdSet = new Set(knownTileIds);
+      const nextSlots = currentSlots.map((tileId) => (tileId && knownTileIdSet.has(tileId) ? tileId : null));
+      const displayedTileIds = new Set(nextSlots.filter((tileId): tileId is string => Boolean(tileId)));
+
+      for (const tileId of knownTileIds) {
+        if (displayedTileIds.has(tileId)) {
+          continue;
+        }
+
+        const emptyIndex = nextSlots.findIndex((slotId) => slotId === null);
+
+        if (emptyIndex >= 0) {
+          nextSlots[emptyIndex] = tileId;
+        } else {
+          nextSlots.push(tileId);
+        }
+        displayedTileIds.add(tileId);
+      }
+
+      while (nextSlots.length < Math.min(RACK_SIZE, knownTileIds.length)) {
+        nextSlots.push(null);
+      }
+
+      return nextSlots;
+    });
+  }, [knownTileIds]);
 
   return (
     <div className="preparation-subsection">
@@ -64,8 +105,14 @@ export function RackView({
           role="list"
           aria-label={isExchangeMode ? "Lettres à choisir pour échange" : "Chevalet"}
         >
-          {availableTiles.length > 0 ? (
-            availableTiles.map((tile) => {
+          {slotIds.length > 0 ? (
+            slotIds.map((tileId, slotIndex) => {
+              const tile = tileId ? tileById.get(tileId) : null;
+
+              if (!tile || unavailableTileIds.has(tile.id)) {
+                return <span className="rack-slot-placeholder" key={tileId ?? `empty-${slotIndex}`} aria-hidden="true" />;
+              }
+
               const isExchangeSelected = exchangeTileIdSet.has(tile.id);
 
               return (
@@ -129,7 +176,7 @@ export function RackView({
               );
             })
           ) : (
-            <p className="rack-empty">Toutes vos lettres sont dans le chevalet.</p>
+            <p className="rack-empty">Aucune lettre en réserve.</p>
           )}
         </div>
         <button
@@ -158,6 +205,10 @@ function setDraggedTileId(event: DragEvent<HTMLElement>, tileId: string) {
   event.dataTransfer.setData(TILE_DRAG_MIME, tileId);
   event.dataTransfer.setData("text/plain", tileId);
   event.dataTransfer.effectAllowed = "move";
+}
+
+function uniqueIds(tileIds: string[]): string[] {
+  return Array.from(new Set(tileIds));
 }
 
 function handleTilePointerDown(

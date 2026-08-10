@@ -1,7 +1,8 @@
 import { Board, getBoardCenter } from "../../domain/tiles/types";
-import type { BonusKind } from "../../domain/tiles/types";
+import type { BonusKind, PlacedTile } from "../../domain/tiles/types";
 import type { BestMoveHint } from "../../domain/turns/hints";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import type { RefObject } from "react";
 import type { DragEvent, PointerEvent } from "react";
 
 const TILE_DRAG_MIME = "text/serenimot-tile-id";
@@ -25,6 +26,8 @@ type BoardViewProps = {
   bonusAnimationCells: BoardBonusAnimationCell[];
   boardScorePreview: BoardScorePreview | null;
   isPendingWordSelected: boolean;
+  isCenterGuideVisible: boolean;
+  scrollContainerRef?: RefObject<HTMLDivElement | null>;
   floatingPreparedWord: BoardFloatingWord | null;
   floatingScorePreview: number | null;
   onCellClick: (row: number, col: number) => void;
@@ -49,6 +52,8 @@ export type BoardScorePreview = {
   row: number;
   col: number;
   score: number;
+  placement: "top" | "right" | "bottom" | "left";
+  owner: "human" | "computer";
 };
 
 export type BoardBonusAnimationCell = {
@@ -111,6 +116,8 @@ export function BoardView({
   bonusAnimationCells,
   boardScorePreview,
   isPendingWordSelected,
+  isCenterGuideVisible,
+  scrollContainerRef,
   floatingPreparedWord,
   floatingScorePreview,
   onCellClick,
@@ -120,6 +127,18 @@ export function BoardView({
   const center = getBoardCenter(board);
   const touchDragRef = useRef<TouchTileDrag | null>(null);
   const ignoreNextClickRef = useRef(false);
+  const [insertionTargetKey, setInsertionTargetKey] = useState<string | null>(null);
+  const pendingHumanTiles = board
+    .flatMap((row) => row)
+    .map((cell) => cell.tile)
+    .filter((tile): tile is PlacedTile => Boolean(tile && !tile.committed && tile.owner === "human"));
+  const pendingInsertionDirection =
+    pendingHumanTiles.length > 1
+      ? pendingHumanTiles.every((tile) => tile?.row === pendingHumanTiles[0]?.row)
+        ? "row"
+        : "col"
+      : null;
+  const pendingInsertionCellKeys = new Set(pendingHumanTiles.map((tile) => `${tile.row}:${tile.col}`));
 
   function handleCellPress(row: number, col: number) {
     if (ignoreNextClickRef.current) {
@@ -157,6 +176,7 @@ export function BoardView({
     if (distance > 8) {
       drag.dragging = true;
       event.preventDefault();
+      setInsertionTargetKey(getBoardInsertionTargetKeyFromPoint(event.clientX, event.clientY, pendingInsertionCellKeys));
     }
   }
 
@@ -176,6 +196,7 @@ export function BoardView({
 
     event.preventDefault();
     ignoreNextClickRef.current = true;
+    setInsertionTargetKey(null);
 
     const targetCell = getBoardCellFromPoint(event.clientX, event.clientY);
 
@@ -185,7 +206,7 @@ export function BoardView({
   }
 
   return (
-    <div className="board-shell" aria-label="Plateau de jeu">
+    <div className="board-shell" ref={scrollContainerRef} aria-label="Plateau de jeu">
       <div className="board-stage">
         <div
           className="board"
@@ -209,6 +230,10 @@ export function BoardView({
               const cellKey = `${cell.row}:${cell.col}`;
               const isSelectedBoardCell = selectedBoardCellKey === cellKey;
               const isReferenceBoardCell = referenceBoardCellKey === cellKey;
+              const isPendingHumanTile = Boolean(tile && !tile.committed && tile.owner === "human");
+              const isPendingInsertionCell = Boolean(isPendingHumanTile && pendingInsertionDirection);
+              const isPendingInsertionTarget = insertionTargetKey === cellKey;
+              const isCenterGuideCell = isCenterGuideVisible && cell.row === center && cell.col === center;
               const isHintAreaCell = hintAreaCellKeys.includes(cellKey);
               const isHintAnchorCell = hintAnchorCellKeys.includes(cellKey);
               const isHintPositionCell = hintPositionCellKeys.includes(cellKey);
@@ -238,7 +263,7 @@ export function BoardView({
 
               return (
                 <button
-                  className={`board-cell bonus-${cell.bonus} ${cell.row === center && cell.col === center ? "center-cell" : ""} ${isNearLeftEdge ? "tooltip-left-edge" : ""} ${isNearRightEdge ? "tooltip-right-edge" : ""} ${isNearTopEdge ? "tooltip-top-edge" : ""} ${isHintAreaCell ? "hint-area-cell" : ""} ${isHintAnchorCell ? "hint-anchor-cell" : ""} ${isHintPositionCell ? "hint-position-cell" : ""} ${isSelectedBoardCell ? "selected-board-cell" : ""} ${isLastMoveCell ? "last-move-cell" : ""} ${isNewWordCell ? "new-word-cell" : ""} ${isAnimatedCell ? "computer-move-cell" : ""} ${bonusAnimation ? `bonus-score-cell bonus-score-${bonusAnimation.bonus}-cell` : ""} ${isInvalidCell ? "invalid-cell" : ""}`}
+                  className={`board-cell bonus-${cell.bonus} ${cell.row === center && cell.col === center ? "center-cell" : ""} ${isCenterGuideCell ? "center-guide-cell" : ""} ${isNearLeftEdge ? "tooltip-left-edge" : ""} ${isNearRightEdge ? "tooltip-right-edge" : ""} ${isNearTopEdge ? "tooltip-top-edge" : ""} ${isHintAreaCell ? "hint-area-cell" : ""} ${isHintAnchorCell ? "hint-anchor-cell" : ""} ${isHintPositionCell ? "hint-position-cell" : ""} ${isSelectedBoardCell ? "selected-board-cell" : ""} ${isPendingHumanTile ? "pending-word-cell" : ""} ${isPendingInsertionTarget ? `board-word-insert-target board-word-insert-target-${pendingInsertionDirection}` : ""} ${isReferenceBoardCell && isPendingHumanTile ? "pending-word-start-cell" : ""} ${isLastMoveCell ? "last-move-cell" : ""} ${isNewWordCell ? "new-word-cell" : ""} ${isAnimatedCell ? "computer-move-cell" : ""} ${bonusAnimation ? `bonus-score-cell bonus-score-${bonusAnimation.bonus}-cell` : ""} ${isInvalidCell ? "invalid-cell" : ""}`}
                   key={`${cell.row}-${cell.col}`}
                   type="button"
                   role="gridcell"
@@ -248,9 +273,20 @@ export function BoardView({
                   aria-pressed={isPreparedBoardTile || isSelectedBoardCell}
                   onClick={() => handleCellPress(cell.row, cell.col)}
                   onDoubleClick={() => onCellDoubleClick(cell.row, cell.col)}
-                  onDragOver={(event) => event.preventDefault()}
+                  onDragOver={(event) => {
+                    event.preventDefault();
+                    setInsertionTargetKey(isPendingInsertionCell ? cellKey : null);
+                  }}
+                  onDragLeave={(event) => {
+                    const nextTarget = event.relatedTarget;
+
+                    if (!(nextTarget instanceof Node) || !event.currentTarget.contains(nextTarget)) {
+                      setInsertionTargetKey(null);
+                    }
+                  }}
                   onDrop={(event) => {
                     event.preventDefault();
+                    setInsertionTargetKey(null);
                     const tileId = getDraggedTileId(event);
 
                     if (tileId) {
@@ -280,6 +316,7 @@ export function BoardView({
                       onPointerUp={handleTilePointerUp}
                       onPointerCancel={() => {
                         touchDragRef.current = null;
+                        setInsertionTargetKey(null);
                       }}
                     >
                       <span className="board-tile-letter">{tile.letter}</span>
@@ -349,14 +386,48 @@ function getBoardCellFromPoint(clientX: number, clientY: number): { row: number;
   return { row, col };
 }
 
+function getBoardInsertionTargetKeyFromPoint(
+  clientX: number,
+  clientY: number,
+  insertionCellKeys: Set<string>
+): string | null {
+  const cell = getBoardCellFromPoint(clientX, clientY);
+
+  if (!cell) {
+    return null;
+  }
+
+  const cellKey = `${cell.row}:${cell.col}`;
+
+  return insertionCellKeys.has(cellKey) ? cellKey : null;
+}
+
 function BoardScoreBadge({ preview }: { preview: BoardScorePreview }) {
+  const style =
+    preview.placement === "right"
+      ? {
+          left: `calc((${preview.col} * (var(--cell) + 0.18rem)) + var(--cell) + 0.22rem)`,
+          top: `calc((${preview.row} * (var(--cell) + 0.18rem)) + (var(--cell) / 2))`
+        }
+      : preview.placement === "left"
+        ? {
+            left: `calc(${preview.col} * (var(--cell) + 0.18rem) - 0.22rem)`,
+            top: `calc((${preview.row} * (var(--cell) + 0.18rem)) + (var(--cell) / 2))`
+          }
+        : preview.placement === "bottom"
+          ? {
+              left: `calc((${preview.col} * (var(--cell) + 0.18rem)) + (var(--cell) / 2))`,
+              top: `calc((${preview.row} * (var(--cell) + 0.18rem)) + var(--cell) + 0.22rem)`
+            }
+          : {
+              left: `calc((${preview.col} * (var(--cell) + 0.18rem)) + (var(--cell) / 2))`,
+              top: `calc(${preview.row} * (var(--cell) + 0.18rem) - 0.35rem)`
+            };
+
   return (
     <strong
-      className="board-score-preview"
-      style={{
-        left: `calc((${preview.col} * (var(--cell) + 0.18rem)) + (var(--cell) / 2))`,
-        top: `calc((${preview.row} * (var(--cell) + 0.18rem)) - 0.35rem)`
-      }}
+      className={`board-score-preview board-score-preview-${preview.placement} board-score-preview-${preview.owner}`}
+      style={style}
       aria-label={`Score prévu ${preview.score} points`}
     >
       +{preview.score} pt{preview.score > 1 ? "s" : ""}

@@ -69,12 +69,14 @@ test("vide le chevalet quand le mot préparé est posé sur le plateau", async (
 
   await expect(page.locator(".prepared-word-tile")).toHaveCount(word?.length ?? 0);
   await expect(page.locator(".rack-tile")).toHaveCount(rackTileCount - (word?.length ?? 0));
+  await expect(page.locator(".rack-slot-placeholder")).toHaveCount(word?.length ?? 0);
 
   await placeFirstWordAtCenter(page, word ?? "");
 
   await expect(page.getByLabel("Chevalet vide")).toBeVisible();
   await expect(page.locator(".prepared-word-tile")).toHaveCount(0);
   await expect(page.locator(".rack-tile")).toHaveCount(rackTileCount - (word?.length ?? 0));
+  await expect(page.locator(".rack-slot-placeholder")).toHaveCount(word?.length ?? 0);
 });
 
 test("place une lettre dans un emplacement choisi du chevalet", async ({ page }) => {
@@ -165,7 +167,9 @@ test("cherche un indice sans bloquer l'interface", async ({ page }) => {
   await page.getByRole("button", { name: "Indice" }).click();
 
   await expect(page.getByText("Le robot cherche un indice possible.")).toBeVisible();
-  await expect(page.getByRole("status").filter({ hasText: /^Indice 1\/6 :/ })).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByRole("status").filter({ hasText: /^Indice 1\/6 : le mot commence/u })).toBeVisible({
+    timeout: 15_000
+  });
   await expect(page.getByRole("button", { name: /Indice 1\/6/ })).toBeVisible();
   expect(browserErrors()).toEqual([]);
 });
