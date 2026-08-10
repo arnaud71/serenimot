@@ -3506,6 +3506,7 @@ p {
   border-color: var(--tile-new-border);
   box-shadow: 0 0 0 3px rgb(217 145 61 / 0.16);
   touch-action: none;
+  user-select: none;
 }
 
 .prepared-word-tile-board {

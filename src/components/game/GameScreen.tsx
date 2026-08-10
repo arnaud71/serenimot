@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { DragEvent } from "react";
+import type { DragEvent, PointerEvent } from "react";
 import { BoardView } from "./BoardView";
 import type { BoardBonusAnimationCell, BoardFloatingWord, BoardPreviewCell, BoardScorePreview } from "./BoardView";
 import { RackView } from "./RackView";
@@ -1683,6 +1683,14 @@ export function GameScreen({
               selectedPreparedSlotIndex={selectedPreparedSlotIndex}
               onAddTile={handleAddPreparedTile}
               onRotateBoardWord={handleRotatePendingWord}
+              onTileDropInPrepared={(tileId, targetIndex) => {
+                if (targetIndex === null) {
+                  handleMovePreparedTileToEnd(tileId);
+                  return;
+                }
+
+                handleInsertPreparedTile(tileId, targetIndex);
+              }}
               onTileDropOnBoard={handlePlaceTileOnBoard}
               onToggleExchangeTile={handleToggleExchangeTile}
               canRotateBoardWord={!isFinished && game.turn.player === "human" && Boolean(pendingTurnWord || hint)}
@@ -1702,6 +1710,7 @@ export function GameScreen({
               onInsertTile={handleInsertPreparedTile}
               onMoveTileToEnd={handleMovePreparedTileToEnd}
               onRemoveTile={handleRemovePreparedTile}
+              onTileDropOnBoard={handlePlaceTileOnBoard}
               onSelectSlot={(slotIndex) => {
                 const isSelectingNewSlot = selectedPreparedSlotIndex !== slotIndex;
                 setSelectedBoardCell(null);
@@ -2356,6 +2365,7 @@ function PreparedWordTiles({
   onInsertTile,
   onMoveTileToEnd,
   onRemoveTile,
+  onTileDropOnBoard,
   onSelectSlot
 }: {
   displayedWord: string;
@@ -2366,13 +2376,84 @@ function PreparedWordTiles({
   onInsertTile: (tileId: string, targetIndex: number) => void;
   onMoveTileToEnd: (tileId: string) => void;
   onRemoveTile: (tileId: string) => void;
+  onTileDropOnBoard: (tileId: string, row: number, col: number) => void;
   onSelectSlot: (slotIndex: number) => void;
 }) {
   const hasPreparedTiles = tileSlots.some(Boolean);
   const [insertionTargetIndex, setInsertionTargetIndex] = useState<number | null>(null);
+  const touchDragRef = useRef<PreparedTouchTileDrag | null>(null);
+  const ignoreNextClickRef = useRef(false);
 
   function clearInsertionTarget() {
     setInsertionTargetIndex(null);
+  }
+
+  function handlePreparedPointerDown(event: PointerEvent<HTMLElement>, tileId: string, isBoardTile: boolean) {
+    if (event.pointerType === "mouse" || isBoardTile) {
+      return;
+    }
+
+    touchDragRef.current = {
+      tileId,
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      dragging: false
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }
+
+  function handlePreparedPointerMove(event: PointerEvent<HTMLElement>) {
+    const drag = touchDragRef.current;
+
+    if (!drag || drag.pointerId !== event.pointerId) {
+      return;
+    }
+
+    const distance = Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY);
+
+    if (distance > 8) {
+      drag.dragging = true;
+      event.preventDefault();
+      setInsertionTargetIndex(getPreparedSlotIndexFromPoint(event.clientX, event.clientY));
+    }
+  }
+
+  function handlePreparedPointerUp(event: PointerEvent<HTMLElement>) {
+    const drag = touchDragRef.current;
+
+    if (!drag || drag.pointerId !== event.pointerId) {
+      return;
+    }
+
+    touchDragRef.current = null;
+    event.currentTarget.releasePointerCapture(event.pointerId);
+
+    if (!drag.dragging) {
+      return;
+    }
+
+    event.preventDefault();
+    ignoreNextClickRef.current = true;
+    clearInsertionTarget();
+
+    const boardCell = getBoardCellFromPoint(event.clientX, event.clientY);
+
+    if (boardCell) {
+      onTileDropOnBoard(drag.tileId, boardCell.row, boardCell.col);
+      return;
+    }
+
+    const targetIndex = getPreparedSlotIndexFromPoint(event.clientX, event.clientY);
+
+    if (targetIndex !== null) {
+      onInsertTile(drag.tileId, targetIndex);
+      return;
+    }
+
+    if (isInsidePreparedWord(event.clientX, event.clientY)) {
+      onMoveTileToEnd(drag.tileId);
+    }
   }
 
   return (
@@ -2444,6 +2525,11 @@ function PreparedWordTiles({
             aria-label={`${isBoardTile ? "Retirer la lettre du plateau" : "Retirer la lettre"} ${tile.letter} du chevalet`}
             title={isBoardTile ? "Lettre déjà sur le plateau" : "Remettre dans vos lettres"}
             onClick={() => {
+              if (ignoreNextClickRef.current) {
+                ignoreNextClickRef.current = false;
+                return;
+              }
+
               if (selectedSlotIndex !== null) {
                 onInsertTile(tileId, selectedSlotIndex);
                 return;
@@ -2465,6 +2551,13 @@ function PreparedWordTiles({
             onDragOver={(event) => {
               event.preventDefault();
               setInsertionTargetIndex(index);
+            }}
+            onPointerDown={(event) => handlePreparedPointerDown(event, tileId, isBoardTile)}
+            onPointerMove={handlePreparedPointerMove}
+            onPointerUp={handlePreparedPointerUp}
+            onPointerCancel={() => {
+              touchDragRef.current = null;
+              clearInsertionTarget();
             }}
             onDrop={(event) => {
               event.preventDefault();
@@ -2494,6 +2587,49 @@ function setDraggedTileId(event: DragEvent<HTMLElement>, tileId: string) {
 
 function getDraggedTileId(event: DragEvent<HTMLElement>): string {
   return event.dataTransfer.getData(TILE_DRAG_MIME) || event.dataTransfer.getData("text/plain");
+}
+
+type PreparedTouchTileDrag = {
+  tileId: string;
+  pointerId: number;
+  startX: number;
+  startY: number;
+  dragging: boolean;
+};
+
+function getBoardCellFromPoint(clientX: number, clientY: number): { row: number; col: number } | null {
+  const element = document.elementFromPoint(clientX, clientY);
+  const cell = element?.closest<HTMLElement>(".board-cell[data-row][data-col]");
+
+  if (!cell) {
+    return null;
+  }
+
+  const row = Number(cell.dataset.row);
+  const col = Number(cell.dataset.col);
+
+  if (!Number.isInteger(row) || !Number.isInteger(col)) {
+    return null;
+  }
+
+  return { row, col };
+}
+
+function getPreparedSlotIndexFromPoint(clientX: number, clientY: number): number | null {
+  const element = document.elementFromPoint(clientX, clientY);
+  const slot = element?.closest<HTMLElement>("[data-slot-index]");
+
+  if (!slot) {
+    return null;
+  }
+
+  const slotIndex = Number(slot.dataset.slotIndex);
+
+  return Number.isInteger(slotIndex) ? slotIndex : null;
+}
+
+function isInsidePreparedWord(clientX: number, clientY: number): boolean {
+  return Boolean(document.elementFromPoint(clientX, clientY)?.closest(".prepared-word-tiles"));
 }
 
 function getKeyboardLetter(event: KeyboardEvent): string | null {

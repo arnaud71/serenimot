@@ -23,6 +23,7 @@ type RackViewProps = {
   rotateBoardWordDirection: "row" | "col";
   onAddTile: (tileId: string) => void;
   onRotateBoardWord: () => void;
+  onTileDropInPrepared: (tileId: string, targetIndex: number | null) => void;
   onTileDropOnBoard: (tileId: string, row: number, col: number) => void;
   onToggleExchangeTile: (tileId: string) => void;
 };
@@ -38,6 +39,7 @@ export function RackView({
   rotateBoardWordDirection,
   onAddTile,
   onRotateBoardWord,
+  onTileDropInPrepared,
   onTileDropOnBoard,
   onToggleExchangeTile
 }: RackViewProps) {
@@ -110,7 +112,7 @@ export function RackView({
                   }}
                   onPointerMove={(event) => handleTilePointerMove(event, touchDragRef)}
                   onPointerUp={(event) => {
-                    const dropped = handleTilePointerUp(event, touchDragRef, onTileDropOnBoard);
+                    const dropped = handleTilePointerUp(event, touchDragRef, onTileDropOnBoard, onTileDropInPrepared);
 
                     if (dropped) {
                       ignoreNextClickRef.current = true;
@@ -196,7 +198,8 @@ function handleTilePointerMove(
 function handleTilePointerUp(
   event: PointerEvent<HTMLElement>,
   touchDragRef: MutableRefObject<TouchTileDrag | null>,
-  onTileDropOnBoard: (tileId: string, row: number, col: number) => void
+  onTileDropOnBoard: (tileId: string, row: number, col: number) => void,
+  onTileDropInPrepared: (tileId: string, targetIndex: number | null) => void
 ): boolean {
   const drag = touchDragRef.current;
 
@@ -216,12 +219,41 @@ function handleTilePointerUp(
   const targetCell = getBoardCellFromPoint(event.clientX, event.clientY);
 
   if (!targetCell) {
+    const preparedTargetIndex = getPreparedSlotIndexFromPoint(event.clientX, event.clientY);
+
+    if (preparedTargetIndex !== null) {
+      onTileDropInPrepared(drag.tileId, preparedTargetIndex);
+      return true;
+    }
+
+    if (isInsidePreparedWord(event.clientX, event.clientY)) {
+      onTileDropInPrepared(drag.tileId, null);
+      return true;
+    }
+
     return false;
   }
 
   onTileDropOnBoard(drag.tileId, targetCell.row, targetCell.col);
 
   return true;
+}
+
+function getPreparedSlotIndexFromPoint(clientX: number, clientY: number): number | null {
+  const element = document.elementFromPoint(clientX, clientY);
+  const slot = element?.closest<HTMLElement>("[data-slot-index]");
+
+  if (!slot) {
+    return null;
+  }
+
+  const slotIndex = Number(slot.dataset.slotIndex);
+
+  return Number.isInteger(slotIndex) ? slotIndex : null;
+}
+
+function isInsidePreparedWord(clientX: number, clientY: number): boolean {
+  return Boolean(document.elementFromPoint(clientX, clientY)?.closest(".prepared-word-tiles"));
 }
 
 function getBoardCellFromPoint(clientX: number, clientY: number): { row: number; col: number } | null {
