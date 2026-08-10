@@ -71,6 +71,10 @@ jobs:
           VITE_BUILD_SHA: ${{ github.sha }}
           VITE_RELEASE_CHANNEL: dev
 
+      - name: Prepare dev branding
+        run: node scripts/prepare-dev-build.mjs dist
+        working-directory: dev-source
+
       - name: Prepare Pages artifact
         run: |
           mkdir pages-artifact
