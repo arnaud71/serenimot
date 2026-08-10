@@ -30,7 +30,7 @@ affiche un onglet par taille de grille pour consulter la distribution réellemen
 
 ## Échange de lettres
 
-Le joueur peut remplacer une ou plusieurs lettres disponibles au lieu de poser un mot. Le bouton `Échanger` remet d'abord les lettres posées pendant le tour et les lettres préparées dans `Vos lettres`, puis active une sélection dans `Vos lettres`. Le joueur touche les lettres à remplacer, puis appuie à nouveau sur `Échanger`.
+Le joueur peut remplacer une ou plusieurs lettres disponibles au lieu de poser un mot. Le bouton `Échanger` remet d'abord les lettres posées pendant le tour et les lettres préparées dans la réserve, puis active une sélection parmi les lettres disponibles. Le joueur touche les lettres à remplacer, puis appuie à nouveau sur `Échanger`.
 
 Pendant cette sélection, les boutons `Indice` et `Passer` restent visibles mais ne sont pas cliquables. Le bouton `Annuler` permet de quitter le mode échange sans remplacer de lettre.
 
@@ -40,11 +40,13 @@ Après un échange, le jeu vérifie la fin de partie comme après un tour passé
 
 ## Préparation et placement
 
-Le joueur peut poser une lettre en touchant d'abord une case vide du plateau, puis une lettre disponible. Le bouton `Sens → / ↓` indique la direction actuelle : vers la droite ou vers le bas. Avant qu'une suite soit formée, il choisit la direction de la prochaine lettre ; quand une suite existe, il permet de changer sa direction si la grille le permet.
+Le joueur peut poser une lettre en touchant d'abord une case vide du plateau, puis une lettre disponible. Les lettres disponibles gardent leurs emplacements d'origine : lorsqu'une lettre est utilisée, sa case dans la réserve devient vide au lieu de déplacer les autres lettres. Le bouton `Sens → / ↓` indique la direction actuelle : vers la droite ou vers le bas. Avant qu'une suite soit formée, il choisit la direction de la prochaine lettre ; quand une suite existe, il permet de changer sa direction si la grille le permet.
 
 Si une suite de lettres est déjà posée pendant le tour, toucher une case vide déplace le début de cette suite sur la case choisie.
 
 Le début du mot reste toujours la référence du déplacement. Toucher une lettre déjà posée pendant le tour déplace le début du mot sur cette lettre : les lettres suivantes gardent leur ordre et avancent dans la direction actuelle. Pour retirer une seule lettre posée pendant le tour, il faut double-cliquer ou double-toucher cette lettre.
+
+Une lettre disponible, une lettre du chevalet ou une lettre déjà posée pendant le tour peut aussi être glissée sur une lettre de la suite active pour être insérée à cet endroit. Le même repère d'insertion est utilisé sur la grille et dans le chevalet. L'insertion est refusée si la suite dépasserait du plateau ou entrerait en conflit avec une lettre déjà validée.
 
 Le joueur peut aussi préparer un mot en touchant plusieurs lettres du chevalet, puis toucher une case compatible sur le plateau. Le jeu cherche une pose horizontale ou verticale valide à partir de cette case. Le mot entier est posé en une seule action si les cases sont compatibles et si le coup respecte les règles de validation.
 

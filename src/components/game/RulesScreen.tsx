@@ -38,7 +38,7 @@ const INTERACTION_GUIDES = [
   {
     title: "Vue générale sur ordinateur",
     image: `${DOCS_IMAGE_BASE_URL}01-desktop-game-overview.png`,
-    alt: "Vue générale de la partie sur ordinateur avec le plateau et la zone de préparation.",
+    alt: "Vue générale de la partie sur ordinateur avec le plateau, le chevalet et les actions.",
     description:
       "Le plateau occupe la zone principale. La réserve, le chevalet, les actions et les messages restent visibles à droite."
   },
@@ -54,14 +54,14 @@ const INTERACTION_GUIDES = [
     image: `${DOCS_IMAGE_BASE_URL}03-board-letter-placed-from-rack.png`,
     alt: "Lettre posée sur la case sélectionnée depuis les lettres disponibles.",
     description:
-      "Après avoir choisi une case, touchez une lettre disponible. Elle est posée immédiatement sur le plateau."
+      "Après avoir choisi une case, touchez une lettre disponible. Elle est posée immédiatement et sa place reste vide dans la réserve."
   },
   {
     title: "Déplacer une suite posée",
     image: `${DOCS_IMAGE_BASE_URL}06-board-letter-moved-to-selected-cell.png`,
     alt: "Suite de lettres déplacée sur le plateau pendant le tour.",
     description:
-      "Touchez une case vide ou une lettre du mot posé : le début du mot est déplacé à cet endroit."
+      "Touchez une case vide ou une lettre du mot posé : le début du mot est déplacé à cet endroit. Une lettre peut aussi être insérée dans cette suite."
   },
   {
     title: "Préparer un mot dans le chevalet",
@@ -134,6 +134,7 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
             <ul>
               <li>Posez les lettres une par une ou préparez un mot dans le chevalet.</li>
               <li>Touchez une case vide du plateau pour choisir la destination d'une lettre.</li>
+              <li>Les lettres disponibles gardent leur emplacement : une lettre utilisée laisse une case vide.</li>
               <li>Touchez une case compatible pour poser un mot préparé de plusieurs lettres.</li>
               <li>Validez seulement quand le mot est correct.</li>
               <li>Vous pouvez retirer, reprendre, effacer ou annuler votre coup avant validation.</li>
@@ -145,8 +146,8 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
             <h2>Échange</h2>
             <ul>
               <li>Appuyez sur Échanger pour choisir les lettres à remplacer.</li>
-              <li>Si des lettres sont sur le plateau ou dans le chevalet, elles reviennent d'abord dans Vos lettres.</li>
-              <li>Touchez les lettres voulues dans Vos lettres, puis appuyez à nouveau sur Échanger.</li>
+              <li>Si des lettres sont sur le plateau ou dans le chevalet, elles reviennent d'abord dans la réserve.</li>
+              <li>Touchez les lettres voulues dans la réserve, puis appuyez à nouveau sur Échanger.</li>
               <li>Les lettres choisies retournent dans la pioche et vous recevez le même nombre de lettres.</li>
               <li>Pendant la sélection, Indice et Passer restent visibles mais ne sont pas cliquables.</li>
               <li>Annuler permet de quitter la sélection avant de confirmer l'échange.</li>
@@ -202,6 +203,10 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
               cette case. Le bouton Sens → / ↓ choisit la direction de la lettre suivante.
             </p>
             <p role="listitem">
+              <strong>Réserve.</strong> Les emplacements restent fixes : une lettre utilisée laisse
+              une case vide, les autres lettres ne se resserrent pas.
+            </p>
+            <p role="listitem">
               <strong>Bouton Sens → / ↓.</strong> Il indique la direction actuelle. Avant une suite,
               il choisit le sens de pose ; avec une suite posée, il change sa direction.
             </p>
@@ -211,6 +216,10 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
             <p role="listitem">
               <strong>Mot posé ce tour puis lettre du même mot.</strong> Le début du mot est déplacé
               sur cette lettre.
+            </p>
+            <p role="listitem">
+              <strong>Lettre glissée sur le mot actif.</strong> Elle s'insère à l'endroit indiqué par
+              le repère d'insertion, comme dans le chevalet.
             </p>
             <p role="listitem">
               <strong>Lettre déjà posée.</strong> Un double-clic ou double toucher retire seulement
@@ -231,7 +240,7 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
             <p role="listitem">
               <strong>Échanger.</strong> Le bouton active une sélection de lettres disponibles, puis
               remplace les lettres choisies et passe le tour. Les lettres du coup en cours reviennent
-              d'abord dans Vos lettres.
+              d'abord dans la réserve.
             </p>
             <p role="listitem">
               <strong>Lettre déjà validée.</strong> Elle peut servir de repère dans un mot préparé si

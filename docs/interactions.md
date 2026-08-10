@@ -6,7 +6,7 @@ Les captures ont été produites depuis l'application locale avec une partie dé
 
 ## Vue générale
 
-Sur ordinateur, le plateau occupe la zone principale et la préparation du coup reste visible à droite.
+Sur ordinateur, le plateau occupe la zone principale et le chevalet avec les actions reste visible à droite.
 
 ![Vue générale ordinateur](assets/interactions/01-desktop-game-overview.png)
 
@@ -34,6 +34,8 @@ Après le choix d'une lettre, elle apparaît sur le plateau. Le coup peut encore
 
 ![Lettre posée depuis la réserve](assets/interactions/03-board-letter-placed-from-rack.png)
 
+Les emplacements de la réserve restent stables : quand une lettre est utilisée, sa case devient vide au lieu de faire glisser les autres lettres.
+
 ## Déplacer une suite déjà posée
 
 Une suite de lettres posée pendant le tour peut être déplacée sans utiliser le glisser-déposer.
@@ -51,13 +53,15 @@ Deux lettres sont ici déjà posées pendant le tour.
 
 ![Deux lettres posées avant déplacement](assets/interactions/04-two-board-letters-before-move.png)
 
-La nouvelle case de destination est sélectionnée.
+La suite est déplacée dès que la nouvelle case est touchée. Les autres lettres du coup suivent le début du mot.
 
-![Destination sélectionnée avant déplacement](assets/interactions/05-board-destination-selected-before-moving-letter.png)
+![Suite déplacée une première fois](assets/interactions/05-board-destination-selected-before-moving-letter.png)
 
-La suite est déplacée vers cette destination. Les autres lettres du coup suivent le début du mot.
+Elle peut ensuite être déplacée à nouveau tant que le coup n'est pas validé.
 
-![Lettre déplacée vers la case sélectionnée](assets/interactions/06-board-letter-moved-to-selected-cell.png)
+![Suite déplacée vers une autre case](assets/interactions/06-board-letter-moved-to-selected-cell.png)
+
+Une lettre peut aussi être insérée dans la suite active sur la grille. En glissant une lettre sur une lettre du mot en cours, le même repère d'insertion que dans le chevalet apparaît et la suite se décale si la grille le permet.
 
 Pour retirer une seule lettre posée pendant le tour, double-cliquer ou double-toucher cette lettre.
 
@@ -65,7 +69,7 @@ Pour retirer une seule lettre posée pendant le tour, double-cliquer ou double-t
 
 Le chevalet permet de préparer un mot avant de le poser en une seule action sur le plateau. Il reste aussi possible de poser les lettres une par une.
 
-![Zone de préparation ordinateur](assets/interactions/07-preparation-zone-desktop.png)
+![Chevalet sur ordinateur](assets/interactions/07-preparation-zone-desktop.png)
 
 Un mot peut être préparé depuis les lettres disponibles.
 
@@ -82,15 +86,15 @@ Le chevalet accepte deux modes complémentaires :
 - glisser-déposer une lettre vers un autre emplacement ;
 - sélectionner un emplacement vide, puis toucher une lettre du chevalet pour la déplacer vers cet emplacement.
 
-Ces deux modes permettent d'organiser le mot sans dépendre d'un geste précis.
+Ces deux modes permettent d'organiser le mot sans dépendre d'un geste précis. Le repère d'insertion utilisé dans le chevalet est aussi utilisé sur la grille lorsque l'on insère une lettre dans la suite posée pendant le tour.
 
 ## Échanger des lettres
 
 Le bouton `Échanger` permet de remplacer des lettres au lieu de poser un mot.
 
 1. appuyer sur `Échanger` ;
-2. si des lettres sont déjà posées pendant le tour ou préparées dans le chevalet, elles reviennent dans `Vos lettres` ;
-3. toucher les lettres à remplacer dans `Vos lettres` ;
+2. si des lettres sont déjà posées pendant le tour ou préparées dans le chevalet, elles reviennent dans la réserve ;
+3. toucher les lettres à remplacer dans la réserve ;
 4. appuyer à nouveau sur `Échanger`.
 
 Les lettres choisies retournent dans la pioche, le joueur reçoit le même nombre de nouvelles lettres et le tour est passé. Pendant la sélection, `Indice` et `Passer` restent visibles mais ne sont pas cliquables. Le bouton `Annuler` permet de quitter le mode échange avant confirmation.
@@ -110,9 +114,9 @@ Sur smartphone, les actions principales sont regroupées dans une barre rapide :
 
 ![Actions rapides smartphone](assets/interactions/12-mobile-quick-actions.png)
 
-La zone de préparation mobile conserve les mêmes fonctions que sur ordinateur, avec des cibles plus adaptées au toucher.
+Le chevalet mobile conserve les mêmes fonctions que sur ordinateur, avec des cibles plus adaptées au toucher.
 
-![Zone de préparation smartphone](assets/interactions/13-mobile-preparation-zone.png)
+![Chevalet sur smartphone](assets/interactions/13-mobile-preparation-zone.png)
 
 ## Synthèse des gestes
 
@@ -120,15 +124,17 @@ La zone de préparation mobile conserve les mêmes fonctions que sur ordinateur,
 | --- | --- | --- |
 | Case vide du plateau | Cliquer ou toucher | La case devient la destination sélectionnée. |
 | Case sélectionnée + lettre disponible | Cliquer ou toucher la lettre | La lettre est posée sur la case sélectionnée. |
+| Réserve après une lettre utilisée | Emplacement vide | Les autres lettres gardent leur position d'origine. |
 | Mot déjà posé ce tour + case vide | Cliquer ou toucher la case | Le début du mot est déplacé sur cette case. |
 | Mot déjà posé ce tour + lettre du même mot | Cliquer ou toucher la lettre | Le début du mot est déplacé sur cette lettre. |
+| Lettre glissée sur une lettre du mot actif | Glisser-déposer | La lettre est insérée à cet endroit si la suite tient sur la grille. |
 | Lettre déjà posée ce tour | Double-cliquer ou double-toucher | Seule cette lettre est retirée du plateau. |
 | Lettre du chevalet | Glisser vers le plateau | La lettre est posée sur la case visée. |
 | Lettre déjà posée sur le plateau | Glisser vers une case vide | La lettre est déplacée vers cette case. |
 | Emplacement vide du chevalet | Cliquer ou toucher | L'emplacement devient la destination sélectionnée. |
 | Emplacement du chevalet sélectionné + lettre | Cliquer ou toucher la lettre | La lettre se déplace vers l'emplacement sélectionné. |
-| Bouton Échanger | Cliquer ou toucher | Les lettres du coup en cours reviennent dans Vos lettres, puis la sélection d'échange s'active. |
-| Mode échange + lettres dans Vos lettres | Cliquer ou toucher les lettres | Les lettres sont sélectionnées ou retirées de la sélection d'échange. |
+| Bouton Échanger | Cliquer ou toucher | Les lettres du coup en cours reviennent dans la réserve, puis la sélection d'échange s'active. |
+| Mode échange + lettres disponibles | Cliquer ou toucher les lettres | Les lettres sont sélectionnées ou retirées de la sélection d'échange. |
 | Mode échange + bouton Échanger | Cliquer ou toucher | Les lettres choisies sont remplacées et le tour est passé. |
 | Mode échange + bouton Annuler | Cliquer ou toucher | La sélection d'échange est abandonnée sans remplacer de lettre. |
 
@@ -137,6 +143,9 @@ La zone de préparation mobile conserve les mêmes fonctions que sur ordinateur,
 - Le glisser-déposer ne doit jamais être la seule méthode disponible.
 - Un clic sur une lettre du mot posé doit déplacer la suite, pas retirer tout le mot.
 - Un double-clic sur une lettre posée ne doit retirer que cette lettre.
+- Une lettre ne doit jamais apparaître simultanément dans deux zones.
+- La réserve doit conserver ses emplacements pour éviter les déplacements visuels brusques.
+- Le repère d'insertion doit rester cohérent entre chevalet et grille.
 - La sélection d'une destination doit être visible.
 - Le mode échange doit toujours annoncer qu'il passe le tour et qu'il peut être annulé avant confirmation.
 - Les actions mobiles ne doivent pas créer de doublons accessibles avec les actions ordinateur.
