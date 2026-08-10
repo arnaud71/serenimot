@@ -1,7 +1,8 @@
 import { Board, getBoardCenter } from "../../domain/tiles/types";
 import type { BonusKind } from "../../domain/tiles/types";
 import type { BestMoveHint } from "../../domain/turns/hints";
-import type { DragEvent } from "react";
+import { useRef } from "react";
+import type { DragEvent, PointerEvent } from "react";
 
 const TILE_DRAG_MIME = "text/serenimot-tile-id";
 
@@ -54,6 +55,14 @@ export type BoardBonusAnimationCell = {
   row: number;
   col: number;
   bonus: Exclude<BonusKind, "plain">;
+};
+
+type TouchTileDrag = {
+  tileId: string;
+  pointerId: number;
+  startX: number;
+  startY: number;
+  dragging: boolean;
 };
 
 const BONUS_LABELS: Record<BonusKind, string> = {
@@ -109,6 +118,71 @@ export function BoardView({
   onTileDrop
 }: BoardViewProps) {
   const center = getBoardCenter(board);
+  const touchDragRef = useRef<TouchTileDrag | null>(null);
+  const ignoreNextClickRef = useRef(false);
+
+  function handleCellPress(row: number, col: number) {
+    if (ignoreNextClickRef.current) {
+      ignoreNextClickRef.current = false;
+      return;
+    }
+
+    onCellClick(row, col);
+  }
+
+  function handleTilePointerDown(event: PointerEvent<HTMLElement>, tileId: string) {
+    if (event.pointerType === "mouse") {
+      return;
+    }
+
+    touchDragRef.current = {
+      tileId,
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      dragging: false
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }
+
+  function handleTilePointerMove(event: PointerEvent<HTMLElement>) {
+    const drag = touchDragRef.current;
+
+    if (!drag || drag.pointerId !== event.pointerId) {
+      return;
+    }
+
+    const distance = Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY);
+
+    if (distance > 8) {
+      drag.dragging = true;
+      event.preventDefault();
+    }
+  }
+
+  function handleTilePointerUp(event: PointerEvent<HTMLElement>) {
+    const drag = touchDragRef.current;
+
+    if (!drag || drag.pointerId !== event.pointerId) {
+      return;
+    }
+
+    touchDragRef.current = null;
+    event.currentTarget.releasePointerCapture(event.pointerId);
+
+    if (!drag.dragging) {
+      return;
+    }
+
+    event.preventDefault();
+    ignoreNextClickRef.current = true;
+
+    const targetCell = getBoardCellFromPoint(event.clientX, event.clientY);
+
+    if (targetCell) {
+      onTileDrop(drag.tileId, targetCell.row, targetCell.col);
+    }
+  }
 
   return (
     <div className="board-shell" aria-label="Plateau de jeu">
@@ -172,7 +246,7 @@ export function BoardView({
                   data-col={cell.col}
                   aria-label={label}
                   aria-pressed={isPreparedBoardTile || isSelectedBoardCell}
-                  onClick={() => onCellClick(cell.row, cell.col)}
+                  onClick={() => handleCellPress(cell.row, cell.col)}
                   onDoubleClick={() => onCellDoubleClick(cell.row, cell.col)}
                   onDragOver={(event) => event.preventDefault()}
                   onDrop={(event) => {
@@ -194,6 +268,18 @@ export function BoardView({
                         }
 
                         setDraggedTileId(event, tile.id);
+                      }}
+                      onPointerDown={(event) => {
+                        if (tile.committed || tile.owner !== "human") {
+                          return;
+                        }
+
+                        handleTilePointerDown(event, tile.id);
+                      }}
+                      onPointerMove={handleTilePointerMove}
+                      onPointerUp={handleTilePointerUp}
+                      onPointerCancel={() => {
+                        touchDragRef.current = null;
                       }}
                     >
                       <span className="board-tile-letter">{tile.letter}</span>
@@ -243,6 +329,24 @@ function setDraggedTileId(event: DragEvent<HTMLElement>, tileId: string) {
 
 function getDraggedTileId(event: DragEvent<HTMLElement>): string {
   return event.dataTransfer.getData(TILE_DRAG_MIME) || event.dataTransfer.getData("text/plain");
+}
+
+function getBoardCellFromPoint(clientX: number, clientY: number): { row: number; col: number } | null {
+  const element = document.elementFromPoint(clientX, clientY);
+  const cell = element?.closest<HTMLElement>(".board-cell[data-row][data-col]");
+
+  if (!cell) {
+    return null;
+  }
+
+  const row = Number(cell.dataset.row);
+  const col = Number(cell.dataset.col);
+
+  if (!Number.isInteger(row) || !Number.isInteger(col)) {
+    return null;
+  }
+
+  return { row, col };
 }
 
 function BoardScoreBadge({ preview }: { preview: BoardScorePreview }) {

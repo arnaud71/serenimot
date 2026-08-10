@@ -1,0 +1,95 @@
+name: Deploy GitHub Pages Dev
+
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout production
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: production-source
+
+      - name: Checkout dev
+        uses: actions/checkout@v4
+        with:
+          path: dev-source
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: dev-source/package-lock.json
+
+      - name: Install production dependencies
+        run: npm ci
+        working-directory: production-source
+
+      - name: Build production
+        run: npm run build
+        working-directory: production-source
+        env:
+          BASE_PATH: /
+          VITE_BUILD_NUMBER: ${{ github.run_number }}
+          VITE_BUILD_SHA: ${{ github.sha }}
+          VITE_RELEASE_CHANNEL: production
+
+      - name: Install dev dependencies
+        run: npm ci
+        working-directory: dev-source
+
+      - name: Typecheck dev
+        run: npm run typecheck
+        working-directory: dev-source
+
+      - name: Lint dev
+        run: npm run lint
+        working-directory: dev-source
+
+      - name: Build dev
+        run: npm run build
+        working-directory: dev-source
+        env:
+          BASE_PATH: /dev/
+          VITE_BUILD_NUMBER: ${{ github.run_number }}
+          VITE_BUILD_SHA: ${{ github.sha }}
+          VITE_RELEASE_CHANNEL: dev
+
+      - name: Prepare Pages artifact
+        run: |
+          mkdir pages-artifact
+          cp -R production-source/dist/. pages-artifact/
+          mkdir -p pages-artifact/dev
+          cp -R dev-source/dist/. pages-artifact/dev/
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages-artifact
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -46,6 +46,7 @@ jobs:
           BASE_PATH: /
           VITE_BUILD_NUMBER: ${{ github.run_number }}
           VITE_BUILD_SHA: ${{ github.sha }}
+          VITE_RELEASE_CHANNEL: production
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

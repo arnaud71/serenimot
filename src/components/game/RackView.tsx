@@ -1,7 +1,16 @@
 import { Rack } from "../../domain/tiles/types";
-import type { DragEvent } from "react";
+import { useRef } from "react";
+import type { DragEvent, MutableRefObject, PointerEvent } from "react";
 
 const TILE_DRAG_MIME = "text/serenimot-tile-id";
+
+type TouchTileDrag = {
+  tileId: string;
+  pointerId: number;
+  startX: number;
+  startY: number;
+  dragging: boolean;
+};
 
 type RackViewProps = {
   rack: Rack;
@@ -14,6 +23,7 @@ type RackViewProps = {
   rotateBoardWordDirection: "row" | "col";
   onAddTile: (tileId: string) => void;
   onRotateBoardWord: () => void;
+  onTileDropOnBoard: (tileId: string, row: number, col: number) => void;
   onToggleExchangeTile: (tileId: string) => void;
 };
 
@@ -28,10 +38,13 @@ export function RackView({
   rotateBoardWordDirection,
   onAddTile,
   onRotateBoardWord,
+  onTileDropOnBoard,
   onToggleExchangeTile
 }: RackViewProps) {
   const availableTiles = rack.filter((tile) => !preparedTileIds.includes(tile.id));
   const exchangeTileIdSet = new Set(exchangeTileIds);
+  const touchDragRef = useRef<TouchTileDrag | null>(null);
+  const ignoreNextClickRef = useRef(false);
   const rotateLabel =
     rotateBoardWordDirection === "row"
       ? "Direction actuelle : horizontal. Changer en vertical."
@@ -68,6 +81,11 @@ export function RackView({
                           : `Placer la lettre ${tile.letter}, valeur ${tile.value}, dans l'emplacement ${selectedPreparedSlotIndex + 1}`
                   }
                   onClick={() => {
+                    if (ignoreNextClickRef.current) {
+                      ignoreNextClickRef.current = false;
+                      return;
+                    }
+
                     if (isExchangeMode) {
                       onToggleExchangeTile(tile.id);
                       return;
@@ -82,6 +100,24 @@ export function RackView({
                     }
 
                     setDraggedTileId(event, tile.id);
+                  }}
+                  onPointerDown={(event) => {
+                    if (isExchangeMode) {
+                      return;
+                    }
+
+                    handleTilePointerDown(event, tile.id, touchDragRef);
+                  }}
+                  onPointerMove={(event) => handleTilePointerMove(event, touchDragRef)}
+                  onPointerUp={(event) => {
+                    const dropped = handleTilePointerUp(event, touchDragRef, onTileDropOnBoard);
+
+                    if (dropped) {
+                      ignoreNextClickRef.current = true;
+                    }
+                  }}
+                  onPointerCancel={() => {
+                    touchDragRef.current = null;
                   }}
                 >
                   <span>{tile.letter}</span>
@@ -118,4 +154,90 @@ function setDraggedTileId(event: DragEvent<HTMLElement>, tileId: string) {
   event.dataTransfer.setData(TILE_DRAG_MIME, tileId);
   event.dataTransfer.setData("text/plain", tileId);
   event.dataTransfer.effectAllowed = "move";
+}
+
+function handleTilePointerDown(
+  event: PointerEvent<HTMLElement>,
+  tileId: string,
+  touchDragRef: MutableRefObject<TouchTileDrag | null>
+) {
+  if (event.pointerType === "mouse") {
+    return;
+  }
+
+  touchDragRef.current = {
+    tileId,
+    pointerId: event.pointerId,
+    startX: event.clientX,
+    startY: event.clientY,
+    dragging: false
+  };
+  event.currentTarget.setPointerCapture(event.pointerId);
+}
+
+function handleTilePointerMove(
+  event: PointerEvent<HTMLElement>,
+  touchDragRef: MutableRefObject<TouchTileDrag | null>
+) {
+  const drag = touchDragRef.current;
+
+  if (!drag || drag.pointerId !== event.pointerId) {
+    return;
+  }
+
+  const distance = Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY);
+
+  if (distance > 8) {
+    drag.dragging = true;
+    event.preventDefault();
+  }
+}
+
+function handleTilePointerUp(
+  event: PointerEvent<HTMLElement>,
+  touchDragRef: MutableRefObject<TouchTileDrag | null>,
+  onTileDropOnBoard: (tileId: string, row: number, col: number) => void
+): boolean {
+  const drag = touchDragRef.current;
+
+  if (!drag || drag.pointerId !== event.pointerId) {
+    return false;
+  }
+
+  touchDragRef.current = null;
+  event.currentTarget.releasePointerCapture(event.pointerId);
+
+  if (!drag.dragging) {
+    return false;
+  }
+
+  event.preventDefault();
+
+  const targetCell = getBoardCellFromPoint(event.clientX, event.clientY);
+
+  if (!targetCell) {
+    return false;
+  }
+
+  onTileDropOnBoard(drag.tileId, targetCell.row, targetCell.col);
+
+  return true;
+}
+
+function getBoardCellFromPoint(clientX: number, clientY: number): { row: number; col: number } | null {
+  const element = document.elementFromPoint(clientX, clientY);
+  const cell = element?.closest<HTMLElement>(".board-cell[data-row][data-col]");
+
+  if (!cell) {
+    return null;
+  }
+
+  const row = Number(cell.dataset.row);
+  const col = Number(cell.dataset.col);
+
+  if (!Number.isInteger(row) || !Number.isInteger(col)) {
+    return null;
+  }
+
+  return { row, col };
 }

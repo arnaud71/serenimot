@@ -2234,6 +2234,8 @@ p {
   border-radius: 6px;
   background: var(--tile-new-bg);
   border: 2px solid rgb(18 51 49 / 0.22);
+  touch-action: none;
+  user-select: none;
 }
 
 .board-tile small {
@@ -3190,6 +3192,8 @@ p {
   color: var(--ink);
   background: #fff7cf;
   border-color: rgb(18 51 49 / 0.2);
+  touch-action: none;
+  user-select: none;
 }
 
 .rack-tile.exchange-selected {

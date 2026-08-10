@@ -1683,6 +1683,7 @@ export function GameScreen({
               selectedPreparedSlotIndex={selectedPreparedSlotIndex}
               onAddTile={handleAddPreparedTile}
               onRotateBoardWord={handleRotatePendingWord}
+              onTileDropOnBoard={handlePlaceTileOnBoard}
               onToggleExchangeTile={handleToggleExchangeTile}
               canRotateBoardWord={!isFinished && game.turn.player === "human" && Boolean(pendingTurnWord || hint)}
               rotateBoardWordDirection={pendingTurnWord?.direction ?? hint?.direction ?? "row"}
