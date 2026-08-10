@@ -284,6 +284,36 @@ p {
   margin-top: 1.5rem;
 }
 
+.floating-back-button {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 3rem;
+  padding: 0.65rem 0.95rem;
+  border: 1px solid rgb(255 255 255 / 0.42);
+  border-radius: 999px;
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 0.7rem 1.6rem rgb(18 51 49 / 0.24);
+  font-size: 0.95rem;
+  font-weight: 900;
+}
+
+.floating-back-button:hover,
+.floating-back-button:focus-visible {
+  background: var(--primary-dark);
+}
+
+.floating-back-button span:first-child {
+  font-size: 1.15em;
+  line-height: 1;
+}
+
 .dictionary-status {
   margin: 1rem 0 0;
   color: var(--muted);
@@ -3170,13 +3200,18 @@ p {
 }
 
 .rack-direction-button {
-  flex: 0 0 var(--preparation-tile-size);
-  width: var(--preparation-tile-size);
-  min-width: 2rem;
+  flex: 0 0 auto;
+  width: auto;
+  min-width: calc(var(--preparation-tile-size) * 1.32);
   min-height: var(--preparation-tile-size);
-  aspect-ratio: 1;
-  padding: 0;
-  font-size: clamp(1.1rem, calc(var(--preparation-tile-size) * 0.45), 1.55rem);
+  padding: 0 0.45rem;
+  font-size: clamp(0.68rem, calc(var(--preparation-tile-size) * 0.22), 0.86rem);
+  line-height: 1;
+}
+
+.rack-direction-button strong {
+  font-size: clamp(1rem, calc(var(--preparation-tile-size) * 0.38), 1.4rem);
+  line-height: 1;
 }
 
 .rack-tile {

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { GameScreen } from "../components/game/GameScreen";
 import { LexiconScreen } from "../components/game/LexiconScreen";
 import { RulesScreen } from "../components/game/RulesScreen";
+import { FloatingBackButton } from "../components/common/FloatingBackButton";
 import { createNewGame } from "../domain/turns/game";
 import type { OpponentLevel } from "../domain/turns/game";
 import type { BoardSize, GameState } from "../domain/tiles/types";
@@ -581,6 +582,7 @@ function ShareIcon({ label }: { label: string }) {
 function PwaInfoScreen({ onBack }: { onBack: () => void }) {
   return (
     <main className="rules-layout">
+      <FloatingBackButton label="Accueil" onClick={onBack} />
       <section className="rules-panel" aria-labelledby="pwa-title">
         <div className="rules-heading">
           <div>
@@ -924,6 +926,7 @@ export function App() {
   if (screen === "options") {
     return (
       <main className="home-layout">
+        <FloatingBackButton label={game ? "Partie" : "Accueil"} onClick={() => setScreen(game ? "game" : "home")} />
         <section className="home-panel options-panel" aria-labelledby="options-title">
           <p className="eyebrow">Options</p>
           <h1 id="options-title">Sérénimot</h1>

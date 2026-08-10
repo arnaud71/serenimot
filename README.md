@@ -87,4 +87,4 @@ Le dépôt ne doit donc pas être présenté comme une copie, une variante offic
 
 ## Limites connues
 
-Le dictionnaire est beaucoup plus large que la première liste de démonstration, mais ses règles lexicales doivent encore être affinées avant une version publique. L'adversaire sait poser un mot court, mais il ne cherche pas encore les meilleurs coups. Le mode Confort complet n'est pas implémenté, conformément à la feuille de route.
+Le dictionnaire est maintenant large et fondé sur des sources ouvertes, mais certaines règles lexicales restent à affiner avant une version considérée comme stable. Le robot cherche des coups localement avec plusieurs niveaux de difficulté, mais son équilibre de jeu et ses performances doivent encore être observés sur différentes tailles de grille et différents appareils. Le mode Confort complet reste prévu pour une étape ultérieure, après retours d'usage.

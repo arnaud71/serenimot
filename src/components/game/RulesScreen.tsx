@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FloatingBackButton } from "../common/FloatingBackButton";
 import {
   BUG_REPORT_URL,
   FEATURE_REQUEST_URL,
@@ -107,6 +108,7 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
 
   return (
     <main className="rules-layout">
+      <FloatingBackButton label={hasGame ? "Partie" : "Accueil"} onClick={onBack} />
       <section className="rules-panel" aria-labelledby="rules-title">
         <div className="rules-heading">
           <div>
@@ -197,7 +199,11 @@ export function RulesScreen({ hasGame, onBack, onLexiconRequest }: RulesScreenPr
             </p>
             <p role="listitem">
               <strong>Case sélectionnée puis lettre disponible.</strong> La lettre est posée sur
-              cette case.
+              cette case. Le bouton Sens → / ↓ choisit la direction de la lettre suivante.
+            </p>
+            <p role="listitem">
+              <strong>Bouton Sens → / ↓.</strong> Il indique la direction actuelle. Avant une suite,
+              il choisit le sens de pose ; avec une suite posée, il change sa direction.
             </p>
             <p role="listitem">
               <strong>Mot posé ce tour puis case vide.</strong> Le début du mot est déplacé sur cette case.

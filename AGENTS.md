@@ -1771,7 +1771,23 @@ fix(pwa): preserve saved game during update
 test(scoring): cover cross-word bonuses
 docs(accessibility): document keyboard navigation
 
-24.3 Interdictions
+24.3 Historique des versions
+
+Tout changement notable destiné à être poussé ou publié doit mettre à jour `CHANGELOG.md`.
+
+La mise à jour doit rester courte et compréhensible par un utilisateur non technique. Elle doit indiquer, selon le cas :
+
+    ajouts ;
+
+    améliorations ;
+
+    corrections ;
+
+    changements techniques importants.
+
+Les corrections mineures internes peuvent être regroupées dans la version en cours.
+
+24.4 Interdictions
 
 Ne pas :
 

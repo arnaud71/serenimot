@@ -38,6 +38,30 @@ test("pose des lettres au clavier après sélection d'une case du plateau", asyn
   await expect(page.getByRole("button", { name: "Valider" })).toBeEnabled();
 });
 
+test("respecte le sens vertical pour les lettres tapées après sélection du plateau", async ({ page }) => {
+  await installSeededRandom(page, 63);
+  await page.goto("/");
+  await startNewGame(page);
+
+  const rackLetters = await getAvailableRackLetters(page);
+  const selectedLetters = rackLetters.slice(0, 2).join("");
+  expect(selectedLetters.length).toBe(2);
+
+  const boardSize = await getBoardSize(page);
+  const center = Math.floor(boardSize / 2);
+
+  await page.getByRole("button", { name: /Direction actuelle : vers la droite/u }).click();
+  await page.locator(`.board-cell[data-row='${center}'][data-col='${center}']`).click();
+  await page.keyboard.type(selectedLetters);
+
+  await expect(page.locator(`.board-cell[data-row='${center}'][data-col='${center}'] .board-tile-letter`)).toHaveText(
+    selectedLetters[0]
+  );
+  await expect(page.locator(`.board-cell[data-row='${center + 1}'][data-col='${center}'] .board-tile-letter`)).toHaveText(
+    selectedLetters[1]
+  );
+});
+
 test("ajoute des lettres au clavier après sélection du chevalet", async ({ page }) => {
   await installSeededRandom(page, 62);
   await page.goto("/");

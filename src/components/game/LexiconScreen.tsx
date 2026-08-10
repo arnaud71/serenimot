@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { FloatingBackButton } from "../common/FloatingBackButton";
 import {
   DICTIONARY_FILE_PATH,
   DICTIONARY_LABEL,
@@ -158,6 +159,7 @@ export function LexiconScreen({
 
   return (
     <main className="rules-layout">
+      <FloatingBackButton label={hasGame ? "Partie" : "Accueil"} onClick={onBack} />
       <section className="rules-panel lexicon-panel" aria-labelledby="lexicon-title">
         <div className="rules-heading">
           <div>

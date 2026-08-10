@@ -49,8 +49,9 @@ export function RackView({
   const ignoreNextClickRef = useRef(false);
   const rotateLabel =
     rotateBoardWordDirection === "row"
-      ? "Direction actuelle : horizontal. Changer en vertical."
-      : "Direction actuelle : vertical. Changer en horizontal.";
+      ? "Direction actuelle : vers la droite. Changer vers le bas."
+      : "Direction actuelle : vers le bas. Changer vers la droite.";
+  const directionIcon = rotateBoardWordDirection === "row" ? "→" : "↓";
 
   return (
     <div className="preparation-subsection">
@@ -137,9 +138,10 @@ export function RackView({
           aria-label={rotateLabel}
           onClick={onRotateBoardWord}
           disabled={isExchangeMode || !canRotateBoardWord}
-          title="Change la direction du mot en cours"
+          title="Change le sens de pose"
         >
-          <span aria-hidden="true">{rotateBoardWordDirection === "row" ? "↔" : "↕"}</span>
+          <span>Sens</span>
+          <strong aria-hidden="true">{directionIcon}</strong>
         </button>
       </div>
       {isExchangeMode ? (

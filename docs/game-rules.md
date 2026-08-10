@@ -40,7 +40,9 @@ Après un échange, le jeu vérifie la fin de partie comme après un tour passé
 
 ## Préparation et placement
 
-Le joueur peut poser une lettre en touchant d'abord une case vide du plateau, puis une lettre disponible. Si une suite de lettres est déjà posée pendant le tour, toucher une case vide déplace le début de cette suite sur la case choisie.
+Le joueur peut poser une lettre en touchant d'abord une case vide du plateau, puis une lettre disponible. Le bouton `Sens → / ↓` indique la direction actuelle : vers la droite ou vers le bas. Avant qu'une suite soit formée, il choisit la direction de la prochaine lettre ; quand une suite existe, il permet de changer sa direction si la grille le permet.
+
+Si une suite de lettres est déjà posée pendant le tour, toucher une case vide déplace le début de cette suite sur la case choisie.
 
 Le début du mot reste toujours la référence du déplacement. Toucher une lettre déjà posée pendant le tour déplace le début du mot sur cette lettre : les lettres suivantes gardent leur ordre et avancent dans la direction actuelle. Pour retirer une seule lettre posée pendant le tour, il faut double-cliquer ou double-toucher cette lettre.
 

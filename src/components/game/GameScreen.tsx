@@ -165,6 +165,7 @@ export function GameScreen({
   const [selectedExchangeTileIds, setSelectedExchangeTileIds] = useState<string[]>([]);
   const [dismissedGameOverId, setDismissedGameOverId] = useState<string | null>(null);
   const [isMobileTopbarCollapsed, setIsMobileTopbarCollapsed] = useState(true);
+  const [placementDirection, setPlacementDirection] = useState<PlacementDirection>("row");
   const hintSearchTimeoutRef = useRef<number | null>(null);
   const hintSearchRequestIdRef = useRef(0);
   const computerSearchRequestIdRef = useRef(0);
@@ -191,6 +192,8 @@ export function GameScreen({
   const preparedTiles = preparedTileDetails.map((tile) => tile.letter);
   const preparedWord = preparedTiles.join("");
   const pendingTurnWord = useMemo(() => getPendingTurnWord(game), [game]);
+  const pendingHumanTileCount = useMemo(() => getOrderedPendingHumanTiles(game).length, [game]);
+  const activePlacementDirection = pendingTurnWord && pendingHumanTileCount > 1 ? pendingTurnWord.direction : placementDirection;
   const pendingWordStartCellKey =
     pendingTurnWord?.row !== undefined && pendingTurnWord.col !== undefined
       ? `${pendingTurnWord.row}:${pendingTurnWord.col}`
@@ -270,12 +273,13 @@ export function GameScreen({
   const exchangeButtonHint = isExchangeMode
     ? "Remplace les lettres choisies et passe votre tour."
     : "Choisit des lettres à remplacer, puis passe votre tour.";
+  const visibleHintLevel = hint ? (Math.max(1, hintLevel) as HintLevel) : hintLevel;
   const contextualHelp = getContextualHelp({
     canValidate,
     dictionaryWordCount,
     displayedPreparedWord,
     game,
-    hintLevel,
+    hintLevel: visibleHintLevel,
     isExchangeMode,
     isFinished,
     isHintSearching,
@@ -1301,7 +1305,7 @@ export function GameScreen({
 
       removePreparedTileId(tileId);
       setIsPendingWordSelected(false);
-      setSelectedBoardCell(getNextDirectPlacementCell(result.state, nextPendingTurnWord, row, col));
+      setSelectedBoardCell(getNextDirectPlacementCell(result.state, nextPendingTurnWord, row, col, placementDirection));
       setSelectedTileId(null);
       return;
     }
@@ -1310,12 +1314,41 @@ export function GameScreen({
   }
 
   function handleRotatePendingWord() {
-    if (isFinished || game.turn.player !== "human" || (!pendingTurnWord && !hint)) {
+    if (isFinished || game.turn.player !== "human") {
       return;
     }
 
     if (!pendingTurnWord && hint) {
       handleRotateHint();
+      return;
+    }
+
+    if (!pendingTurnWord) {
+      const nextDirection: PlacementDirection = placementDirection === "row" ? "col" : "row";
+      setPlacementDirection(nextDirection);
+      onGameChange({
+        ...game,
+        message: {
+          tone: "info",
+          text: nextDirection === "row" ? "Les prochaines lettres iront vers la droite." : "Les prochaines lettres iront vers le bas."
+        }
+      });
+      return;
+    }
+
+    if (pendingHumanTileCount === 1) {
+      const nextDirection: PlacementDirection = placementDirection === "row" ? "col" : "row";
+      const nextPendingTurnWord = getPendingTurnWord(game);
+
+      setPlacementDirection(nextDirection);
+      setSelectedBoardCell(getAppendCellForPendingWord(game, nextPendingTurnWord, nextDirection));
+      onGameChange({
+        ...game,
+        message: {
+          tone: "info",
+          text: nextDirection === "row" ? "Les prochaines lettres iront vers la droite." : "Les prochaines lettres iront vers le bas."
+        }
+      });
       return;
     }
 
@@ -1356,6 +1389,7 @@ export function GameScreen({
     setSelectedPreparedSlotIndex(null);
     setIsKeyboardPreparationEntryActive(false);
     setIsPendingWordSelected(false);
+    setPlacementDirection(nextDirection);
     setSelectedBoardCell(getAppendCellForPendingWord(result.state, nextPendingTurnWord));
     onGameChange({
       ...result.state,
@@ -1389,6 +1423,7 @@ export function GameScreen({
 
     pushUndoPoint();
     setHint(rotatedHint);
+    setPlacementDirection(nextDirection);
     setPreparedTileSlots(hintLevel >= MAX_HINT_LEVEL ? packPreparedTileSlots(rotatedHint.tileIds) : getHintPreparedTileSlots(rotatedHint, hintLevel));
     onGameChange({
       ...game,
@@ -1527,7 +1562,7 @@ export function GameScreen({
       <span>Cherche</span>
     </span>
   ) : hint ? (
-    usesProgressiveHints ? <span className="button-compact-label">{`Indice ${hintLevel}/${MAX_HINT_LEVEL}`}</span> : "Indice"
+    usesProgressiveHints ? <span className="button-compact-label">{`Indice ${visibleHintLevel}/${MAX_HINT_LEVEL}`}</span> : "Indice"
   ) : hintMode === "none" ? (
     "Indice désactivé"
   ) : (
@@ -1693,8 +1728,8 @@ export function GameScreen({
               }}
               onTileDropOnBoard={handlePlaceTileOnBoard}
               onToggleExchangeTile={handleToggleExchangeTile}
-              canRotateBoardWord={!isFinished && game.turn.player === "human" && Boolean(pendingTurnWord || hint)}
-              rotateBoardWordDirection={pendingTurnWord?.direction ?? hint?.direction ?? "row"}
+              canRotateBoardWord={!isFinished && game.turn.player === "human"}
+              rotateBoardWordDirection={hint?.direction ?? activePlacementDirection}
             />
           </div>
           <div className="preparation-subsection">
@@ -1737,7 +1772,7 @@ export function GameScreen({
               {...getButtonHintProps(
                 isExchangeMode
                   ? "Terminez ou annulez l'échange avant de demander un indice."
-                  : getHintButtonDescription(hintMode, isHintSearching, hint, hintLevel)
+                  : getHintButtonDescription(hintMode, isHintSearching, hint, visibleHintLevel)
               )}
             >
               {hintButtonContent}
@@ -1832,7 +1867,7 @@ export function GameScreen({
               {...getButtonHintProps(
                 isExchangeMode
                   ? "Terminez ou annulez l'échange avant de demander un indice."
-                  : getHintButtonDescription(hintMode, isHintSearching, hint, hintLevel)
+                  : getHintButtonDescription(hintMode, isHintSearching, hint, visibleHintLevel)
               )}
             >
               {hintButtonContent}
@@ -2995,21 +3030,34 @@ function getPendingTileDirection(placedTiles: PlacedTile[]): PlacementDirection 
   return sameRow ? "row" : "col";
 }
 
-function getAppendCellForPendingWord(game: GameState, pendingTurnWord: BoardFloatingWord | null): SelectedBoardCell | null {
+function getAppendCellForPendingWord(
+  game: GameState,
+  pendingTurnWord: BoardFloatingWord | null,
+  fallbackDirection?: PlacementDirection
+): SelectedBoardCell | null {
   if (!pendingTurnWord || pendingTurnWord.row === undefined || pendingTurnWord.col === undefined) {
     return null;
   }
 
-  return getNextEmptyBoardCell(game, pendingTurnWord.row, pendingTurnWord.col, pendingTurnWord.direction);
+  const direction = pendingTurnWord.word.length > 1 ? pendingTurnWord.direction : fallbackDirection ?? pendingTurnWord.direction;
+
+  return getNextEmptyBoardCell(game, pendingTurnWord.row, pendingTurnWord.col, direction);
 }
 
 function getNextDirectPlacementCell(
   game: GameState,
   pendingTurnWord: BoardFloatingWord | null,
   fallbackRow: number,
-  fallbackCol: number
+  fallbackCol: number,
+  fallbackDirection: PlacementDirection
 ): SelectedBoardCell | null {
-  return getAppendCellForPendingWord(game, pendingTurnWord) ?? getNextEmptyBoardCell(game, fallbackRow, fallbackCol + 1, "row");
+  const nextRow = fallbackDirection === "col" ? fallbackRow + 1 : fallbackRow;
+  const nextCol = fallbackDirection === "row" ? fallbackCol + 1 : fallbackCol;
+
+  return (
+    getAppendCellForPendingWord(game, pendingTurnWord, fallbackDirection) ??
+    getNextEmptyBoardCell(game, nextRow, nextCol, fallbackDirection)
+  );
 }
 
 function getNextEmptyBoardCell(

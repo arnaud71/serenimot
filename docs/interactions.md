@@ -39,6 +39,10 @@ Après le choix d'une lettre, elle apparaît sur le plateau. Le coup peut encore
 Une suite de lettres posée pendant le tour peut être déplacée sans utiliser le glisser-déposer.
 Le début du mot reste toujours la référence.
 
+Le bouton `Sens → / ↓`, placé à droite des lettres disponibles, indique la direction actuelle. Avant
+qu'une suite soit formée, il choisit si les prochaines lettres partent vers la droite ou vers le bas.
+Quand une suite existe déjà, il tente de changer sa direction.
+
 1. toucher ou cliquer une case vide pour déplacer le début du mot à cet endroit ;
 2. ou toucher une lettre déjà posée pendant le tour pour déplacer le début du mot sur cette lettre ;
 3. les lettres du tour gardent leur ordre et leurs positions relatives dans le mot visible.
