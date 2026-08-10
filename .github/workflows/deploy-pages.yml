@@ -19,32 +19,48 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout production
         uses: actions/checkout@v4
+        with:
+          path: production-source
+
+      - name: Checkout dev
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          path: dev-source
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: |
+            production-source/package-lock.json
+            dev-source/package-lock.json
 
-      - name: Install dependencies
+      - name: Install production dependencies
         run: npm ci
+        working-directory: production-source
 
       - name: Typecheck
         run: npm run typecheck
+        working-directory: production-source
 
       - name: Lint
         run: npm run lint
+        working-directory: production-source
 
       - name: Test
         run: npm run test
+        working-directory: production-source
 
       - name: Build metadata
         run: echo "VITE_BUILD_DATE=$(date -u +'%Y-%m-%d')" >> "$GITHUB_ENV"
 
-      - name: Build
+      - name: Build production
         run: npm run build
+        working-directory: production-source
         env:
           BASE_PATH: /
           VITE_BUILD_NUMBER: ${{ github.run_number }}
@@ -52,10 +68,35 @@ jobs:
           VITE_BUILD_DATE: ${{ env.VITE_BUILD_DATE }}
           VITE_RELEASE_CHANNEL: production
 
+      - name: Install dev dependencies
+        run: npm ci
+        working-directory: dev-source
+
+      - name: Build dev
+        run: npm run build
+        working-directory: dev-source
+        env:
+          BASE_PATH: /dev/
+          VITE_BUILD_NUMBER: ${{ github.run_number }}
+          VITE_BUILD_SHA: ${{ github.sha }}
+          VITE_BUILD_DATE: ${{ env.VITE_BUILD_DATE }}
+          VITE_RELEASE_CHANNEL: dev
+
+      - name: Prepare dev branding
+        run: node scripts/prepare-dev-build.mjs dist
+        working-directory: dev-source
+
+      - name: Prepare Pages artifact
+        run: |
+          mkdir pages-artifact
+          cp -R production-source/dist/. pages-artifact/
+          mkdir -p pages-artifact/dev
+          cp -R dev-source/dist/. pages-artifact/dev/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: pages-artifact
 
   deploy:
     environment:
