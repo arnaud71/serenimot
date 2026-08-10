@@ -23,7 +23,7 @@ export const DEFAULT_PREFERENCES: ComfortPreferences = {
   boardSize: 13,
   opponentLevel: "easy",
   computerSearchProfile: "auto",
-  hintMode: "progressive",
+  hintMode: "complete",
   undoMode: "turn-only",
   hintsEnabled: true,
   developerMode: false,

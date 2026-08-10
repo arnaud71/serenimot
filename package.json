@@ -1,6 +1,6 @@
 {
   "name": "serenimot",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Jeu original de lettres croisées sur grille, sans compte, sans publicité, jouable hors ligne et installable comme PWA.",
   "license": "MIT",

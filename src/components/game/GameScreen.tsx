@@ -164,6 +164,7 @@ export function GameScreen({
   const [bonusAnimationCells, setBonusAnimationCells] = useState<BoardBonusAnimationCell[]>([]);
   const [isHintSearching, setIsHintSearching] = useState(false);
   const [isBoardRecenterVisible, setIsBoardRecenterVisible] = useState(false);
+  const [isExplanationInView, setIsExplanationInView] = useState(false);
   const [searchDiagnostic, setSearchDiagnostic] = useState<SearchDiagnostic | null>(null);
   const [isExchangeMode, setIsExchangeMode] = useState(false);
   const [selectedExchangeTileIds, setSelectedExchangeTileIds] = useState<string[]>([]);
@@ -177,6 +178,8 @@ export function GameScreen({
   const gameIdRef = useRef(game.gameId);
   const boardSectionRef = useRef<HTMLElement | null>(null);
   const boardScrollRef = useRef<HTMLDivElement | null>(null);
+  const pendingExplanationRef = useRef<HTMLDivElement | null>(null);
+  const messageExplanationRef = useRef<HTMLDivElement | null>(null);
   const boardRecenterFrameRef = useRef<number | null>(null);
   const lastAutoCenteredSignatureRef = useRef<string>("");
   const isFinished = isGameFinished(game);
@@ -232,6 +235,12 @@ export function GameScreen({
   const preparedPreviewCells = hasCommittedTileOnBoard(game) ? (preparedPlacement?.previewCells ?? []) : [];
   const floatingPreparedWord = null;
   const pendingScoreDetails = useMemo(() => getPendingScoreDetails(game), [game]);
+  const explanationScoreDetails = pendingScoreDetails ?? game.message.scoreDetails ?? null;
+  const isExplanationShortcutAvailable = useMemo(
+    () => hasScoreWordExplanations(explanationScoreDetails),
+    [explanationScoreDetails]
+  );
+  const isExplanationShortcutVisible = isExplanationShortcutAvailable && !isExplanationInView;
   const previewScoreDetails = hint && hintLevel >= 4 ? hint.scoreDetails : pendingScoreDetails;
   const pendingNewWordCellKeys = useMemo(() => {
     if (hint && hintLevel < MAX_HINT_LEVEL) {
@@ -615,6 +624,38 @@ export function GameScreen({
   }, [game.message.scoreDetails]);
 
   useEffect(() => {
+    if (!isExplanationShortcutAvailable) {
+      setIsExplanationInView(false);
+      return;
+    }
+
+    const target = hasScoreWordExplanations(pendingScoreDetails)
+      ? pendingExplanationRef.current
+      : messageExplanationRef.current;
+
+    if (!target || !("IntersectionObserver" in window)) {
+      setIsExplanationInView(false);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const isVisible = entries.some((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.35);
+        setIsExplanationInView(isVisible);
+      },
+      {
+        root: null,
+        rootMargin: "0px 0px -12% 0px",
+        threshold: [0, 0.35, 0.6]
+      }
+    );
+
+    observer.observe(target);
+
+    return () => observer.disconnect();
+  }, [game.message.scoreDetails, isExplanationShortcutAvailable, pendingScoreDetails]);
+
+  useEffect(() => {
     if (isFinished || game.turn.player !== "computer") {
       return;
     }
@@ -730,26 +771,15 @@ export function GameScreen({
           return;
         }
 
-        const nextSlots = placeTileIdInPreparedSlot(
-          preparedTileSlots,
-          boardToken,
-          getFirstEmptySlotIndex(preparedTileSlots),
-          game
-        );
-        const nextTileIds = getPreparedSlotTileIds(nextSlots);
-        const nextWord = getPreparedWordFromTileIds(game, nextTileIds);
-        const autoPlacement = findPreparedPlacement(game, nextTileIds, nextWord, false);
+        const nextSlots = placeBoardTokenInPreparedWord(preparedTileSlots, boardToken, cellTile.letter, game);
+        const autoPlacementResult = getPreparedPlacementResult(game, nextSlots);
 
-        if (autoPlacement) {
-          const result = placeWord(game, nextTileIds, autoPlacement.row, autoPlacement.col, autoPlacement.direction);
-
-          if (result.ok) {
-            pushUndoPoint();
-            setPreparedTileSlots(nextSlots);
-            setIsPendingWordSelected(false);
-            onGameChange(result.state);
-            return;
-          }
+        if (autoPlacementResult?.ok) {
+          pushUndoPoint();
+          setPreparedTileSlots(nextSlots);
+          setIsPendingWordSelected(false);
+          onGameChange(autoPlacementResult.state);
+          return;
         }
 
         pushUndoPoint();
@@ -1293,11 +1323,21 @@ export function GameScreen({
     const tile = game.racks.human.find((rackTile) => rackTile.letter === letter && !preparedTileIds.includes(rackTile.id));
 
     if (!tile) {
+      const preparedTileId = getMovablePreparedTileIdByLetter(game, preparedTileIds, letter);
+
+      if (preparedTileId && selectedPreparedSlotIndex !== null) {
+        moveTileToPreparedSlot(preparedTileId, selectedPreparedSlotIndex);
+        setIsKeyboardPreparationEntryActive(true);
+        return true;
+      }
+
       onGameChange({
         ...game,
         message: {
           tone: "notice",
-          text: `La lettre ${letter} n'est pas disponible dans vos lettres.`
+          text: preparedTileId
+            ? `La lettre ${letter} est déjà dans le chevalet. Sélectionnez une case pour la déplacer.`
+            : `La lettre ${letter} n'est pas disponible dans vos lettres.`
         }
       });
       return true;
@@ -1528,6 +1568,8 @@ export function GameScreen({
     const pendingBoardTile = getPendingBoardTile(game, tileId);
     const removedFromBoard = pendingBoardTile ? removeHumanTurnTile(game, tileId) : null;
     const nextGame = removedFromBoard?.ok ? removedFromBoard.state : game;
+    const nextSlots = placeTileIdInPreparedSlot(preparedTileSlots, tileId, targetIndex, nextGame);
+    const autoPlacementResult = getPreparedPlacementResult(nextGame, nextSlots);
 
     pushUndoPoint();
     setSelectedTileId(null);
@@ -1535,7 +1577,12 @@ export function GameScreen({
     clearHint();
     setIsPendingWordSelected(false);
     clearErrorHighlights();
-    setPreparedTileSlots((currentSlots) => placeTileIdInPreparedSlot(currentSlots, tileId, targetIndex, nextGame));
+    setPreparedTileSlots(nextSlots);
+
+    if (autoPlacementResult?.ok) {
+      onGameChange(autoPlacementResult.state);
+      return;
+    }
 
     if (removedFromBoard?.ok) {
       onGameChange(nextGame);
@@ -1628,6 +1675,19 @@ export function GameScreen({
 
     setIsBoardRecenterVisible(false);
     boardSectionRef.current?.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      block: "start",
+      inline: "nearest"
+    });
+  }
+
+  function handleScrollToExplanation() {
+    const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+    const target = hasScoreWordExplanations(pendingScoreDetails)
+      ? pendingExplanationRef.current
+      : messageExplanationRef.current;
+
+    target?.scrollIntoView({
       behavior: prefersReducedMotion ? "auto" : "smooth",
       block: "start",
       inline: "nearest"
@@ -1858,6 +1918,7 @@ export function GameScreen({
           </h2>
           <div className="preparation-rack-area">
             <RackView
+              gameId={game.gameId}
               rack={game.racks.human}
               preparedTileIds={preparedTileIds}
               pendingBoardTileIds={pendingBoardTileIds}
@@ -2107,7 +2168,9 @@ export function GameScreen({
                 Score prévu : {pendingScoreDetails.total} point{pendingScoreDetails.total > 1 ? "s" : ""}
               </strong>
               <ScoreDetailsDisclosure details={pendingScoreDetails} />
-              <ScoreWordExplanations details={pendingScoreDetails} />
+              <div ref={pendingExplanationRef}>
+                <ScoreWordExplanations details={pendingScoreDetails} />
+              </div>
             </div>
           ) : null}
           <p className="preparation-guidance" role="status" aria-live="polite">{turnGuidance}</p>
@@ -2132,7 +2195,9 @@ export function GameScreen({
             <ScoreDetailsDisclosure details={game.message.scoreDetails} />
           ) : null}
           {game.message.scoreDetails ? (
-            <ScoreWordExplanations details={game.message.scoreDetails} />
+            <div ref={messageExplanationRef}>
+              <ScoreWordExplanations details={game.message.scoreDetails} />
+            </div>
           ) : null}
         </div>
 
@@ -2189,6 +2254,18 @@ export function GameScreen({
         {...getButtonHintProps("Ramène rapidement l'affichage sur le plateau.")}
       >
         Plateau
+      </button>
+      <button
+        className={`mobile-explanation-shortcut secondary-button${
+          isExplanationShortcutVisible ? "" : " mobile-explanation-shortcut-hidden"
+        }`}
+        type="button"
+        aria-label="Voir l'explication du mot"
+        tabIndex={isExplanationShortcutVisible ? 0 : -1}
+        onClick={handleScrollToExplanation}
+        {...getButtonHintProps("Va directement à l'explication du mot trouvé.")}
+      >
+        Explication
       </button>
       {finalStatus && dismissedGameOverId !== game.gameId ? (
         <GameOverDialog
@@ -2935,6 +3012,10 @@ function ScoreWordExplanations({ details }: { details: ScoreDetails }) {
       ))}
     </section>
   );
+}
+
+function hasScoreWordExplanations(details: ScoreDetails | null): boolean {
+  return Boolean(details && getUniqueScoreWordExplanations(details).length > 0);
 }
 
 function WordExplanationCallout({ word, explanation }: { word: string; explanation: WordExplanation | null }) {
@@ -3776,6 +3857,40 @@ function placeTileIdInPreparedSlot(
   return insertTileIdInPreparedSlots(nextSlots, tileId, safeTargetIndex);
 }
 
+function placeBoardTokenInPreparedWord(
+  slots: (string | null)[],
+  boardToken: string,
+  letter: string,
+  game: GameState
+): (string | null)[] {
+  const normalizedSlots = normalizePreparedSlots(slots);
+  const existingBoardTokenIndex = normalizedSlots.findIndex((tileId) => Boolean(tileId && parseBoardTileKey(tileId)));
+  const withoutBoardTokens = normalizedSlots.map((tileId) => (tileId && parseBoardTileKey(tileId) ? null : tileId));
+
+  if (existingBoardTokenIndex >= 0) {
+    const nextSlots = [...withoutBoardTokens];
+    nextSlots[existingBoardTokenIndex] = boardToken;
+    return nextSlots;
+  }
+
+  const withoutBoardToken = removeTileIdFromPreparedSlots(withoutBoardTokens, boardToken);
+  const matchingPreparedIndex = withoutBoardToken.findIndex((tileId) => {
+    if (!tileId || parseBoardTileKey(tileId)) {
+      return false;
+    }
+
+    return getPreparedTile(game, tileId)?.letter === letter;
+  });
+
+  if (matchingPreparedIndex >= 0) {
+    const nextSlots = [...withoutBoardToken];
+    nextSlots[matchingPreparedIndex] = boardToken;
+    return nextSlots;
+  }
+
+  return placeTileIdInPreparedSlot(withoutBoardToken, boardToken, getFirstEmptySlotIndex(withoutBoardToken), game);
+}
+
 function insertTileIdInPreparedSlots(slots: (string | null)[], tileId: string, targetIndex: number): (string | null)[] {
   const nextSlots = [...slots];
 
@@ -4078,6 +4193,18 @@ function getPreparedTile(game: GameState, tileId: string): Tile | null {
   return game.racks.human.find((tile) => tile.id === tileId) ?? getPendingBoardTile(game, tileId);
 }
 
+function getMovablePreparedTileIdByLetter(game: GameState, preparedTileIds: string[], letter: string): string | null {
+  return (
+    preparedTileIds.find((tileId) => {
+      if (parseBoardTileKey(tileId)) {
+        return false;
+      }
+
+      return getPreparedTile(game, tileId)?.letter === letter;
+    }) ?? null
+  );
+}
+
 function getPendingBoardTile(game: GameState, tileId: string): Tile | null {
   return (
     game.board
@@ -4136,6 +4263,23 @@ function findPreparedPlacement(
   }
 
   return null;
+}
+
+function getPreparedPlacementResult(game: GameState, slots: (string | null)[]): PlacementResult | null {
+  const preparedTileIds = getPreparedSlotTileIds(slots);
+
+  if (!preparedTileIds.some((tileId) => Boolean(parseBoardTileKey(tileId)))) {
+    return null;
+  }
+
+  const preparedWord = getPreparedWordFromTileIds(game, preparedTileIds);
+  const placement = findPreparedPlacement(game, preparedTileIds, preparedWord, false);
+
+  if (!placement) {
+    return null;
+  }
+
+  return placeWord(game, preparedTileIds, placement.row, placement.col, placement.direction);
 }
 
 function findPreparedPlacementAt(

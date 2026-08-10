@@ -20,7 +20,9 @@ test("enchaîne indices et coups ordinateur sans erreur navigateur", async ({ pa
     await expect(hintButton).toBeEnabled({ timeout: 15_000 });
     await hintButton.click();
 
-    await expect(page.getByRole("status").filter({ hasText: /^Indice 1\/6 :/ })).toBeVisible({ timeout: 20_000 });
+    await expect(page.getByRole("status").filter({ hasText: /^Valider pour jouer le mot trouvé/ })).toBeVisible({
+      timeout: 20_000
+    });
     await expect(page.getByLabel("Diagnostic de recherche")).toContainText("Indice", { timeout: 5_000 });
 
     await page.getByRole("button", { name: "Passer" }).click();

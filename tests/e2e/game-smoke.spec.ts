@@ -167,10 +167,10 @@ test("cherche un indice sans bloquer l'interface", async ({ page }) => {
   await page.getByRole("button", { name: "Indice" }).click();
 
   await expect(page.getByText("Le robot cherche un indice possible.")).toBeVisible();
-  await expect(page.getByRole("status").filter({ hasText: /^Indice 1\/6 : le mot commence/u })).toBeVisible({
+  await expect(page.getByRole("status").filter({ hasText: /^Valider pour jouer le mot trouvé/u })).toBeVisible({
     timeout: 15_000
   });
-  await expect(page.getByRole("button", { name: /Indice 1\/6/ })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Indice" })).toBeVisible();
   expect(browserErrors()).toEqual([]);
 });
 

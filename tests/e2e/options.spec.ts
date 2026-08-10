@@ -97,7 +97,7 @@ test("affiche les infobulles des actions sans les couper", async ({ page }) => {
     }
   }
 
-  await expect(visibleHintButton).toHaveAttribute("data-tooltip", /bon coup possible/i);
+  await expect(visibleHintButton).toHaveAttribute("data-tooltip", /meilleur mot trouvé/i);
   await visibleHintButton.focus();
   await page.waitForTimeout(650);
 

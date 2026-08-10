@@ -40,12 +40,16 @@ jobs:
       - name: Test
         run: npm run test
 
+      - name: Build metadata
+        run: echo "VITE_BUILD_DATE=$(date -u +'%Y-%m-%d')" >> "$GITHUB_ENV"
+
       - name: Build
         run: npm run build
         env:
           BASE_PATH: /
           VITE_BUILD_NUMBER: ${{ github.run_number }}
           VITE_BUILD_SHA: ${{ github.sha }}
+          VITE_BUILD_DATE: ${{ env.VITE_BUILD_DATE }}
           VITE_RELEASE_CHANNEL: production
 
       - name: Upload artifact

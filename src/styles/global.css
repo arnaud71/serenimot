@@ -3772,7 +3772,8 @@ p {
   display: none;
 }
 
-.mobile-recenter-board {
+.mobile-recenter-board,
+.mobile-explanation-shortcut {
   display: none;
 }
 
@@ -4392,10 +4393,10 @@ p {
     font-size: 0.76rem;
   }
 
-  .mobile-recenter-board {
+  .mobile-recenter-board,
+  .mobile-explanation-shortcut {
     position: fixed;
     right: 0.48rem;
-    bottom: calc(4.1rem + env(safe-area-inset-bottom));
     z-index: 44;
     display: inline-grid;
     min-height: 38px;
@@ -4416,7 +4417,16 @@ p {
       visibility 160ms ease;
   }
 
-  .mobile-recenter-board-hidden {
+  .mobile-recenter-board {
+    bottom: calc(4.1rem + env(safe-area-inset-bottom));
+  }
+
+  .mobile-explanation-shortcut {
+    bottom: calc(6.85rem + env(safe-area-inset-bottom));
+  }
+
+  .mobile-recenter-board-hidden,
+  .mobile-explanation-shortcut-hidden {
     pointer-events: none;
     opacity: 0;
     transform: translateY(0.35rem);

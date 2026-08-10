@@ -88,6 +88,10 @@ function placeOpeningWord() {
 }
 
 describe("plateau", () => {
+  it("utilise les indices complets par défaut", () => {
+    expect(loadPreferences().hintMode).toBe("complete");
+  });
+
   it("conserve les options entre les parties", () => {
     savePreferences({
       ...DEFAULT_PREFERENCES,

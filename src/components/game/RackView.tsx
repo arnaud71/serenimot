@@ -13,6 +13,7 @@ type TouchTileDrag = {
 };
 
 type RackViewProps = {
+  gameId: string;
   rack: Rack;
   preparedTileIds: string[];
   pendingBoardTileIds: string[];
@@ -30,6 +31,7 @@ type RackViewProps = {
 };
 
 export function RackView({
+  gameId,
   rack,
   preparedTileIds,
   pendingBoardTileIds,
@@ -55,6 +57,7 @@ export function RackView({
   const exchangeTileIdSet = new Set(exchangeTileIds);
   const touchDragRef = useRef<TouchTileDrag | null>(null);
   const ignoreNextClickRef = useRef(false);
+  const slotGameIdRef = useRef(gameId);
   const rotateLabel =
     rotateBoardWordDirection === "row"
       ? "Direction actuelle : vers la droite. Changer vers le bas."
@@ -67,6 +70,11 @@ export function RackView({
 
   useEffect(() => {
     setSlotIds((currentSlots) => {
+      if (slotGameIdRef.current !== gameId) {
+        slotGameIdRef.current = gameId;
+        return rack.map((tile) => tile.id);
+      }
+
       const knownTileIdSet = new Set(knownTileIds);
       const nextSlots = currentSlots.map((tileId) => (tileId && knownTileIdSet.has(tileId) ? tileId : null));
       const displayedTileIds = new Set(nextSlots.filter((tileId): tileId is string => Boolean(tileId)));
@@ -92,7 +100,7 @@ export function RackView({
 
       return nextSlots;
     });
-  }, [knownTileIds]);
+  }, [gameId, knownTileIds, rack]);
 
   return (
     <div className="preparation-subsection">

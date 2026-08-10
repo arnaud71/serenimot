@@ -24,7 +24,7 @@ import {
   OFFICIAL_SITE_URL,
   PROJECT_REPOSITORY_URL
 } from "./links";
-import { APP_VERSION, APP_VERSION_DETAIL } from "./version";
+import { APP_UPDATED_AT, APP_VERSION, APP_VERSION_DETAIL } from "./version";
 
 type Screen = "home" | "rules" | "lexicon" | "options" | "game" | "pwa";
 type DictionaryStatus = "loading" | "ready" | "fallback";
@@ -253,7 +253,7 @@ function PromoHome({
             publicité, jouable en ligne et installable comme une application.
           </p>
           <p className="app-version-line" aria-label={`Version de l'application ${APP_VERSION}`}>
-            Version {APP_VERSION} · {APP_VERSION_DETAIL}
+            Version {APP_VERSION} · {APP_VERSION_DETAIL} · mise à jour {APP_UPDATED_AT}
           </p>
           <div className="home-actions promo-actions">
             <button type="button" onClick={onNewGame} disabled={!canPlay}>
