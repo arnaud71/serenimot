@@ -108,9 +108,9 @@ const COMPUTER_SEARCH_PROFILE_OPTIONS: { value: ComputerSearchPreference; label:
 ];
 const GAME_EXPLANATION_LENGTHS = [2, 3, 4] as const;
 const PROMO_URL = OFFICIAL_SITE_URL;
-const PROMO_TITLE = "Sérénimot - jeu original de lettres croisées sur grille";
+const PROMO_TITLE = "Sérénimot - jeu de lettres gratuit, sans compte et sans publicité";
 const PROMO_DESCRIPTION =
-  "Jeu original de lettres croisées sur grille, gratuit, en code ouvert, sans compte, sans publicité, jouable en ligne et installable comme une application.";
+  "Jeu original de lettres croisées sur grille, gratuit, en code ouvert, sans compte, sans publicité, jouable contre le robot et installable sur téléphone.";
 const SHARE_TEXT = `${PROMO_TITLE}. ${PROMO_DESCRIPTION}`;
 const ASSET_BASE_URL = import.meta.env.BASE_URL;
 const APP_ICON_URL = `${ASSET_BASE_URL}icons/icon.svg`;
@@ -249,8 +249,8 @@ function PromoHome({
             <h1 id="home-title">Sérénimot</h1>
           </div>
           <p className="promo-lead">
-            Jeu original de lettres croisées sur grille, gratuit, en code ouvert, sans compte, sans
-            publicité, jouable en ligne et installable comme une application.
+            Jeu de lettres gratuit en ligne : lettres croisées sur grille, sans compte, sans
+            publicité, jouable contre le robot et installable sur téléphone.
           </p>
           <p className="app-version-line" aria-label={`Version de l'application ${APP_VERSION}`}>
             Version {APP_VERSION} · {APP_VERSION_DETAIL} · mise à jour {APP_UPDATED_AT}
@@ -307,6 +307,42 @@ function PromoHome({
           une expérience plus calme, sans inscription, sans publicité et utilisable sur ordinateur,
           tablette ou smartphone.
         </p>
+      </section>
+
+      <section className="promo-section promo-seo-section" aria-labelledby="promo-search-title">
+        <h2 id="promo-search-title">
+          <PromoIcon icon="play" />
+          Un jeu de lettres gratuit, simple et accessible
+        </h2>
+        <p>
+          Sérénimot est pensé pour les personnes qui cherchent un jeu de lettres en ligne calme,
+          gratuit et immédiatement jouable. Il n'y a pas d'inscription, pas de publicité, pas de
+          chronomètre imposé et pas de compte à créer : vous ouvrez le site, vous jouez, puis la
+          partie reste enregistrée localement sur votre appareil.
+        </p>
+        <div className="promo-seo-grid" aria-label="Façons de jouer">
+          <article>
+            <h3>Lettres croisées sur grille</h3>
+            <p>
+              Composez des mots avec vos lettres, posez-les sur le plateau et essayez de marquer
+              plus de points que le robot.
+            </p>
+          </article>
+          <article>
+            <h3>Sur ordinateur ou smartphone</h3>
+            <p>
+              Le jeu fonctionne dans le navigateur sur Mac, Windows, iPhone, iPad et Android, avec
+              une interface adaptée au tactile.
+            </p>
+          </article>
+          <article>
+            <h3>Sans compte et sans publicité</h3>
+            <p>
+              L'application reste gratuite, en code ouvert, et ne collecte pas de données
+              personnelles pour jouer.
+            </p>
+          </article>
+        </div>
       </section>
 
       <section className="promo-feature-grid" aria-label="Points forts">
